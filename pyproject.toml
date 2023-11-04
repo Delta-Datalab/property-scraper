@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "property-scraper"
+version = "0.1.0"
+description = "A property scraper."
+authors = ["DeltaDataLab <https://github.com/Delta-Datalab>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"  # Adjust Python version here
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+cloudscraper = "^1.2.71"
+numpy = "<1.26.1"
+pandas = "^2.1.2"
+click = "^8.1.7"
+logging = "^0.4.9.6"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.26.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
