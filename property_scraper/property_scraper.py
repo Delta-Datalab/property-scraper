@@ -1,4 +1,4 @@
-from scraper.src.extract import Extract
+from src.extract import Extract
 import click
 
 @click.command()

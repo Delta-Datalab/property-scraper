@@ -1,6 +1,6 @@
-from scraper.src.browser import Browser
+from src.browser import Browser
 from bs4 import BeautifulSoup
-from scraper.src.property import Property, ZonaPropProperty
+from src.property import Property, ZonaPropProperty
 from config import LOG_DIR
 
 import logging

@@ -1,5 +1,5 @@
-from scraper.src.browser import Browser
-from scraper.src.scraper import Scraper
+from src.browser import Browser
+from src.scraper import Scraper
 
 class Extract:
     
