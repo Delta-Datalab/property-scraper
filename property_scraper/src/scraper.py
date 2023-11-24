@@ -22,23 +22,28 @@ class Scraper:
         try:
             logging.info(f"Starting to scrape the data property and storage to a dataframe")
             data = self.browser.fetch_page(url)
+            parsed_data = BeautifulSoup(data, 'html.parser')
             
-            soup = BeautifulSoup(data, 'html.parser')
-            data_qa_divs = soup.find_all('div', {'data-posting-type': 'PROPERTY'})
-            
-            propiedades = []
-            tipo_propiedad = ZonaPropProperty()
-            
-            for data_container in data_qa_divs:
-                propiedades.append(Property(tipo_propiedad,data_container))
-                
-            df = pd.DataFrame(columns=['price'])
-            
-            for propiedad in propiedades:
-                df.loc[len(df.index)] = [propiedad.get_price()]
+            df = self.getPricesFromPropertiesData(parsed_data)
             
             df.to_csv("data.csv")
             logging.info(f"Successfully scrape the data property and storage to a dataframe")
         except Exception as e:
             logging.error(f"Error scraping the property data: {e}")
             return
+
+    def getPricesFromPropertiesData(self, data):
+        data_qa_divs = data.find_all('div', {'data-posting-type': 'PROPERTY'})
+            
+        propiedades = []
+        tipo_propiedad = ZonaPropProperty()
+            
+        for data_container in data_qa_divs:
+            propiedades.append(Property(tipo_propiedad,data_container))
+                
+        df = pd.DataFrame(columns=['price'])
+            
+        for propiedad in propiedades:
+            df.loc[len(df.index)] = [propiedad.get_price()]
+            
+        return df
