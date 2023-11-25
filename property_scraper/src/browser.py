@@ -1,5 +1,6 @@
 import cloudscraper
 
+
 class Browser:
     def __init__(self):
         self.scraper = cloudscraper.create_scraper()
