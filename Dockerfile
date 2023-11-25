@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Copy only the necessary files for installing dependencies
-COPY poetry.lock pyproject.toml /app/
+COPY pyproject.toml /app/
 
 # Install Poetry
 RUN pip install poetry
