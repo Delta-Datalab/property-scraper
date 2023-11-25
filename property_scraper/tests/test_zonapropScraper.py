@@ -35,17 +35,17 @@ def getExpensesFromFixtureData():
         ])
     
 def test_validatePropertyPrices(fixture_data, scraper):
-    properties_prices_data = scraper.getPricesFromProperties(fixture_data,'www.zonaprop.com.ar').values
+    properties = scraper.getProperties(fixture_data, 'www.zonaprop.com.ar')
+    properties_prices_data = scraper.getPricesFromProperties(fixture_data,'www.zonaprop.com.ar', properties).values
     
     expected_prices = getPricesFromFixtureData()
 
     assert np.array_equal(properties_prices_data, expected_prices)
     
 def test_validatePropertyExpenses(fixture_data, scraper):
-    properties_prices_data = scraper.getExpensesFromProperties(fixture_data,'www.zonaprop.com.ar').values
+    properties = scraper.getProperties(fixture_data, 'www.zonaprop.com.ar')
+    properties_prices_data = scraper.getExpensesFromProperties(fixture_data,'www.zonaprop.com.ar', properties).values
     
     expected_expenses = getExpensesFromFixtureData()
-    print(properties_prices_data)
-    print(expected_expenses)
 
     assert np.array_equal(properties_prices_data, expected_expenses)

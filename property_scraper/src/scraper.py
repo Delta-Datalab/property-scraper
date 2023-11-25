@@ -30,7 +30,8 @@ class Scraper:
 
             domain = urlparse(url).netloc
             
-            df = self.getPricesFromProperties(parsed_data, domain)
+            properties = self.getProperties(parsed_data, domain)
+            df = self.getPricesFromProperties(parsed_data, domain, properties)
             
             df.to_csv(OUTPUT_DATA_DIR)
             logging.info(f"Successfully scrape the data property and storage to a dataframe")
@@ -38,32 +39,28 @@ class Scraper:
             logging.error(f"Error scraping the property data: {e}")
             return
 
-    def getPricesFromProperties(self, data, domain):
-        data_qa_divs = data.find_all('div', {'data-posting-type': 'PROPERTY'})
-            
-        propiedades = []
-            
-        for data_container in data_qa_divs:
-            propiedades.append(Property(data_container,domain))
-                
+    def getPricesFromProperties(self, data, domain, properties):
         df = pd.DataFrame(columns=['price'])
             
-        for propiedad in propiedades:
-            df.loc[len(df.index)] = [propiedad.get_price()]
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_price()]
             
         return df
 
-    def getExpensesFromProperties(self, data, domain):
-        data_qa_divs = data.find_all('div', {'data-posting-type': 'PROPERTY'})
-            
-        propiedades = []
-            
-        for data_container in data_qa_divs:
-            propiedades.append(Property(data_container,domain))
-                
+    def getExpensesFromProperties(self, data, domain, properties):
         df = pd.DataFrame(columns=['expenses'])
             
-        for propiedad in propiedades:
-            df.loc[len(df.index)] = [propiedad.get_expenses()]
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_expenses()]
             
         return df
+
+    def getProperties(self, data, domain):
+        data_qa_divs = data.find_all('div', {'data-posting-type': 'PROPERTY'})
+            
+        properties = []
+            
+        for data_container in data_qa_divs:
+            properties.append(Property(data_container,domain))
+            
+        return properties
