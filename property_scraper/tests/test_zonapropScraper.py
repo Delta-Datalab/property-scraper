@@ -1,11 +1,11 @@
 import os
 import numpy as np
 import pytest
+import pandas as pd
 
 from src.browser import Browser
 from src.scraper import Scraper
 from bs4 import BeautifulSoup
-
     
 @pytest.fixture
 def fixture_data():
@@ -26,9 +26,26 @@ def getPricesFromFixtureData():
             ['Consultar precio'],['$ 230.000'],['Consultar precio'],['$ 400.000'],['$ 380.000']
         ])
     
-def test_validatePropertyPrices(fixture_data, scraper):
-    properties_prices_data = scraper.getPricesFromPropertiesData(fixture_data,'www.zonaprop.com.ar').values
+def getExpensesFromFixtureData():
+    return np.array([
+            ['$ 65.000 Expensas'],['$ 70.000 Expensas'], ['$ 50.000 Expensas'],['$ 120.000 Expensas'],['$ 72.300 Expensas'],
+            ['$ 70.000 Expensas'],['$ 18.500 Expensas'],['$ 24.300 Expensas'],[np.nan],[np.nan],
+            ['$ 40.000 Expensas'],['$ 70.000 Expensas'],['$ 22.000 Expensas'],['$ 30.700 Expensas'],['$ 75.000 Expensas'],
+            ['$ 62.000 Expensas'],['$ 18.000 Expensas'],['$ 60.000 Expensas'],['$ 34.200 Expensas'],['$ 28.500 Expensas']
+        ])
     
-    expected_data = getPricesFromFixtureData()
+def test_validatePropertyPrices(fixture_data, scraper):
+    properties_prices_data = scraper.getPricesFromProperties(fixture_data,'www.zonaprop.com.ar').values
+    
+    expected_prices = getPricesFromFixtureData()
 
-    assert np.array_equal(properties_prices_data, expected_data)
+    assert np.array_equal(properties_prices_data, expected_prices)
+    
+def test_validatePropertyExpenses(fixture_data, scraper):
+    properties_prices_data = scraper.getExpensesFromProperties(fixture_data,'www.zonaprop.com.ar').values
+    
+    expected_expenses = getExpensesFromFixtureData()
+    print(properties_prices_data)
+    print(expected_expenses)
+
+    assert np.array_equal(properties_prices_data, expected_expenses)

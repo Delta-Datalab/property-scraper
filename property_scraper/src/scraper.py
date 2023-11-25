@@ -8,6 +8,7 @@ from config import OUTPUT_DATA_DIR
 import logging
 import pandas as pd
 import os
+import numpy as np
 from urllib.parse import urlparse
 
 log_directory = os.path.dirname(LOG_DIR)
@@ -29,7 +30,7 @@ class Scraper:
 
             domain = urlparse(url).netloc
             
-            df = self.getPricesFromPropertiesData(parsed_data, domain)
+            df = self.getPricesFromProperties(parsed_data, domain)
             
             df.to_csv(OUTPUT_DATA_DIR)
             logging.info(f"Successfully scrape the data property and storage to a dataframe")
@@ -37,7 +38,7 @@ class Scraper:
             logging.error(f"Error scraping the property data: {e}")
             return
 
-    def getPricesFromPropertiesData(self, data, domain):
+    def getPricesFromProperties(self, data, domain):
         data_qa_divs = data.find_all('div', {'data-posting-type': 'PROPERTY'})
             
         propiedades = []
@@ -49,5 +50,20 @@ class Scraper:
             
         for propiedad in propiedades:
             df.loc[len(df.index)] = [propiedad.get_price()]
+            
+        return df
+
+    def getExpensesFromProperties(self, data, domain):
+        data_qa_divs = data.find_all('div', {'data-posting-type': 'PROPERTY'})
+            
+        propiedades = []
+            
+        for data_container in data_qa_divs:
+            propiedades.append(Property(data_container,domain))
+                
+        df = pd.DataFrame(columns=['expenses'])
+            
+        for propiedad in propiedades:
+            df.loc[len(df.index)] = [propiedad.get_expenses()]
             
         return df
