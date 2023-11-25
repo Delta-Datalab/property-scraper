@@ -1,13 +1,13 @@
-from bs4 import BeautifulSoup
-
 class Property:
     
-    def __init__(self, property_type, property_data):
-        self.property_type = property_type
+    def __init__(self, property_data, domain):
         self.data = property_data
+        
+        if domain == 'www.zonaprop.com.ar': self.property_type = ZonaPropProperty()
+        else: raise ValueError("Invalid type of Property")
     
     def get_price(self):
-        return self.property_type.get_price(self.data)
+        return (self.property_type).get_price(self.data)
         
         
 class ZonaPropProperty:

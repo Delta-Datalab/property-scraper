@@ -1,11 +1,14 @@
 from src.browser import Browser
 from bs4 import BeautifulSoup
 from src.property import Property, ZonaPropProperty
+
 from config import LOG_DIR
+from config import OUTPUT_DATA_DIR
 
 import logging
 import pandas as pd
 import os
+from urllib.parse import urlparse
 
 log_directory = os.path.dirname(LOG_DIR)
 if not os.path.exists(log_directory):
@@ -23,23 +26,24 @@ class Scraper:
             logging.info(f"Starting to scrape the data property and storage to a dataframe")
             data = self.browser.fetch_page(url)
             parsed_data = BeautifulSoup(data, 'html.parser')
+
+            domain = urlparse(url).netloc
             
-            df = self.getPricesFromPropertiesData(parsed_data)
+            df = self.getPricesFromPropertiesData(parsed_data, domain)
             
-            df.to_csv("data.csv")
+            df.to_csv(OUTPUT_DATA_DIR)
             logging.info(f"Successfully scrape the data property and storage to a dataframe")
         except Exception as e:
             logging.error(f"Error scraping the property data: {e}")
             return
 
-    def getPricesFromPropertiesData(self, data):
+    def getPricesFromPropertiesData(self, data, domain):
         data_qa_divs = data.find_all('div', {'data-posting-type': 'PROPERTY'})
             
         propiedades = []
-        tipo_propiedad = ZonaPropProperty()
             
         for data_container in data_qa_divs:
-            propiedades.append(Property(tipo_propiedad,data_container))
+            propiedades.append(Property(data_container,domain))
                 
         df = pd.DataFrame(columns=['price'])
             
