@@ -103,6 +103,31 @@ def getBathroomsFromFixtureData():
         ]
     )
 
+def getBedroomsFromFixtureData():
+    return np.array(
+        [
+            ["1 dorm."],
+            ["2 dorm."],
+            ["2 dorm."],
+            ["2 dorm."],
+            ["1 dorm."],
+            ["2 dorm."],
+            ["1 dorm."],
+            ["1 dorm."],
+            [np.nan],
+            [np.nan],
+            ["1 dorm."],
+            ["3 dorm."],
+            ["1 dorm."],
+            ["1 dorm."],
+            ["1 dorm."],
+            ["1 dorm."],
+            ["1 dorm."],
+            ["1 dorm."],
+            ["1 dorm."],
+            ["2 dorm."]
+        ]
+    )
 
 def getCoveredAreaFromFixtureData():
     return np.array(
@@ -157,6 +182,13 @@ def test_validatePropertyBathrooms(fixture_data, scraper):
 
     assert np.array_equal(properties_bathroom_data, expected_bathrooms)
 
+def test_validatePropertyBedrooms(fixture_data, scraper):
+    properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
+    properties_bedrooms_data = scraper.getBedroomsFromProperties(properties).values
+
+    expected_bedrooms = getBedroomsFromFixtureData()
+
+    assert np.array_equal(properties_bedrooms_data, expected_bedrooms)
 
 def test_validatePropertyCoveredArea(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
