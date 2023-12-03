@@ -38,7 +38,7 @@ def getPricesFromFixtureData():
             ["Consultar precio"],
             ["Consultar precio"],
             ["Consultar precio"],
-            ["$ 370.000"],
+            ["USD 370.000"],
             ["$ 350.000"],
             ["Consultar precio"],
             ["Consultar precio"],
@@ -184,6 +184,31 @@ def getCoveredAreaFromFixtureData():
         ]
     )
 
+def getCurrencyFromFixtureData():
+    return np.array(
+        [
+            ["Consultar precio"],
+            ["Consultar precio"],
+            ["$"],
+            ["Consultar precio"],
+            ["Consultar precio"],
+            ["Consultar precio"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["Consultar precio"],
+            ["Consultar precio"],
+            ["Consultar precio"],
+            ["USD"],
+            ["$"],
+            ["Consultar precio"],
+            ["Consultar precio"],
+            ["$"],
+            ["Consultar precio"],
+            ["$"],
+            ["$"],
+        ]
+    )
 
 def test_validatePropertyPrices(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
@@ -239,3 +264,12 @@ def test_validatePropertyCoveredArea(fixture_data, scraper):
     expected_covered_area = getCoveredAreaFromFixtureData()
 
     assert np.array_equal(properties_covered_area_data, expected_covered_area)
+
+
+def test_validatePropertyCurrency(fixture_data, scraper):
+    properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
+    properties_currency_data = scraper.getCurrencyFromProperties(properties).values
+    
+    expected_currency = getCurrencyFromFixtureData()
+    
+    assert np.array_equal(properties_currency_data, expected_currency)

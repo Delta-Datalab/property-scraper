@@ -63,6 +63,15 @@ class Property:
         """
 
         return (self.property_type).get_covered_area(self.data)
+    
+    def get_currency(self):
+        """Get the price of the property.
+
+        Returns:
+            The price of the property.
+        """
+
+        return (self.property_type).get_currency(self.data)
 
 
 class ZonaPropProperty:
@@ -119,6 +128,20 @@ class ZonaPropProperty:
                     covered_area = str(span_inner_element.get_text().strip())
 
         return covered_area
+    
+    def get_currency(self, data):
+        price = str(data.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
+
+        if price:
+            if price == "Consultar precio":
+                currency = price
+            else: 
+                if price[0] == "U":
+                    currency = "USD"
+                else:
+                    currency = "$"
+        
+        return currency
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
