@@ -233,4 +233,3 @@ def test_validatePropertyCoveredArea(fixture_data, scraper):
     expected_covered_area = getCoveredAreaFromFixtureData()
 
     assert np.array_equal(properties_covered_area_data, expected_covered_area)
->>>>>>> Add total rooms method
