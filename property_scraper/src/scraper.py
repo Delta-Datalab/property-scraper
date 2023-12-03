@@ -108,6 +108,23 @@ class Scraper:
 
         return df
 
+    def getBedroomsFromProperties(self, properties):
+        """Get the number of bedrooms from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the number of bedrooms for each property.
+        """
+
+        df = pd.DataFrame(columns=["bedrooms"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_bedrooms()]
+
+        return df
+
     def getCoveredAreaFromProperties(self, properties):
         """Get covered area from a list of properties.
         Args:
@@ -121,6 +138,23 @@ class Scraper:
 
         for property in properties:
             df.loc[len(df.index)] = [property.get_covered_area()]
+
+        return df
+
+    def getTotalRoomsFromProperties(self, properties):
+        """Get the total number of rooms from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the total number of rooms for each property.
+        """
+
+        df = pd.DataFrame(columns=["total_rooms"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_total_rooms()]
 
         return df
 
