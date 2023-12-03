@@ -109,14 +109,14 @@ class Scraper:
         return df
 
     def getCoveredAreaFromProperties(self, properties):
-        """ Get covered area from a list of properties.
+        """Get covered area from a list of properties.
         Args:
             properties (list): The list of properties.
-        
+
         Returns:
             pandas.DataFrame: A DataFrame containing the covered area for each property.
         """
-        
+
         df = pd.DataFrame(columns=["covered_area"])
 
         for property in properties:

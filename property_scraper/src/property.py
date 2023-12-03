@@ -45,7 +45,8 @@ class Property:
         """
 
         return (self.property_type).get_covered_area(self.data)
-      
+
+
 class ZonaPropProperty:
     def get_price(self, data):
         price = str(data.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
@@ -76,14 +77,20 @@ class ZonaPropProperty:
 
         return bathroom
 
-    def get_covered_area(self,data):
+    def get_covered_area(self, data):
         covered_area_element = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
         covered_area = f"{np.nan}"
 
         if covered_area_element:
             span_elements = covered_area_element.find_all("span")
             for span in span_elements:
-                image = span.find("img", {"src": "https://img10.naventcdn.com/listado/RPLISv8.62.0-RC3/images/featuresSprite.png", "class": "sc-1uhtbxc-1 dRoEma"})
+                image = span.find(
+                    "img",
+                    {
+                        "src": "https://img10.naventcdn.com/listado/RPLISv8.62.0-RC3/images/featuresSprite.png",
+                        "class": "sc-1uhtbxc-1 dRoEma",
+                    },
+                )
                 if image:
                     span_inner_element = image.find_next_sibling("span")
                     covered_area = str(span_inner_element.get_text().strip())
