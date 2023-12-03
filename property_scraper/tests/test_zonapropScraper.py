@@ -103,7 +103,7 @@ def getBathroomsFromFixtureData():
         ]
     )
   
-  def getCoveredAreaFromFixtureData():
+def getCoveredAreaFromFixtureData():
     return np.array(
         [
             ["50 m²"],
