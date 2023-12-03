@@ -6,8 +6,7 @@ This Python project is a property scraper designed to extract information from v
 
 ### Prerequisites
 
-- Python (3.10 recommended)
-- Poetry
+- Docker
 
 ### Installation Steps
 
@@ -18,16 +17,21 @@ git clone https://github.com/Delta-Datalab/property-scraper.git
 cd property-scraper
 ```
 
-2. Install project dependencies using Poetry:
+2. Build the Docker container:
 
 ``` bash
-poetry install
+docker build -t property-scraper .
 ```
 
-### Virtual Environment Activation
+## Running Commands in Docker Terminal
+After building the Docker container, access the container's terminal to execute project commands including setup, testing, etc.
 
-Activate the project's virtual environment created by Poetry to run the property scraper scripts:
+Once inside the Docker container's terminal, the virtual environment created by Poetry is already activated and working.
+
+
+### Running Tests with pytest
+To run tests using the pytest framework, execute the following command:
 
 ``` bash
-poetry shell
+pytest
 ```
