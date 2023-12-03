@@ -104,6 +104,33 @@ def getBathroomsFromFixtureData():
     )
 
 
+def getCoveredAreaFromFixtureData():
+    return np.array(
+        [
+            ["50 m²"],
+            ["74 m²"],
+            ["70 m²"],
+            ["73 m²"],
+            ["82 m²"],
+            ["70 m²"],
+            ["48 m²"],
+            ["46 m²"],
+            ["42 m²"],
+            ["35 m²"],
+            ["40 m²"],
+            ["133 m²"],
+            ["40 m²"],
+            [np.nan],
+            ["53 m²"],
+            ["50 m²"],
+            ["40 m²"],
+            ["48 m²"],
+            ["39 m²"],
+            ["75 m²"],
+        ]
+    )
+
+
 def test_validatePropertyPrices(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
     properties_prices_data = scraper.getPricesFromProperties(properties).values
@@ -129,3 +156,14 @@ def test_validatePropertyBathrooms(fixture_data, scraper):
     expected_bathrooms = getBathroomsFromFixtureData()
 
     assert np.array_equal(properties_bathroom_data, expected_bathrooms)
+
+
+def test_validatePropertyCoveredArea(fixture_data, scraper):
+    properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
+    properties_covered_area_data = scraper.getCoveredAreaFromProperties(
+        properties
+    ).values
+
+    expected_covered_area = getCoveredAreaFromFixtureData()
+
+    assert np.array_equal(properties_covered_area_data, expected_covered_area)
