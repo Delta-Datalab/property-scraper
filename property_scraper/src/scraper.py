@@ -124,8 +124,7 @@ class Scraper:
             df.loc[len(df.index)] = [property.get_bedrooms()]
 
         return df
-<<<<<<< HEAD
-    
+
     def getCoveredAreaFromProperties(self, properties):
         """Get covered area from a list of properties.
         Args:
@@ -141,8 +140,6 @@ class Scraper:
             df.loc[len(df.index)] = [property.get_covered_area()]
 
         return df
-=======
->>>>>>> d683645ad8c48d5f6d9180b9c42e757e8a6525c8
 
     def getTotalRoomsFromProperties(self, properties):
         """Get the total number of rooms from a list of properties.
