@@ -37,6 +37,15 @@ class Property:
 
         return (self.property_type).get_bathrooms(self.data)
 
+    def get_bedrooms(self):
+        """Get the number of bedrooms for the property.
+
+        Returns:
+            The number of bedrooms for the property.
+        """
+
+        return (self.property_type).get_bedrooms(self.data)
+
 
 class ZonaPropProperty:
     def get_price(self, data):
@@ -56,14 +65,30 @@ class ZonaPropProperty:
         return expenses
 
     def get_bathrooms(self, data):
-        bathrooms_element = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
-        bathroom = f"{np.nan}"
-        if bathrooms_element:
-            span_elements = bathrooms_element.find_all("span")
-            for span in span_elements:
-                span_inner_elements = span.find_all("span")
-                for inner_span in span_inner_elements:
-                    if "baño" in span.get_text():
-                        bathroom = str(span.get_text().strip())
+        property_attributes = self._get_property_attributes(data)
+        bathrooms = self._find_property_attribute(property_attributes,"baño")
 
-        return bathroom
+        return bathrooms
+
+    def get_bedrooms(self, data):
+        property_attributes = self._get_property_attributes(data)
+        bedrooms = self._find_property_attribute(property_attributes,"dorm.")
+
+        return bedrooms
+
+    def _get_property_attributes(self, data):
+        property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
+        property_attributes = property_attributes.find_all("span")
+        return property_attributes
+
+    def _find_property_attribute(self, data, attribute_name):
+        property_attribute = f"{np.nan}"
+        for span in data:
+            span_inner_elements = span.find_all("span")
+            for inner_span in span_inner_elements:
+                if attribute_name in span.get_text():
+                    property_attribute = str(span.get_text().strip())
+        
+        return property_attribute
+        
+        
