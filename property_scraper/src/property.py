@@ -28,6 +28,15 @@ class Property:
 
         return (self.property_type).get_expenses(self.data)
 
+    def get_bathrooms(self):
+        """Get the number of bathrooms for the property.
+
+        Returns:
+            The number of bathrooms for the property.
+        """
+
+        return (self.property_type).get_bathrooms(self.data)
+
 
 class ZonaPropProperty:
     def get_price(self, data):
@@ -45,3 +54,16 @@ class ZonaPropProperty:
             expenses = f"{np.nan}"  # Assign NaN if expenses_element is not found
 
         return expenses
+
+    def get_bathrooms(self, data):
+        bathrooms_element = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
+        bathroom = f"{np.nan}"
+        if bathrooms_element:
+            span_elements = bathrooms_element.find_all("span")
+            for span in span_elements:
+                span_inner_elements = span.find_all("span")
+                for inner_span in span_inner_elements:
+                    if "baño" in span.get_text():
+                        bathroom = str(span.get_text().strip())
+
+        return bathroom
