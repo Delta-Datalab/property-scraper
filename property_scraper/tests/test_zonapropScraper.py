@@ -129,6 +129,32 @@ def getBedroomsFromFixtureData():
         ]
     )
 
+def getTotalRoomsFromFixtureData():
+    return np.array(
+        [
+            ["2 amb."],
+            ["3 amb."],
+            ["3 amb."],
+            ["3 amb."],
+            ["2 amb."],
+            ["3 amb."],
+            ["2 amb."],
+            ["2 amb."],
+            ["1 amb."],
+            ["1 amb."],
+            ["2 amb."],
+            ["4 amb."],
+            ["2 amb."],
+            ["2 amb."],
+            ["2 amb."],
+            ["2 amb."],
+            ["2 amb."],
+            ["2 amb."],
+            ["2 amb."],
+            [np.nan]
+        ]
+    )
+
 
 def test_validatePropertyPrices(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
@@ -163,3 +189,11 @@ def test_validatePropertyBedrooms(fixture_data, scraper):
     expected_bedrooms = getBedroomsFromFixtureData()
 
     assert np.array_equal(properties_bedrooms_data, expected_bedrooms)
+
+def test_validatePropertyTotalRooms(fixture_data, scraper):
+    properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
+    properties_total_rooms_data = scraper.getTotalRoomsFromProperties(properties).values
+
+    expected_total_rooms = getTotalRoomsFromFixtureData()
+
+    assert np.array_equal(properties_total_rooms_data, expected_total_rooms)

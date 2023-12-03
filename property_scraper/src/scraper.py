@@ -125,6 +125,23 @@ class Scraper:
 
         return df
 
+    def getTotalRoomsFromProperties(self, properties):
+        """Get the total number of rooms from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the total number of rooms for each property.
+        """
+
+        df = pd.DataFrame(columns=["total_rooms"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_total_rooms()]
+
+        return df
+
     def getProperties(self, data, domain):
         """Get properties from the given data and domain.
 

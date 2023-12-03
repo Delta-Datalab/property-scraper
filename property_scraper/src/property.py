@@ -46,6 +46,15 @@ class Property:
 
         return (self.property_type).get_bedrooms(self.data)
 
+    def get_total_rooms(self):
+        """Get the number of total rooms for the property.
+
+        Returns:
+            The number of total rooms for the property.
+        """
+
+        return (self.property_type).get_total_rooms(self.data)
+
 
 class ZonaPropProperty:
     def get_price(self, data):
@@ -75,6 +84,12 @@ class ZonaPropProperty:
         bedrooms = self._find_property_attribute(property_attributes,"dorm.")
 
         return bedrooms
+
+    def get_total_rooms(self, data):
+        property_attributes = self._get_property_attributes(data)
+        total_rooms = self._find_property_attribute(property_attributes,"amb.")
+
+        return total_rooms
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
