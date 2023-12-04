@@ -64,6 +64,15 @@ class Property:
 
         return (self.property_type).get_covered_area(self.data)
 
+    def get_description(self):
+        """Get the description for the property.
+
+        Returns:
+            The description for the property.
+        """
+
+        return (self.property_type).get_description(self.data)
+
 
 class ZonaPropProperty:
     def get_price(self, data):
@@ -119,6 +128,15 @@ class ZonaPropProperty:
                     covered_area = str(span_inner_element.get_text().strip())
 
         return covered_area
+
+    def get_description(self, data):
+        description_element = data.find("div", {"data-qa": "POSTING_CARD_DESCRIPTION"})
+        description = f"{np.nan}"
+
+        if description_element:
+            description = str(description_element.get_text().strip())
+
+        return description
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
