@@ -195,6 +195,7 @@ def getCoveredAreaFromFixtureData():
     )
 
 
+
 def getDescriptionFromFixtureData():
     return np.array(
         [
@@ -204,6 +205,33 @@ def getDescriptionFromFixtureData():
             [
                 "Xintel(lor-lor-1693) Alquiler de Departamento monoambiente en Boedo, Capital Federal. 1 ambiente - oficina con vivienda en alquiler - apto vivienda también - se alquila para uso profesional con vivienda - monoambiente con patio - cocina integrada - baño completo - A estrenar - pocos departamentos - excelente ubicación - interno / lateral. - loria inmobiliaria. cpi 1. 300 / 8. 528 caba"
             ],
+        ]
+    )
+
+  
+def getParkingFromFixtureData():
+    return np.array(
+        [
+            ["1 coch."],
+            ["1 coch."],
+            [np.nan],
+            ["1 coch."],
+            ["1 coch."],
+            ["2 coch."],
+            [np.nan],
+            [np.nan],
+            ["1 coch."],
+            [np.nan],
+            ["1 coch."],
+            ["1 coch."],
+            [np.nan],
+            [np.nan],
+            ["1 coch."],
+            [np.nan],
+            [np.nan],
+            [np.nan],
+            [np.nan],
+            [np.nan],
         ]
     )
 
@@ -269,9 +297,15 @@ def test_validatePropertyDescription(fixture_description_data, scraper):
     properties_description_data = scraper.getDescriptionFromProperties(
         properties
     ).values
-    print(properties_description_data)
 
     expected_description = getDescriptionFromFixtureData()
-    print(expected_description)
 
     assert np.array_equal(properties_description_data, expected_description)
+
+def test_validatePropertyParking(fixture_data, scraper):
+    properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
+    properties_parking_data = scraper.getParkingFromProperties(properties).values
+
+    expected_parking = getParkingFromFixtureData()
+
+    assert np.array_equal(properties_parking_data, expected_parking)

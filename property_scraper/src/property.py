@@ -73,6 +73,15 @@ class Property:
 
         return (self.property_type).get_description(self.data)
 
+    def get_parking(self):
+        """Get the parking for the property.
+
+        Returns:
+            The parking for the property.
+        """
+
+        return (self.property_type).get_parking(self.data)
+
 
 class ZonaPropProperty:
     def get_price(self, data):
@@ -137,6 +146,12 @@ class ZonaPropProperty:
             description = str(description_element.get_text().strip())
 
         return description
+
+    def get_parking(self, data):
+        property_attributes = self._get_property_attributes(data)
+        parking = self._find_property_attribute(property_attributes, "coch.")
+
+        return parking
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
