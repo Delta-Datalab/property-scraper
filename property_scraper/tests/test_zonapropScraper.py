@@ -185,6 +185,33 @@ def getCoveredAreaFromFixtureData():
     )
 
 
+def getParkingFromFixtureData():
+    return np.array(
+        [
+            ["1 coch."],
+            ["1 coch."],
+            [np.nan],
+            ["1 coch."],
+            ["1 coch."],
+            ["2 coch."],
+            [np.nan],
+            [np.nan],
+            ["1 coch."],
+            [np.nan],
+            ["1 coch."],
+            ["1 coch."],
+            [np.nan],
+            [np.nan],
+            ["1 coch."],
+            [np.nan],
+            [np.nan],
+            [np.nan],
+            [np.nan],
+            [np.nan],
+        ]
+    )
+
+
 def test_validatePropertyPrices(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
     properties_prices_data = scraper.getPricesFromProperties(properties).values
@@ -239,3 +266,12 @@ def test_validatePropertyCoveredArea(fixture_data, scraper):
     expected_covered_area = getCoveredAreaFromFixtureData()
 
     assert np.array_equal(properties_covered_area_data, expected_covered_area)
+
+
+def test_validatePropertyParking(fixture_data, scraper):
+    properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
+    properties_parking_data = scraper.getParkingFromProperties(properties).values
+
+    expected_parking = getParkingFromFixtureData()
+
+    assert np.array_equal(properties_parking_data, expected_parking)
