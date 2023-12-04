@@ -184,31 +184,6 @@ def getCoveredAreaFromFixtureData():
         ]
     )
 
-def getCurrencyFromFixtureData():
-    return np.array(
-        [
-            ["Consultar precio"],
-            ["Consultar precio"],
-            ["$"],
-            ["Consultar precio"],
-            ["Consultar precio"],
-            ["Consultar precio"],
-            ["$"],
-            ["$"],
-            ["$"],
-            ["Consultar precio"],
-            ["Consultar precio"],
-            ["Consultar precio"],
-            ["USD"],
-            ["$"],
-            ["Consultar precio"],
-            ["Consultar precio"],
-            ["$"],
-            ["Consultar precio"],
-            ["$"],
-            ["$"],
-        ]
-    )
 
 def getCurrencyFromFixtureData():
     return np.array(
