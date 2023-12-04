@@ -158,7 +158,6 @@ class Scraper:
 
         return df
 
-
     def getDescriptionFromProperties(self, properties):
         """Get the description from a list of properties.
 
@@ -175,7 +174,6 @@ class Scraper:
             df.loc[len(df.index)] = [property.get_description()]
 
         return df
-
 
     def getParkingFromProperties(self, properties):
         """Get parking from a list of properties.
