@@ -157,6 +157,23 @@ class Scraper:
             df.loc[len(df.index)] = [property.get_total_rooms()]
 
         return df
+    
+    def getParkingFromProperties(self, properties):
+        """Get parking from a list of properties.
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the parking for each property.
+        """
+
+        df = pd.DataFrame(columns=["parking"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_parking()]
+
+        return df
+
 
     def getProperties(self, data, domain):
         """Get properties from the given data and domain.
