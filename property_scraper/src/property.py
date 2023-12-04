@@ -63,7 +63,7 @@ class Property:
         """
 
         return (self.property_type).get_covered_area(self.data)
-    
+
     def get_parking(self):
         """Get the parking for the property.
 
@@ -128,7 +128,7 @@ class ZonaPropProperty:
                     covered_area = str(span_inner_element.get_text().strip())
 
         return covered_area
-    
+
     def get_parking(self, data):
         property_attributes = self._get_property_attributes(data)
         parking = self._find_property_attribute(property_attributes, "coch.")
