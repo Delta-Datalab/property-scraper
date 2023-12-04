@@ -140,7 +140,7 @@ class Scraper:
             df.loc[len(df.index)] = [property.get_covered_area()]
 
         return df
-    
+
     def getCurrencyFromProperties(self, properties):
         """Get the number of bathrooms from a list of properties.
 
