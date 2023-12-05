@@ -209,6 +209,23 @@ class Scraper:
 
         return df
 
+    def getUrlFromProperties(self, properties):
+        """Get the URL from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the URL for each property.
+        """
+
+        df = pd.DataFrame(columns=["url"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_url()]
+
+        return df
+
     def getProperties(self, data, domain):
         """Get properties from the given data and domain.
 
