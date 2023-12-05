@@ -218,8 +218,10 @@ def getCurrencyFromFixtureData():
             [np.nan],
             ["$"],
             ["$"],
+        ]
+    )
 
-          
+
 def getDescriptionFromFixtureData():
     return np.array(
         [
