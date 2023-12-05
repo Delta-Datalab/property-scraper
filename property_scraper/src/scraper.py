@@ -158,26 +158,6 @@ class Scraper:
 
         return df
 
-<<<<<<< HEAD
-    def getCurrencyFromProperties(self, properties):
-        """Get the number of bathrooms from a list of properties.
-
-        Args:
-            properties (list): The list of properties.
-
-        Returns:
-            pandas.DataFrame: A DataFrame containing the number of bathrooms for each property.
-        """
-
-        df = pd.DataFrame(columns=["bathrooms"])
-
-        for property in properties:
-            df.loc[len(df.index)] = [property.get_currency()]
-
-        return df
-
-=======
->>>>>>> dd9c305094463b11626b7eeeb6fe6848d4adb18f
     def getTotalRoomsFromProperties(self, properties):
         """Get the total number of rooms from a list of properties.
 
