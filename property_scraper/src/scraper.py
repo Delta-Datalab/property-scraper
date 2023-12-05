@@ -158,6 +158,7 @@ class Scraper:
 
         return df
 
+<<<<<<< HEAD
     def getCurrencyFromProperties(self, properties):
         """Get the number of bathrooms from a list of properties.
 
@@ -175,6 +176,8 @@ class Scraper:
 
         return df
 
+=======
+>>>>>>> dd9c305094463b11626b7eeeb6fe6848d4adb18f
     def getTotalRoomsFromProperties(self, properties):
         """Get the total number of rooms from a list of properties.
 
