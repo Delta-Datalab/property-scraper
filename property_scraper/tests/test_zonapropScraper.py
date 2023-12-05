@@ -211,6 +211,7 @@ def getCurrencyFromFixtureData():
         ]
     )
 
+
 def getParkingFromFixtureData():
     return np.array(
         [
@@ -301,6 +302,7 @@ def test_validatePropertyParking(fixture_data, scraper):
     expected_parking = getParkingFromFixtureData()
 
     assert np.array_equal(properties_parking_data, expected_parking)
+
 
 def test_validatePropertyCurrency(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
