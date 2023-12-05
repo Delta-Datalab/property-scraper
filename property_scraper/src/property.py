@@ -130,16 +130,13 @@ class ZonaPropProperty:
         return covered_area
 
     def get_currency(self, data):
+        currency = str(np.nan)
         price = str(data.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
 
-        if price:
-            if price == "Consultar precio":
-                currency = str(np.nan)
-            else:
-                if price[0] == "U":
-                    currency = "USD"
-                else:
-                    currency = "$"
+        if price[0] == "U":
+            currency = "USD"
+        if price[0] == "$":
+            currency = "$"
 
         return currency
 
