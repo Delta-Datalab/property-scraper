@@ -143,7 +143,7 @@ class ZonaPropProperty:
 
         if price:
             if price == "Consultar precio":
-                currency = price
+                currency = str(np.nan)
             else:
                 if price[0] == "U":
                     currency = "USD"
