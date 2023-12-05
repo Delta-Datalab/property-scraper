@@ -19,6 +19,16 @@ def fixture_data():
 
 
 @pytest.fixture
+def fixture_description_data():
+    fixture_directory = os.path.join(
+        os.getcwd(), "tests", "fixtures", "zonapropDescriptionFixture.html"
+    )
+    with open(fixture_directory, "r") as file:
+        html_content = file.read()
+    return BeautifulSoup(html_content, "html.parser")
+
+
+@pytest.fixture
 def scraper():
     return Scraper(Browser())
 
@@ -208,6 +218,17 @@ def getCurrencyFromFixtureData():
             [np.nan],
             ["$"],
             ["$"],
+
+          
+def getDescriptionFromFixtureData():
+    return np.array(
+        [
+            [
+                "Impecable monoambiente ubicado en plena Recoleta, a metros de la plaza Vicente Lopez. Consta de un área principal que abarca living, comedor y la zona de dormir separada elegantemente por una mampara. Baño y cocinas hechas a nuevo. Todos los muebles y el equipamiento son de primera calidad y buen gusto. Muy luminoso, apacible y silencioso. Con seguridad 24 hs. Apto para alquiler temporario a partir de los 3 meses. (No se aceptan mascotas)"
+            ],
+            [
+                "Xintel(lor-lor-1693) Alquiler de Departamento monoambiente en Boedo, Capital Federal. 1 ambiente - oficina con vivienda en alquiler - apto vivienda también - se alquila para uso profesional con vivienda - monoambiente con patio - cocina integrada - baño completo - A estrenar - pocos departamentos - excelente ubicación - interno / lateral. - loria inmobiliaria. cpi 1. 300 / 8. 528 caba"
+            ],
         ]
     )
 
@@ -293,6 +314,17 @@ def test_validatePropertyCoveredArea(fixture_data, scraper):
     expected_covered_area = getCoveredAreaFromFixtureData()
 
     assert np.array_equal(properties_covered_area_data, expected_covered_area)
+
+
+def test_validatePropertyDescription(fixture_description_data, scraper):
+    properties = scraper.getProperties(fixture_description_data, "www.zonaprop.com.ar")
+    properties_description_data = scraper.getDescriptionFromProperties(
+        properties
+    ).values
+
+    expected_description = getDescriptionFromFixtureData()
+
+    assert np.array_equal(properties_description_data, expected_description)
 
 
 def test_validatePropertyParking(fixture_data, scraper):
