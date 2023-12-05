@@ -91,6 +91,15 @@ class Property:
 
         return (self.property_type).get_parking(self.data)
 
+    def get_url(self):
+        """Get the url for the property.
+
+        Returns:
+            The url for the property.
+        """
+
+        return (self.property_type).get_url(self.data)
+
 
 class ZonaPropProperty:
     def get_price(self, data):
@@ -172,6 +181,14 @@ class ZonaPropProperty:
         parking = self._find_property_attribute(property_attributes, "coch.")
 
         return parking
+
+    def get_url(self, data):
+        url = f"{np.nan}"
+        property_div_url = data.get("data-to-posting")
+        if property_div_url:
+            url = property_div_url
+
+        return url
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})

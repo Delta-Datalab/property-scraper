@@ -21,7 +21,7 @@ def fixture_data():
 @pytest.fixture
 def fixture_description_data():
     fixture_directory = os.path.join(
-        os.getcwd(), "tests", "fixtures", "zonapropDescriptionFixture.html"
+        os.getcwd(), "tests", "fixtures", "zonapropFixture_2.html"
     )
     with open(fixture_directory, "r") as file:
         html_content = file.read()
@@ -262,6 +262,19 @@ def getParkingFromFixtureData():
     )
 
 
+def getUrlFromFixtureData():
+    return np.array(
+        [
+            [
+                "/propiedades/impecable-monoambiente-ubicado-en-plena-recoleta-52612984.html"
+            ],
+            [
+                "/propiedades/1-ambiente-uso-profesional-y-vivienda-estrenar.-52721443.html"
+            ],
+        ]
+    )
+
+
 def test_validatePropertyPrices(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
     properties_prices_data = scraper.getPricesFromProperties(properties).values
@@ -344,3 +357,11 @@ def test_validatePropertyCurrency(fixture_data, scraper):
 
     expected_currency = getCurrencyFromFixtureData()
     assert np.array_equal(properties_currency_data, expected_currency)
+
+
+def test_validatePropertyUrl(fixture_description_data, scraper):
+    properties = scraper.getProperties(fixture_description_data, "www.zonaprop.com.ar")
+    properties_url_data = scraper.getUrlFromProperties(properties).values
+
+    expected_url = getUrlFromFixtureData()
+    assert np.array_equal(properties_url_data, expected_url)
