@@ -63,6 +63,15 @@ class Property:
         """
 
         return (self.property_type).get_covered_area(self.data)
+    
+    def get_total_area(self):
+        """Get the total area for the property.
+
+        Returns:
+            The total area for the property.
+        """
+
+        return (self.property_type).get_total_area(self.data)
 
 
 class ZonaPropProperty:
@@ -112,7 +121,6 @@ class ZonaPropProperty:
                 inner_span = span.find_all("span")
                 for span_element in inner_span:
                     if "m²" in span_element.get_text():
-                        print(span_element.get_text())
                         count = count + 1
                         if count == 1:
                             first_appearance = str(span_element.get_text().strip())
@@ -120,13 +128,35 @@ class ZonaPropProperty:
                         if count == 2:
                             second_appearance = str(span_element.get_text().strip())
                             numeric_area2 = float(second_appearance.strip(" m²"))
-            if count >= 2:
-                if numeric_area1 >= numeric_area2:
-                    covered_area = second_appearance
-                else:
-                    covered_area = first_appearance
+                            if numeric_area1 >= numeric_area2:
+                                covered_area = second_appearance
+                            else:
+                                covered_area = first_appearance
 
         return covered_area
+
+    def get_total_area(self, data):
+        property_attributes = self._get_property_attributes(data)
+        total_area = f"{np.nan}"
+
+        if property_attributes:
+            count = 0
+            second_appearance = f"{np.nan}"
+            for span in property_attributes:
+                inner_span = span.find_all("span")
+                for span_element in inner_span:
+                    if "m²" in span_element.get_text():
+                        count = count + 1
+                        if count == 1:
+                            total_area = str(span_element.get_text().strip())
+                            numeric_area1 = float(total_area.strip(" m²"))
+                        if count == 2:
+                            second_appearance = str(span_element.get_text().strip())
+                            numeric_area2 = float(second_appearance.strip(" m²"))
+                            if numeric_area1 < numeric_area2:
+                                total_area = second_appearance
+
+        return total_area
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
@@ -135,7 +165,7 @@ class ZonaPropProperty:
 
     def _find_property_attribute(self, data, attribute_name):
         property_attribute = f"{np.nan}"
-        cont  = 0
+
         for span in data:
             span_inner_elements = span.find_all("span")
             for inner_span in span_inner_elements:
