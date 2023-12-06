@@ -1,6 +1,7 @@
 from src.browser import Browser
 from bs4 import BeautifulSoup
 from src.property import Property, ZonaPropProperty
+from src.propertyParser import PropertyParser
 
 from config import LOG_DIR
 from config import OUTPUT_DATA_DIR
@@ -241,7 +242,10 @@ class Scraper:
 
         properties = []
 
+        propertyParser = PropertyParser()
+        property_type = propertyParser.get_propertyType(domain)
+
         for data_container in data_qa_divs:
-            properties.append(Property(data_container, domain))
+            properties.append(Property(data_container, property_type))
 
         return properties

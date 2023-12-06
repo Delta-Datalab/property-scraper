@@ -2,13 +2,9 @@ import numpy as np
 
 
 class Property:
-    def __init__(self, property_data, domain):
+    def __init__(self, property_data, property_type):
         self.data = property_data
-
-        if domain == "www.zonaprop.com.ar":
-            self.property_type = ZonaPropProperty()
-        else:
-            raise ValueError("Invalid type of Property")
+        self.property_type = property_type
 
     def get_price(self):
         """Get the price of the property.
