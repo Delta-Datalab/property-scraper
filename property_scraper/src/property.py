@@ -68,6 +68,7 @@ class Property:
         """
 
         return (self.property_type).get_total_area(self.data)
+
     def get_currency(self):
         """Get the price of the property.
 
@@ -183,6 +184,7 @@ class ZonaPropProperty:
         else:
             covered_area = min(property_area_attributes)
         return covered_area
+
     def get_currency(self, data):
         currency = str(np.nan)
         price = str(data.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
