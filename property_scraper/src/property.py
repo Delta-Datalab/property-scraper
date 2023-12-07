@@ -205,7 +205,7 @@ class ZonaPropProperty:
 
     def get_parking(self, data):
         property_attributes = self._get_property_attributes(data)
-        parking = self._find_property_attribute(property_attributes, "coch.")
+        parking = self._find_property_attributes(property_attributes, "coch.")
 
         return parking
 
