@@ -161,7 +161,7 @@ class ZonaPropProperty:
 
     def _findAreasFromPropertyAttributes(self, property_attributes):
         property_area_attributes = self._find_property_attributes(
-            property_attributes, "m²", multiple=True
+            property_attributes, "m²", multipleAttributes=True
         )
         self._forEachAreaStripMeasureAndConvertToInteger(property_area_attributes)
 
@@ -224,19 +224,26 @@ class ZonaPropProperty:
         property_attributes = property_attributes.find_all("span")
         return property_attributes
 
-    def _find_property_attributes(self, data, attribute_name, multiple=False):
+    def _find_property_attributes(self, data, attribute_name, multipleAttributes=False):
         property_attributes = []
 
-        for span in data:
-            span_inner_elements = span.find_all("span")
-            for inner_span in span_inner_elements:
-                if attribute_name in inner_span.get_text():
-                    property_attributes.append(str(inner_span.get_text().strip()))
+        self._forSpanInDataFindAllTheAttributesWith(
+            data, attribute_name, property_attributes
+        )
 
         if property_attributes:
-            if multiple:
+            if multipleAttributes:
                 return property_attributes
             else:
                 return property_attributes[0]
 
         return f"{np.nan}"
+
+    def _forSpanInDataFindAllTheAttributesWith(
+        self, data, attribute_name, property_attributes
+    ):
+        for span in data:
+            span_inner_elements = span.find_all("span")
+            for inner_span in span_inner_elements:
+                if attribute_name in inner_span.get_text():
+                    property_attributes.append(str(inner_span.get_text().strip()))
