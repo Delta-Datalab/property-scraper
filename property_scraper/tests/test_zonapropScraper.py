@@ -161,52 +161,54 @@ def getTotalRoomsFromFixtureData():
 def getCoveredAreaFromFixtureData():
     return np.array(
         [
-            ["50 m²"],
-            ["74 m²"],
-            ["70 m²"],
-            ["73 m²"],
-            ["82 m²"],
-            ["70 m²"],
-            ["48 m²"],
-            ["46 m²"],
-            ["42 m²"],
-            ["35 m²"],
-            ["40 m²"],
-            ["133 m²"],
-            ["40 m²"],
-            [np.nan],
-            ["53 m²"],
-            ["50 m²"],
-            ["40 m²"],
-            ["48 m²"],
-            ["39 m²"],
-            ["75 m²"],
-        ]
+            [50],
+            [74],
+            [70],
+            [73],
+            [82],
+            [70],
+            [48],
+            [46],
+            [42],
+            [35],
+            [40],
+            [133],
+            [40],
+            ["nan"],
+            [53],
+            [50],
+            [40],
+            [48],
+            [39],
+            [75],
+        ],
+        dtype=object,
     )
+
 
 def getTotalAreaFromFixtureData():
     return np.array(
         [
-            ["55 m²"],
-            ["92 m²"],
-            ["70 m²"],
-            ["104 m²"],
-            ["136 m²"],
-            ["110 m²"],
-            ["48 m²"],
-            ["51 m²"],
-            ["42 m²"],
-            ["35 m²"],
-            ["45 m²"],
-            ["133 m²"],
-            ["40 m²"],
-            ["50 m²"],
-            ["64 m²"],
-            ["50 m²"],
-            ["40 m²"],
-            ["55 m²"],
-            ["43 m²"],
-            ["85 m²"],
+            [55],
+            [92],
+            [70],
+            [104],
+            [136],
+            [110],
+            [48],
+            [51],
+            [42],
+            [35],
+            [45],
+            [133],
+            [40],
+            [50],
+            [64],
+            [50],
+            [40],
+            [55],
+            [43],
+            [85],
         ]
     )
 
@@ -232,7 +234,7 @@ def test_validatePropertyExpenses(fixture_data, scraper):
 def test_validatePropertyBathrooms(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
     properties_bathroom_data = scraper.getBathroomsFromProperties(properties).values
-    
+
     expected_bathrooms = getBathroomsFromFixtureData()
 
     assert np.array_equal(properties_bathroom_data, expected_bathrooms)
@@ -266,11 +268,10 @@ def test_validatePropertyCoveredArea(fixture_data, scraper):
 
     assert np.array_equal(properties_covered_area_data, expected_covered_area)
 
+
 def test_validatePropertyTotalArea(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_total_area_data = scraper.getTotalAreaFromProperties(
-        properties
-    ).values
+    properties_total_area_data = scraper.getTotalAreaFromProperties(properties).values
 
     expected_total_area = getTotalAreaFromFixtureData()
 

@@ -63,7 +63,7 @@ class Property:
         """
 
         return (self.property_type).get_covered_area(self.data)
-    
+
     def get_total_area(self):
         """Get the total area for the property.
 
@@ -93,83 +93,84 @@ class ZonaPropProperty:
 
     def get_bathrooms(self, data):
         property_attributes = self._get_property_attributes(data)
-        bathrooms = self._find_property_attribute(property_attributes, "baño")
+        bathrooms = self._find_property_attributes(property_attributes, "baño")
 
         return bathrooms
 
     def get_bedrooms(self, data):
         property_attributes = self._get_property_attributes(data)
-        bedrooms = self._find_property_attribute(property_attributes, "dorm.")
+        bedrooms = self._find_property_attributes(property_attributes, "dorm.")
 
         return bedrooms
 
     def get_total_rooms(self, data):
         property_attributes = self._get_property_attributes(data)
-        total_rooms = self._find_property_attribute(property_attributes, "amb.")
+        total_rooms = self._find_property_attributes(property_attributes, "amb.")
 
         return total_rooms
 
     def get_covered_area(self, data):
         property_attributes = self._get_property_attributes(data)
-        covered_area = f"{np.nan}"
-
-        if property_attributes:
-            count = 0
-            first_appearance = f"{np.nan}"
-            second_appearance = f"{np.nan}"
-            for span in property_attributes:
-                inner_span = span.find_all("span")
-                for span_element in inner_span:
-                    if "m²" in span_element.get_text():
-                        count = count + 1
-                        if count == 1:
-                            first_appearance = str(span_element.get_text().strip())
-                            numeric_area1 = float(first_appearance.strip(" m²"))
-                        if count == 2:
-                            second_appearance = str(span_element.get_text().strip())
-                            numeric_area2 = float(second_appearance.strip(" m²"))
-                            if numeric_area1 >= numeric_area2:
-                                covered_area = second_appearance
-                            else:
-                                covered_area = first_appearance
+        property_area_attributes = self._findAreasFromPropertyAttributes(
+            property_attributes
+        )
+        covered_area = self._select_area_for_covered_area(property_area_attributes)
 
         return covered_area
 
     def get_total_area(self, data):
         property_attributes = self._get_property_attributes(data)
-        total_area = f"{np.nan}"
-
-        if property_attributes:
-            count = 0
-            second_appearance = f"{np.nan}"
-            for span in property_attributes:
-                inner_span = span.find_all("span")
-                for span_element in inner_span:
-                    if "m²" in span_element.get_text():
-                        count = count + 1
-                        if count == 1:
-                            total_area = str(span_element.get_text().strip())
-                            numeric_area1 = float(total_area.strip(" m²"))
-                        if count == 2:
-                            second_appearance = str(span_element.get_text().strip())
-                            numeric_area2 = float(second_appearance.strip(" m²"))
-                            if numeric_area1 < numeric_area2:
-                                total_area = second_appearance
+        property_area_attributes = self._findAreasFromPropertyAttributes(
+            property_attributes
+        )
+        total_area = self._select_area_for_total_area(property_area_attributes)
 
         return total_area
+
+    def _findAreasFromPropertyAttributes(self, property_attributes):
+        property_area_attributes = self._find_property_attributes(
+            property_attributes, "m²", multiple=True
+        )
+        self._forEachAreaStripMeasureAndConvertToInteger(property_area_attributes)
+
+        return property_area_attributes
+
+    def _select_area_for_total_area(self, property_area_attributes):
+        if len(property_area_attributes) == 0:
+            total_area = f"{np.nan}"
+        else:
+            total_area = max(property_area_attributes)
+        return total_area
+
+    def _forEachAreaStripMeasureAndConvertToInteger(self, property_area_attribute):
+        for i in range(len(property_area_attribute)):
+            property_area_attribute[i] = int(property_area_attribute[i].strip(" m²"))
+
+    def _select_area_for_covered_area(self, property_area_attributes):
+        if len(property_area_attributes) <= 1:
+            covered_area = f"{np.nan}"
+        else:
+            covered_area = min(property_area_attributes)
+        return covered_area
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
         property_attributes = property_attributes.find_all("span")
         return property_attributes
 
-    def _find_property_attribute(self, data, attribute_name):
-        property_attribute = f"{np.nan}"
+    def _find_property_attributes(self, data, attribute_name, multiple=False):
+        property_attributes = []
 
         for span in data:
             span_inner_elements = span.find_all("span")
             for inner_span in span_inner_elements:
                 if attribute_name in inner_span.get_text():
-                    property_attribute = str(inner_span.get_text().strip())
-                    
-        return property_attribute
+                    property_attributes.append(str(inner_span.get_text().strip()))
+
+        if property_attributes:
+            if multiple:
+                return property_attributes
+            else:
+                return property_attributes[0]
+
+        return f"{np.nan}"
