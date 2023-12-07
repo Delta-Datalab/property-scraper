@@ -2,13 +2,9 @@ import numpy as np
 
 
 class Property:
-    def __init__(self, property_data, domain):
+    def __init__(self, property_data, property_type):
         self.data = property_data
-
-        if domain == "www.zonaprop.com.ar":
-            self.property_type = ZonaPropProperty()
-        else:
-            raise ValueError("Invalid type of Property")
+        self.property_type = property_type
 
     def get_price(self):
         """Get the price of the property.
@@ -72,6 +68,41 @@ class Property:
         """
 
         return (self.property_type).get_total_area(self.data)
+    def get_currency(self):
+        """Get the price of the property.
+
+        Returns:
+            The price of the property.
+        """
+
+        return (self.property_type).get_currency(self.data)
+
+    def get_description(self):
+        """Get the description for the property.
+
+        Returns:
+            The description for the property.
+        """
+
+        return (self.property_type).get_description(self.data)
+
+    def get_parking(self):
+        """Get the parking for the property.
+
+        Returns:
+            The parking for the property.
+        """
+
+        return (self.property_type).get_parking(self.data)
+
+    def get_url(self):
+        """Get the url for the property.
+
+        Returns:
+            The url for the property.
+        """
+
+        return (self.property_type).get_url(self.data)
 
 
 class ZonaPropProperty:
@@ -152,6 +183,39 @@ class ZonaPropProperty:
         else:
             covered_area = min(property_area_attributes)
         return covered_area
+    def get_currency(self, data):
+        currency = str(np.nan)
+        price = str(data.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
+
+        if price[0] == "U":
+            currency = "USD"
+        if price[0] == "$":
+            currency = "$"
+
+        return currency
+
+    def get_description(self, data):
+        description_element = data.find("div", {"data-qa": "POSTING_CARD_DESCRIPTION"})
+        description = f"{np.nan}"
+
+        if description_element:
+            description = str(description_element.get_text().strip())
+
+        return description
+
+    def get_parking(self, data):
+        property_attributes = self._get_property_attributes(data)
+        parking = self._find_property_attribute(property_attributes, "coch.")
+
+        return parking
+
+    def get_url(self, data):
+        url = f"{np.nan}"
+        property_div_url = data.get("data-to-posting")
+        if property_div_url:
+            url = property_div_url
+
+        return url
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})

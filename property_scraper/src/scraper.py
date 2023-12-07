@@ -1,6 +1,7 @@
 from src.browser import Browser
 from bs4 import BeautifulSoup
 from src.property import Property, ZonaPropProperty
+from src.propertyParser import PropertyParser
 
 from config import LOG_DIR
 from config import OUTPUT_DATA_DIR
@@ -125,6 +126,22 @@ class Scraper:
 
         return df
 
+    def getTotalAreaFromProperties(self, properties):
+        """Get total area from a list of properties.
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the total area for each property.
+        """
+
+        df = pd.DataFrame(columns=["total_area"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_total_area()]
+
+        return df
+
     def getCoveredAreaFromProperties(self, properties):
         """Get covered area from a list of properties.
         Args:
@@ -141,19 +158,20 @@ class Scraper:
 
         return df
 
-    def getTotalAreaFromProperties(self, properties):
-        """Get total area from a list of properties.
+    def getCurrencyFromProperties(self, properties):
+        """Get the number of bathrooms from a list of properties.
+
         Args:
             properties (list): The list of properties.
 
         Returns:
-            pandas.DataFrame: A DataFrame containing the total area for each property.
+            pandas.DataFrame: A DataFrame containing the number of bathrooms for each property.
         """
 
-        df = pd.DataFrame(columns=["total_area"])
+        df = pd.DataFrame(columns=["bathrooms"])
 
         for property in properties:
-            df.loc[len(df.index)] = [property.get_total_area()]
+            df.loc[len(df.index)] = [property.get_currency()]
 
         return df
 
@@ -174,6 +192,57 @@ class Scraper:
 
         return df
 
+    def getDescriptionFromProperties(self, properties):
+        """Get the description from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the description for each property.
+        """
+
+        df = pd.DataFrame(columns=["description"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_description()]
+
+        return df
+
+    def getParkingFromProperties(self, properties):
+        """Get parking from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the parking for each property.
+        """
+
+        df = pd.DataFrame(columns=["parking"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_parking()]
+
+        return df
+
+    def getUrlFromProperties(self, properties):
+        """Get the URL from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the URL for each property.
+        """
+
+        df = pd.DataFrame(columns=["url"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_url()]
+
+        return df
+
     def getProperties(self, data, domain):
         """Get properties from the given data and domain.
 
@@ -189,7 +258,10 @@ class Scraper:
 
         properties = []
 
+        propertyParser = PropertyParser()
+        property_type = propertyParser.get_propertyType(domain)
+
         for data_container in data_qa_divs:
-            properties.append(Property(data_container, domain))
+            properties.append(Property(data_container, property_type))
 
         return properties
