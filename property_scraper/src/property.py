@@ -60,6 +60,15 @@ class Property:
 
         return (self.property_type).get_covered_area(self.data)
 
+    def get_total_area(self):
+        """Get the total area for the property.
+
+        Returns:
+            The total area for the property.
+        """
+
+        return (self.property_type).get_total_area(self.data)
+
     def get_currency(self):
         """Get the price of the property.
 
@@ -116,40 +125,64 @@ class ZonaPropProperty:
 
     def get_bathrooms(self, data):
         property_attributes = self._get_property_attributes(data)
-        bathrooms = self._find_property_attribute(property_attributes, "baño")
+        bathrooms = self._find_property_attributes(property_attributes, "baño")
 
         return bathrooms
 
     def get_bedrooms(self, data):
         property_attributes = self._get_property_attributes(data)
-        bedrooms = self._find_property_attribute(property_attributes, "dorm.")
+        bedrooms = self._find_property_attributes(property_attributes, "dorm.")
 
         return bedrooms
 
     def get_total_rooms(self, data):
         property_attributes = self._get_property_attributes(data)
-        total_rooms = self._find_property_attribute(property_attributes, "amb.")
+        total_rooms = self._find_property_attributes(property_attributes, "amb.")
 
         return total_rooms
 
     def get_covered_area(self, data):
-        covered_area_element = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
-        covered_area = f"{np.nan}"
+        property_attributes = self._get_property_attributes(data)
+        property_area_attributes = self._findAreasFromPropertyAttributes(
+            property_attributes
+        )
+        covered_area = self._select_area_for_covered_area(property_area_attributes)
 
-        if covered_area_element:
-            span_elements = covered_area_element.find_all("span")
-            for span in span_elements:
-                image = span.find(
-                    "img",
-                    {
-                        "src": "https://img10.naventcdn.com/listado/RPLISv8.62.0-RC3/images/featuresSprite.png",
-                        "class": "sc-1uhtbxc-1 dRoEma",
-                    },
-                )
-                if image:
-                    span_inner_element = image.find_next_sibling("span")
-                    covered_area = str(span_inner_element.get_text().strip())
+        return covered_area
 
+    def get_total_area(self, data):
+        property_attributes = self._get_property_attributes(data)
+        property_area_attributes = self._findAreasFromPropertyAttributes(
+            property_attributes
+        )
+        total_area = self._select_area_for_total_area(property_area_attributes)
+
+        return total_area
+
+    def _findAreasFromPropertyAttributes(self, property_attributes):
+        property_area_attributes = self._find_property_attributes(
+            property_attributes, "m²", multipleAttributes=True
+        )
+        self._forEachAreaStripMeasureAndConvertToInteger(property_area_attributes)
+
+        return property_area_attributes
+
+    def _select_area_for_total_area(self, property_area_attributes):
+        if len(property_area_attributes) == 0:
+            total_area = f"{np.nan}"
+        else:
+            total_area = max(property_area_attributes)
+        return total_area
+
+    def _forEachAreaStripMeasureAndConvertToInteger(self, property_area_attribute):
+        for i in range(len(property_area_attribute)):
+            property_area_attribute[i] = int(property_area_attribute[i].strip(" m²"))
+
+    def _select_area_for_covered_area(self, property_area_attributes):
+        if len(property_area_attributes) <= 1:
+            covered_area = f"{np.nan}"
+        else:
+            covered_area = min(property_area_attributes)
         return covered_area
 
     def get_currency(self, data):
@@ -174,7 +207,7 @@ class ZonaPropProperty:
 
     def get_parking(self, data):
         property_attributes = self._get_property_attributes(data)
-        parking = self._find_property_attribute(property_attributes, "coch.")
+        parking = self._find_property_attributes(property_attributes, "coch.")
 
         return parking
 
@@ -191,12 +224,26 @@ class ZonaPropProperty:
         property_attributes = property_attributes.find_all("span")
         return property_attributes
 
-    def _find_property_attribute(self, data, attribute_name):
-        property_attribute = f"{np.nan}"
+    def _find_property_attributes(self, data, attribute_name, multipleAttributes=False):
+        property_attributes = []
+
+        self._forSpanInDataFindAllTheAttributesWith(
+            data, attribute_name, property_attributes
+        )
+
+        if property_attributes:
+            if multipleAttributes:
+                return property_attributes
+            else:
+                return property_attributes[0]
+
+        return f"{np.nan}"
+
+    def _forSpanInDataFindAllTheAttributesWith(
+        self, data, attribute_name, property_attributes
+    ):
         for span in data:
             span_inner_elements = span.find_all("span")
             for inner_span in span_inner_elements:
-                if attribute_name in span.get_text():
-                    property_attribute = str(span.get_text().strip())
-
-        return property_attribute
+                if attribute_name in inner_span.get_text():
+                    property_attributes.append(str(inner_span.get_text().strip()))
