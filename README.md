@@ -2,6 +2,8 @@
 
 This Python project is a property scraper designed to extract information from various property listings available online. It utilizes web scraping techniques to collect data such as property details, prices, locations, and more from different real estate websites. The gathered data can be used for analysis, comparison, or any other purpose as required.
 
+<img src="https://github.com/Delta-Datalab/property-scraper/blob/main/images/data_pipeline_flowchart.png">
+
 ## Environment Setup
 
 ### Prerequisites
