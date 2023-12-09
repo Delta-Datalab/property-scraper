@@ -430,6 +430,7 @@ def test_validatePropertyUrl(fixture_description_data, scraper):
     expected_url = getUrlFromFixtureData()
     assert np.array_equal(properties_url_data, expected_url)
 
+
 def test_validatePropertyLocation(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
     properties_location_data = scraper.getLocationFromProperties(properties).values

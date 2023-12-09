@@ -104,7 +104,7 @@ class Property:
         """
 
         return (self.property_type).get_url(self.data)
-    
+
     def get_location(self):
         """Get the location for the property.
 
@@ -112,7 +112,7 @@ class Property:
             The location for the property.
         """
 
-        return (self.property_type).get_location(self.data)   
+        return (self.property_type).get_location(self.data)
 
 
 class ZonaPropProperty:
@@ -227,7 +227,7 @@ class ZonaPropProperty:
             url = property_div_url
 
         return url
-    
+
     def get_location(self, data):
         location = str(data.find("div", {"data-qa": "POSTING_CARD_LOCATION"}).text)
         return location
