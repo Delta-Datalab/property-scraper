@@ -303,6 +303,33 @@ def getUrlFromFixtureData():
     )
 
 
+def getLocationFromFixtureData():
+    return np.array(
+        [
+            ["Núñez, Capital Federal"],
+            ["Pueblo Caamaño, Pilar"],
+            ["Echesortu, Rosario"],
+            ["Champagnat, Pilar"],
+            ["Bouquet, Pilar"],
+            ["Terrazas de Ayres, Manuel Alberti"],
+            ["Olivos, Vicente López"],
+            ["Almagro, Capital Federal"],
+            ["Vohe, Pilar"],
+            ["Villa Crespo, Capital Federal"],
+            ["Palermo Hollywood, Palermo"],
+            ["La Reserva Cardales, Campana"],
+            ["Palermo Chico, Palermo"],
+            ["Villa Urquiza, Capital Federal"],
+            ["Vicente López, GBA Norte"],
+            ["San Nicolás, Capital Federal"],
+            ["Centro, Córdoba"],
+            ["Puerto Madero, Capital Federal"],
+            ["Núñez, Capital Federal"],
+            ["Martin, Rosario"],
+        ]
+    )
+
+
 def test_validatePropertyPrices(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
     properties_prices_data = scraper.getPricesFromProperties(properties).values
@@ -402,3 +429,12 @@ def test_validatePropertyUrl(fixture_description_data, scraper):
 
     expected_url = getUrlFromFixtureData()
     assert np.array_equal(properties_url_data, expected_url)
+
+
+def test_validatePropertyLocation(fixture_data, scraper):
+    properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
+    properties_location_data = scraper.getLocationFromProperties(properties).values
+
+    expected_location = getLocationFromFixtureData()
+
+    assert np.array_equal(properties_location_data, expected_location)
