@@ -91,7 +91,7 @@ class Scraper:
             df.loc[len(df.index)] = [property.get_expenses()]
 
         return df
-    
+
     def getExpensesTypeFromProperties(self, properties):
         """Get expenses type from a list of properties.
 
