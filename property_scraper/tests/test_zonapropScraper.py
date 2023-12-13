@@ -87,6 +87,33 @@ def getExpensesFromFixtureData():
     )
 
 
+def getExpensesTypeFromFixtureData():
+    return np.array(
+        [
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            [np.nan],
+            [np.nan],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+            ["$"],
+        ]
+    )
+
+
 def getBathroomsFromFixtureData():
     return np.array(
         [
@@ -346,6 +373,17 @@ def test_validatePropertyExpenses(fixture_data, scraper):
     expected_expenses = getExpensesFromFixtureData()
 
     assert np.array_equal(properties_prices_data, expected_expenses)
+
+
+def test_validatePropertyExpensesType(fixture_data, scraper):
+    properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
+    properties_expenses_type_data = scraper.getExpensesTypeFromProperties(
+        properties
+    ).values
+
+    expected_expenses_type = getExpensesTypeFromFixtureData()
+
+    assert np.array_equal(properties_expenses_type_data, expected_expenses_type)
 
 
 def test_validatePropertyBathrooms(fixture_data, scraper):

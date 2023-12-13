@@ -24,6 +24,15 @@ class Property:
 
         return (self.property_type).get_expenses(self.data)
 
+    def get_expenses_type(self):
+        """Get the type of expenses for the property.
+
+        Returns:
+            The type of expenses for the property.
+        """
+
+        return (self.property_type).get_expenses_type(self.data)
+
     def get_bathrooms(self):
         """Get the number of bathrooms for the property.
 
@@ -131,6 +140,17 @@ class ZonaPropProperty:
             expenses = f"{np.nan}"  # Assign NaN if expenses_element is not found
 
         return expenses
+
+    def get_expenses_type(self, data):
+        expensesType = str(np.nan)
+        expenses = self.get_expenses(data)
+
+        if expenses[0] == "U":
+            expensesType = "USD"
+        if expenses[0] == "$":
+            expensesType = "$"
+
+        return expensesType
 
     def get_bathrooms(self, data):
         property_attributes = self._get_property_attributes(data)

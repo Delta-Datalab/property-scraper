@@ -92,6 +92,23 @@ class Scraper:
 
         return df
 
+    def getExpensesTypeFromProperties(self, properties):
+        """Get expenses type from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the expenses type for each property.
+        """
+
+        df = pd.DataFrame(columns=["expenses type"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_expenses_type()]
+
+        return df
+
     def getBathroomsFromProperties(self, properties):
         """Get the number of bathrooms from a list of properties.
 
