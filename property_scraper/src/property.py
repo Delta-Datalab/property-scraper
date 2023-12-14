@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 
 class Property:
@@ -137,14 +138,16 @@ class ZonaPropProperty:
                 expenses_element.text.strip()
             )  # Extract text and remove leading/trailing spaces
         else:
-            expenses = f"{np.nan}"  # Assign NaN if expenses_element is not found
+            expenses = pd.NA  # Assign NaN if expenses_element is not found
 
         return expenses
 
     def get_expenses_type(self, data):
-        expensesType = str(np.nan)
+        expensesType = pd.NA
         expenses = self.get_expenses(data)
 
+        if pd.isna(expenses):
+            return expensesType
         if expenses[0] == "U":
             expensesType = "USD"
         if expenses[0] == "$":
@@ -198,7 +201,7 @@ class ZonaPropProperty:
 
     def _select_area_for_total_area(self, property_area_attributes):
         if len(property_area_attributes) == 0:
-            total_area = f"{np.nan}"
+            total_area = pd.NA
         else:
             total_area = max(property_area_attributes)
         return total_area
@@ -209,25 +212,26 @@ class ZonaPropProperty:
 
     def _select_area_for_covered_area(self, property_area_attributes):
         if len(property_area_attributes) <= 1:
-            covered_area = f"{np.nan}"
+            covered_area = pd.NA
         else:
             covered_area = min(property_area_attributes)
         return covered_area
 
     def get_currency(self, data):
-        currency = str(np.nan)
+        currency = pd.NA
         price = str(data.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
 
-        if price[0] == "U":
-            currency = "USD"
-        if price[0] == "$":
-            currency = "$"
+        if price:
+            if price[0] == "U":
+                currency = "USD"
+            if price[0] == "$":
+                currency = "$"
 
         return currency
 
     def get_description(self, data):
+        description = pd.NA
         description_element = data.find("div", {"data-qa": "POSTING_CARD_DESCRIPTION"})
-        description = f"{np.nan}"
 
         if description_element:
             description = str(description_element.get_text().strip())
@@ -241,7 +245,7 @@ class ZonaPropProperty:
         return parking
 
     def get_url(self, data):
-        url = f"{np.nan}"
+        url = pd.NA
         property_div_url = data.get("data-to-posting")
         if property_div_url:
             url = property_div_url
@@ -249,7 +253,12 @@ class ZonaPropProperty:
         return url
 
     def get_location(self, data):
-        location = str(data.find("div", {"data-qa": "POSTING_CARD_LOCATION"}).text)
+        location = pd.NA
+        location_element = data.find("div", {"data-qa": "POSTING_CARD_LOCATION"})
+
+        if location_element:
+            location = str(location_element.get_text().strip())
+
         return location
 
     def _get_property_attributes(self, data):
@@ -270,7 +279,7 @@ class ZonaPropProperty:
             else:
                 return property_attributes[0]
 
-        return f"{np.nan}"
+        return pd.NA
 
     def _forSpanInDataFindAllTheAttributesWith(
         self, data, attribute_name, property_attributes
