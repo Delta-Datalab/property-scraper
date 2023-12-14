@@ -137,7 +137,7 @@ def getBedroomsFromFixtureData():
         ["1 dorm."],
         ["2 dorm."],
     ]
-    
+
     bedrooms_df = pd.DataFrame(data, columns=["bedrooms"])
     return bedrooms_df
 
@@ -165,7 +165,7 @@ def getTotalRoomsFromFixtureData():
         ["2 amb."],
         [pd.NA],
     ]
-    
+
     total_roms_df = pd.DataFrame(data, columns=["total_rooms"])
     return total_roms_df
 
@@ -193,7 +193,7 @@ def getCoveredAreaFromFixtureData():
         [39],
         [75],
     ]
-    
+
     covered_area_df = pd.DataFrame(data, columns=["covered_area"])
     return covered_area_df
 
@@ -221,7 +221,7 @@ def getTotalAreaFromFixtureData():
         [43],
         [85],
     ]
-    
+
     total_area_df = pd.DataFrame(data, columns=["total_area"])
     return total_area_df
 
@@ -249,7 +249,7 @@ def getCurrencyFromFixtureData():
         ["$"],
         ["$"],
     ]
-    
+
     currency_df = pd.DataFrame(data, columns=["currency"])
     return currency_df
 
@@ -263,7 +263,7 @@ def getDescriptionFromFixtureData():
             "Xintel(lor-lor-1693) Alquiler de Departamento monoambiente en Boedo, Capital Federal. 1 ambiente - oficina con vivienda en alquiler - apto vivienda también - se alquila para uso profesional con vivienda - monoambiente con patio - cocina integrada - baño completo - A estrenar - pocos departamentos - excelente ubicación - interno / lateral. - loria inmobiliaria. cpi 1. 300 / 8. 528 caba"
         ],
     ]
-    
+
     description_df = pd.DataFrame(data, columns=["description"])
     return description_df
 
@@ -291,7 +291,7 @@ def getParkingFromFixtureData():
         [pd.NA],
         [pd.NA],
     ]
-    
+
     parking_df = pd.DataFrame(data, columns=["parking"])
     return parking_df
 
@@ -301,7 +301,7 @@ def getUrlFromFixtureData():
         ["/propiedades/impecable-monoambiente-ubicado-en-plena-recoleta-52612984.html"],
         ["/propiedades/1-ambiente-uso-profesional-y-vivienda-estrenar.-52721443.html"],
     ]
-    
+
     url_df = pd.DataFrame(data, columns=["url"])
     return url_df
 
@@ -329,6 +329,6 @@ def getLocationFromFixtureData():
         ["Núñez, Capital Federal"],
         ["Martin, Rosario"],
     ]
-    
+
     location_df = pd.DataFrame(data, columns=["location"])
     return location_df
