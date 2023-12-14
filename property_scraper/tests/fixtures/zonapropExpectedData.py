@@ -53,7 +53,8 @@ def getExpensesFromFixtureData():
             ["$ 28.500 Expensas"],
         ]
     )
-    
+
+
 def getExpensesTypeFromFixtureData():
     return np.array(
         [
