@@ -276,6 +276,24 @@ class Scraper:
             df.loc[len(df.index)] = [property.get_location()]
 
         return df
+    
+    def getRealStateAgencyFromProperties(self, properties):
+        """Get the presence of a real state agency from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the presence of a real state agency for each property.
+        """
+
+        df = pd.DataFrame(columns=["real_state_agency"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_real_state_agency()]
+
+        return df
+
 
     def getProperties(self, data, domain):
         """Get properties from the given data and domain.
