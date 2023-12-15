@@ -133,6 +133,15 @@ class Property:
 
         return (self.property_type).get_real_state_agency(self.data)
 
+    def get_reserved(self):
+        """Get the presence of a real state agency for the property.
+
+        Returns:
+            The presence of a real state agency for the property.
+        """
+
+        return (self.property_type).get_reserved(self.data)
+
 
 class ZonaPropProperty:
     def get_price(self, data):
@@ -275,11 +284,20 @@ class ZonaPropProperty:
         real_state_agency_element = data.find(
             "img", {"data-qa": "POSTING_CARD_PUBLISHER"}
         )
-        print(real_state_agency_element)
+
         if real_state_agency_element:
             real_state_agency = True
 
         return real_state_agency
+
+    def get_reserved(self, data):
+        reserved = False
+        reserved_element = data.find("span", {"color": "white"})
+
+        if reserved_element and reserved_element.get_text() == "Reservado":
+            reserved = True
+
+        return reserved
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})

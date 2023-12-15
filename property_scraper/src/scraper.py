@@ -294,6 +294,23 @@ class Scraper:
 
         return df
 
+    def getReservedFromProperties(self, properties):
+        """Get the presence of a reserved property from a list of properties.
+
+        Args:
+            properties (list): The list of properties.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the presence of a reserved property for each property.
+        """
+
+        df = pd.DataFrame(columns=["reserved"])
+
+        for property in properties:
+            df.loc[len(df.index)] = [property.get_reserved()]
+
+        return df
+
     def getProperties(self, data, domain):
         """Get properties from the given data and domain.
 
