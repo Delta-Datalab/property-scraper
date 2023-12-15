@@ -30,9 +30,12 @@ def fixture_description_data():
 
 
 @pytest.fixture
-def fixture_real_state_agency_data():
+def fixture_real_state_agency_and_reserved_data():
     fixture_directory = os.path.join(
-        os.getcwd(), "tests", "fixtures", "zonapropFixture_realStateAgent.html"
+        os.getcwd(),
+        "tests",
+        "fixtures",
+        "zonapropFixture_realStateAgencyAndReserved.html",
     )
     with open(fixture_directory, "r") as file:
         html_content = file.read()
@@ -162,9 +165,9 @@ def test_validatePropertyLocation(fixture_data, scraper):
     pd.testing.assert_frame_equal(properties_location_data, expected_location)
 
 
-def test_validateRealStateAgency(fixture_real_state_agency_data, scraper):
+def test_validateRealStateAgency(fixture_real_state_agency_and_reserved_data, scraper):
     properties = scraper.getProperties(
-        fixture_real_state_agency_data, "www.zonaprop.com.ar"
+        fixture_real_state_agency_and_reserved_data, "www.zonaprop.com.ar"
     )
     properties_real_state_agency_data = scraper.getRealStateAgencyFromProperties(
         properties
@@ -174,4 +177,17 @@ def test_validateRealStateAgency(fixture_real_state_agency_data, scraper):
 
     pd.testing.assert_frame_equal(
         properties_real_state_agency_data, expected_real_state_agency
+    )
+
+
+def test_validatePropertyReserved(fixture_real_state_agency_and_reserved_data, scraper):
+    properties = scraper.getProperties(
+        fixture_real_state_agency_and_reserved_data, "www.zonaprop.com.ar"
+    )
+    properties_reserved_properties_data = scraper.getReservedFromProperties(properties)
+
+    expected_reserved_properties = getReservedPropertiesFromFixtureData()
+
+    pd.testing.assert_frame_equal(
+        properties_reserved_properties_data, expected_reserved_properties
     )

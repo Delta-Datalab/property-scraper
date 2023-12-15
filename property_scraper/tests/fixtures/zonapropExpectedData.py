@@ -360,3 +360,31 @@ def getRealStateAgencyFromFixtureData():
 
     real_state_agency_df = pd.DataFrame(data, columns=["real_state_agency"])
     return real_state_agency_df
+
+
+def getReservedPropertiesFromFixtureData():
+    data = [
+        [True],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+        [False],
+    ]
+
+    real_state_agency_df = pd.DataFrame(data, columns=["reserved"])
+    return real_state_agency_df
