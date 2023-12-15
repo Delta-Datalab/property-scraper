@@ -32,7 +32,10 @@ def fixture_description_data():
 @pytest.fixture
 def fixture_real_state_agency_and_reserved_data():
     fixture_directory = os.path.join(
-        os.getcwd(), "tests", "fixtures", "zonapropFixture_realStateAgent.html"
+        os.getcwd(),
+        "tests",
+        "fixtures",
+        "zonapropFixture_realStateAgencyAndReserved.html",
     )
     with open(fixture_directory, "r") as file:
         html_content = file.read()
