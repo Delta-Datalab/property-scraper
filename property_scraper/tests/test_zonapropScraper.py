@@ -36,120 +36,117 @@ def scraper():
 
 def test_validatePropertyPrices(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_prices_data = scraper.getPricesFromProperties(properties).values
+    properties_prices_data = scraper.getPricesFromProperties(properties)
 
     expected_prices = getPricesFromFixtureData()
 
-    assert np.array_equal(properties_prices_data, expected_prices)
+    pd.testing.assert_frame_equal(properties_prices_data, expected_prices)
 
 
 def test_validatePropertyExpenses(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_prices_data = scraper.getExpensesFromProperties(properties).values
+    properties_prices_data = scraper.getExpensesFromProperties(properties)
 
     expected_expenses = getExpensesFromFixtureData()
 
-    assert np.array_equal(properties_prices_data, expected_expenses)
+    pd.testing.assert_frame_equal(properties_prices_data, expected_expenses)
 
 
 def test_validatePropertyExpensesType(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_expenses_type_data = scraper.getExpensesTypeFromProperties(
-        properties
-    ).values
+    properties_expenses_type_data = scraper.getExpensesTypeFromProperties(properties)
 
     expected_expenses_type = getExpensesTypeFromFixtureData()
 
-    assert np.array_equal(properties_expenses_type_data, expected_expenses_type)
+    pd.testing.assert_frame_equal(properties_expenses_type_data, expected_expenses_type)
 
 
 def test_validatePropertyBathrooms(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_bathroom_data = scraper.getBathroomsFromProperties(properties).values
+    properties_bathroom_data = scraper.getBathroomsFromProperties(properties)
 
     expected_bathrooms = getBathroomsFromFixtureData()
 
-    assert np.array_equal(properties_bathroom_data, expected_bathrooms)
+    pd.testing.assert_frame_equal(properties_bathroom_data, expected_bathrooms)
 
 
 def test_validatePropertyBedrooms(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_bedrooms_data = scraper.getBedroomsFromProperties(properties).values
+    properties_bedrooms_data = scraper.getBedroomsFromProperties(properties)
 
     expected_bedrooms = getBedroomsFromFixtureData()
 
-    assert np.array_equal(properties_bedrooms_data, expected_bedrooms)
+    pd.testing.assert_frame_equal(properties_bedrooms_data, expected_bedrooms)
 
 
 def test_validatePropertyTotalRooms(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_total_rooms_data = scraper.getTotalRoomsFromProperties(properties).values
+    properties_total_rooms_data = scraper.getTotalRoomsFromProperties(properties)
 
     expected_total_rooms = getTotalRoomsFromFixtureData()
 
-    assert np.array_equal(properties_total_rooms_data, expected_total_rooms)
+    pd.testing.assert_frame_equal(properties_total_rooms_data, expected_total_rooms)
 
 
 def test_validatePropertyCoveredArea(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_covered_area_data = scraper.getCoveredAreaFromProperties(
-        properties
-    ).values
+    properties_covered_area_data = scraper.getCoveredAreaFromProperties(properties)
 
     expected_covered_area = getCoveredAreaFromFixtureData()
 
-    assert np.array_equal(properties_covered_area_data, expected_covered_area)
+    print(properties_covered_area_data)
+    print(expected_covered_area)
+
+    pd.testing.assert_frame_equal(properties_covered_area_data, expected_covered_area)
 
 
 def test_validatePropertyTotalArea(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_total_area_data = scraper.getTotalAreaFromProperties(properties).values
+    properties_total_area_data = scraper.getTotalAreaFromProperties(properties)
 
     expected_total_area = getTotalAreaFromFixtureData()
 
-    assert np.array_equal(properties_total_area_data, expected_total_area)
+    pd.testing.assert_frame_equal(properties_total_area_data, expected_total_area)
 
 
 def test_validatePropertyDescription(fixture_description_data, scraper):
     properties = scraper.getProperties(fixture_description_data, "www.zonaprop.com.ar")
-    properties_description_data = scraper.getDescriptionFromProperties(
-        properties
-    ).values
+    properties_description_data = scraper.getDescriptionFromProperties(properties)
 
     expected_description = getDescriptionFromFixtureData()
 
-    assert np.array_equal(properties_description_data, expected_description)
+    pd.testing.assert_frame_equal(properties_description_data, expected_description)
 
 
 def test_validatePropertyParking(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_parking_data = scraper.getParkingFromProperties(properties).values
+    properties_parking_data = scraper.getParkingFromProperties(properties)
 
     expected_parking = getParkingFromFixtureData()
 
-    assert np.array_equal(properties_parking_data, expected_parking)
+    pd.testing.assert_frame_equal(properties_parking_data, expected_parking)
 
 
 def test_validatePropertyCurrency(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_currency_data = scraper.getCurrencyFromProperties(properties).values
+    properties_currency_data = scraper.getCurrencyFromProperties(properties)
 
     expected_currency = getCurrencyFromFixtureData()
-    assert np.array_equal(properties_currency_data, expected_currency)
+    pd.testing.assert_frame_equal(properties_currency_data, expected_currency)
 
 
 def test_validatePropertyUrl(fixture_description_data, scraper):
     properties = scraper.getProperties(fixture_description_data, "www.zonaprop.com.ar")
-    properties_url_data = scraper.getUrlFromProperties(properties).values
+    properties_url_data = scraper.getUrlFromProperties(properties)
 
     expected_url = getUrlFromFixtureData()
-    assert np.array_equal(properties_url_data, expected_url)
+    pd.testing.assert_frame_equal(properties_url_data, expected_url)
 
 
 def test_validatePropertyLocation(fixture_data, scraper):
     properties = scraper.getProperties(fixture_data, "www.zonaprop.com.ar")
-    properties_location_data = scraper.getLocationFromProperties(properties).values
+    properties_location_data = scraper.getLocationFromProperties(properties)
 
     expected_location = getLocationFromFixtureData()
 
-    assert np.array_equal(properties_location_data, expected_location)
+    pd.testing.assert_frame_equal(properties_location_data, expected_location)

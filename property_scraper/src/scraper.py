@@ -102,7 +102,7 @@ class Scraper:
             pandas.DataFrame: A DataFrame containing the expenses type for each property.
         """
 
-        df = pd.DataFrame(columns=["expenses type"])
+        df = pd.DataFrame(columns=["expenses_type"])
 
         for property in properties:
             df.loc[len(df.index)] = [property.get_expenses_type()]
@@ -176,7 +176,7 @@ class Scraper:
         return df
 
     def getCurrencyFromProperties(self, properties):
-        """Get the number of bathrooms from a list of properties.
+        """Get the price currency from a list of properties.
 
         Args:
             properties (list): The list of properties.
@@ -185,7 +185,7 @@ class Scraper:
             pandas.DataFrame: A DataFrame containing the number of bathrooms for each property.
         """
 
-        df = pd.DataFrame(columns=["bathrooms"])
+        df = pd.DataFrame(columns=["currency"])
 
         for property in properties:
             df.loc[len(df.index)] = [property.get_currency()]
@@ -270,7 +270,7 @@ class Scraper:
             pandas.DataFrame: A DataFrame containing the location for each property.
         """
 
-        df = pd.DataFrame(columns=["url"])
+        df = pd.DataFrame(columns=["location"])
 
         for property in properties:
             df.loc[len(df.index)] = [property.get_location()]
