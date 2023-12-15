@@ -333,6 +333,7 @@ def getLocationFromFixtureData():
     location_df = pd.DataFrame(data, columns=["location"])
     return location_df
 
+
 def getRealStateAgencyFromFixtureData():
     data = [
         [True],
@@ -356,6 +357,6 @@ def getRealStateAgencyFromFixtureData():
         [True],
         [True],
     ]
-    
+
     real_state_agency_df = pd.DataFrame(data, columns=["real_state_agency"])
     return real_state_agency_df

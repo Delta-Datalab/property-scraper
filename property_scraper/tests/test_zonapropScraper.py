@@ -28,6 +28,7 @@ def fixture_description_data():
         html_content = file.read()
     return BeautifulSoup(html_content, "html.parser")
 
+
 @pytest.fixture
 def fixture_real_state_agency_data():
     fixture_directory = os.path.join(
@@ -159,11 +160,18 @@ def test_validatePropertyLocation(fixture_data, scraper):
     expected_location = getLocationFromFixtureData()
 
     pd.testing.assert_frame_equal(properties_location_data, expected_location)
-    
+
+
 def test_validateRealStateAgency(fixture_real_state_agency_data, scraper):
-    properties = scraper.getProperties(fixture_real_state_agency_data, "www.zonaprop.com.ar")
-    properties_real_state_agency_data = scraper.getRealStateAgencyFromProperties(properties)
+    properties = scraper.getProperties(
+        fixture_real_state_agency_data, "www.zonaprop.com.ar"
+    )
+    properties_real_state_agency_data = scraper.getRealStateAgencyFromProperties(
+        properties
+    )
 
     expected_real_state_agency = getRealStateAgencyFromFixtureData()
 
-    pd.testing.assert_frame_equal(properties_real_state_agency_data, expected_real_state_agency)
+    pd.testing.assert_frame_equal(
+        properties_real_state_agency_data, expected_real_state_agency
+    )
