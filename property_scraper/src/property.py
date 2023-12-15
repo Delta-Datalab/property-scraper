@@ -124,6 +124,15 @@ class Property:
 
         return (self.property_type).get_location(self.data)
 
+    def get_real_state_agency(self):
+        """Get the presence of a real state agency for the property.
+
+        Returns:
+            The presence of a real state agency for the property.
+        """
+
+        return (self.property_type).get_real_state_agency(self.data)
+
 
 class ZonaPropProperty:
     def get_price(self, data):
@@ -260,6 +269,17 @@ class ZonaPropProperty:
             location = str(location_element.get_text().strip())
 
         return location
+
+    def get_real_state_agency(self, data):
+        real_state_agency = False
+        real_state_agency_element = data.find(
+            "img", {"data-qa": "POSTING_CARD_PUBLISHER"}
+        )
+        print(real_state_agency_element)
+        if real_state_agency_element:
+            real_state_agency = True
+
+        return real_state_agency
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
