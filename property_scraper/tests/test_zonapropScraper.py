@@ -54,8 +54,6 @@ def test_validatePropertyPrices(fixture_data):
 
     expected_prices = getPricesFromFixtureData()
     
-    properties = provieder.getDataFromProperties().to_csv("prueba.csv")
-
     pd.testing.assert_frame_equal(properties_prices_data, expected_prices)
 
 
