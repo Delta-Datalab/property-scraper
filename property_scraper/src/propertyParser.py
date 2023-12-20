@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.property import ZonaPropProperty
+from src.provieder import zonapropProvieder
 
 
 class PropertyParser:
@@ -9,7 +9,7 @@ class PropertyParser:
 
     def get_propertyType(self, domain):
         if domain == "www.zonaprop.com.ar":
-            property_type = ZonaPropProperty()
+            property_type = zonapropProvieder()
         else:
             raise ValueError("Invalid type of Property")
 

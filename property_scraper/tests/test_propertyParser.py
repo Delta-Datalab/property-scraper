@@ -1,6 +1,6 @@
 import pytest
 
-from src.property import ZonaPropProperty
+from src.provieder import zonapropProvieder
 from src.propertyParser import PropertyParser
 
 
@@ -9,4 +9,4 @@ def test_validatePropertScrapperGivesCorrectPropertyType():
     parser = PropertyParser()
     property_type = parser.get_propertyType(domain)
 
-    assert isinstance(property_type, ZonaPropProperty)
+    assert isinstance(property_type, zonapropProvieder)
