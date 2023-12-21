@@ -10,6 +10,11 @@ This Python project is a property scraper designed to extract information from v
 
 <img src="https://github.com/Delta-Datalab/property-scraper/blob/main/images/data_pipeline_flowchart.png">
 
+## Project Standards
+
+- [Git Project Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/git-standards.md)
+- [Code Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/code-standards.md)
+
 ## Environment Setup
 
 ### Prerequisites

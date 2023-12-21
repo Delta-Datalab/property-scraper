@@ -7,7 +7,7 @@ Method docstrings should follow the structure of explaining what the method does
 
     Returns:
         The price of the property.
-	"""
+	    """
 ```
 
 For all other docstring types, the [PEP 257 guidelines]( https://peps.python.org/pep-0257/) should be followed.
