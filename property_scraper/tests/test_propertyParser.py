@@ -1,12 +1,23 @@
 import pytest
+import os
+from bs4 import BeautifulSoup
 
-from src.property import ZonaPropProperty
-from src.propertyParser import PropertyParser
+from src.provieders.zonaprop import zonapropProvider
+from src.propertyParser import ProviderFactory
 
 
-def test_validatePropertScrapperGivesCorrectPropertyType():
-    domain = "www.zonaprop.com.ar"
-    parser = PropertyParser()
-    property_type = parser.get_propertyType(domain)
+@pytest.fixture
+def fixture_data():
+    fixture_directory = os.path.join(
+        os.getcwd(), "tests", "fixtures", "zonapropFixture.html"
+    )
+    with open(fixture_directory, "r") as file:
+        html_content = file.read()
+    return BeautifulSoup(html_content, "html.parser")
 
-    assert isinstance(property_type, ZonaPropProperty)
+
+def test_validatePropertyScraperGivesCorrectPropertyType(fixture_data):
+    url = "www.zonaprop.com.ar"
+    provider = ProviderFactory().create_provider(url, fixture_data)
+
+    assert isinstance(provider, zonapropProvider)

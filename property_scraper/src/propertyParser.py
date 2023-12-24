@@ -1,16 +1,28 @@
 import numpy as np
 
-from src.property import ZonaPropProperty
+from src.provieders.zonaprop import zonapropProvider
 
 
-class PropertyParser:
-    def __init__(self):
-        pass
+class ProviderFactory:
+    @staticmethod
+    def create_provider(url, provider_data):
+        """
+        Creates a provider object based on the given URL and provider data.
 
-    def get_propertyType(self, domain):
-        if domain == "www.zonaprop.com.ar":
-            property_type = ZonaPropProperty()
+        Args:
+            url (str): The URL of the provider.
+            provider_data (dict): The data required to initialize the provider.
+
+        Returns:
+            object: An instance of the provider object.
+
+        Raises:
+            ValueError: If the URL is not supported.
+
+        """
+        if url == "www.zonaprop.com.ar":
+            provider = zonapropProvider(provider_data)
         else:
-            raise ValueError("Invalid type of Property")
+            raise ValueError("Invalid type of Provider")
 
-        return property_type
+        return provider
