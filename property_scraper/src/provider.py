@@ -1,21 +1,15 @@
 import numpy as np
 import pandas as pd
 
-from src.property import Property
+from src.propertyData import PropertyData
 
 
-class Provieder:
-    def __init__(self, provieder_data, provieder_type):
-        self.provieder_data = provieder_data
-        self.provieder_type = provieder_type
-        self.properties = provieder_type.createProperties(provieder_data)
+class Provider:
+    def __init__(self, provider_data):
+        self.data = provider_data
+        self.properties = None
 
     def getDataFromProperties(self):
-        return (self.provieder_type).getDataFromProperties(self.properties)
-
-
-class zonapropProvieder:
-    def getDataFromProperties(self, properties):
         propertiesDataframe = pd.DataFrame(
             columns=[
                 "url",
@@ -32,22 +26,31 @@ class zonapropProvieder:
                 "parking",
                 "real_state_agency",
                 "reserved",
-                "description"
+                "description",
             ]
         )
 
-        for property in properties:
-            property.addTo(propertiesDataframe)
+        for propertyData in self.properties:
+            propertyData.addTo(propertiesDataframe)
 
         return propertiesDataframe
 
-    def createProperties(self, data):
+
+class zonapropProvider(Provider):
+    def __init__(self, data):
+        super().__init__(data)
+        self.properties = self._collectPropertiesData(self.data)
+
+    def getDataFromProperties(self):
+        return super().getDataFromProperties()
+
+    def _collectPropertiesData(self, data):
         data_qa_divs = data.find_all("div", {"data-posting-type": "PROPERTY"})
 
         properties = []
 
         for data_container in data_qa_divs:
-            property = Property(
+            property = PropertyData(
                 self._get_price(data_container),
                 self._get_expenses(data_container),
                 self._get_expenses_type(data_container),

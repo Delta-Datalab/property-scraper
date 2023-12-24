@@ -5,7 +5,7 @@ import pandas as pd
 
 from src.browser import Browser
 from src.scraper import Scraper
-from src.provieder import *
+from src.provider import *
 from tests.fixtures.zonapropExpectedData import *
 from bs4 import BeautifulSoup
 
@@ -49,17 +49,17 @@ def scraper():
 
 
 def test_validatePropertyPrices(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_prices_data = provieder.getDataFromProperties()["price"].to_frame()
+    provider = zonapropProvider(fixture_data)
+    properties_prices_data = provider.getDataFromProperties()["price"].to_frame()
 
     expected_prices = getPricesFromFixtureData()
-    
+
     pd.testing.assert_frame_equal(properties_prices_data, expected_prices)
 
 
 def test_validatePropertyExpenses(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_expenses_data = provieder.getDataFromProperties()["expenses"].to_frame()
+    provider = zonapropProvider(fixture_data)
+    properties_expenses_data = provider.getDataFromProperties()["expenses"].to_frame()
 
     expected_expenses = getExpensesFromFixtureData()
 
@@ -67,8 +67,8 @@ def test_validatePropertyExpenses(fixture_data):
 
 
 def test_validatePropertyExpensesType(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_expenses_type_data = provieder.getDataFromProperties()[
+    provider = zonapropProvider(fixture_data)
+    properties_expenses_type_data = provider.getDataFromProperties()[
         "expenses_type"
     ].to_frame()
 
@@ -78,8 +78,8 @@ def test_validatePropertyExpensesType(fixture_data):
 
 
 def test_validatePropertyBathrooms(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_bathroom_data = provieder.getDataFromProperties()["bathrooms"].to_frame()
+    provider = zonapropProvider(fixture_data)
+    properties_bathroom_data = provider.getDataFromProperties()["bathrooms"].to_frame()
 
     expected_bathrooms = getBathroomsFromFixtureData()
 
@@ -87,8 +87,8 @@ def test_validatePropertyBathrooms(fixture_data):
 
 
 def test_validatePropertyBedrooms(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_bedrooms_data = provieder.getDataFromProperties()["bedrooms"].to_frame()
+    provider = zonapropProvider(fixture_data)
+    properties_bedrooms_data = provider.getDataFromProperties()["bedrooms"].to_frame()
 
     expected_bedrooms = getBedroomsFromFixtureData()
 
@@ -96,8 +96,8 @@ def test_validatePropertyBedrooms(fixture_data):
 
 
 def test_validatePropertyTotalRooms(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_total_rooms_data = provieder.getDataFromProperties()[
+    provider = zonapropProvider(fixture_data)
+    properties_total_rooms_data = provider.getDataFromProperties()[
         "total_rooms"
     ].to_frame()
 
@@ -107,8 +107,8 @@ def test_validatePropertyTotalRooms(fixture_data):
 
 
 def test_validatePropertyCoveredArea(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_covered_area_data = provieder.getDataFromProperties()[
+    provider = zonapropProvider(fixture_data)
+    properties_covered_area_data = provider.getDataFromProperties()[
         "covered_area"
     ].to_frame()
 
@@ -121,8 +121,8 @@ def test_validatePropertyCoveredArea(fixture_data):
 
 
 def test_validatePropertyTotalArea(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_total_area_data = provieder.getDataFromProperties()[
+    provider = zonapropProvider(fixture_data)
+    properties_total_area_data = provider.getDataFromProperties()[
         "total_area"
     ].to_frame()
 
@@ -132,8 +132,8 @@ def test_validatePropertyTotalArea(fixture_data):
 
 
 def test_validatePropertyDescription(fixture_description_data):
-    provieder = Provieder(fixture_description_data, zonapropProvieder())
-    properties_description_data = provieder.getDataFromProperties()[
+    provider = zonapropProvider(fixture_description_data)
+    properties_description_data = provider.getDataFromProperties()[
         "description"
     ].to_frame()
 
@@ -143,8 +143,8 @@ def test_validatePropertyDescription(fixture_description_data):
 
 
 def test_validatePropertyParking(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_parking_data = provieder.getDataFromProperties()["parking"].to_frame()
+    provider = zonapropProvider(fixture_data)
+    properties_parking_data = provider.getDataFromProperties()["parking"].to_frame()
 
     expected_parking = getParkingFromFixtureData()
 
@@ -152,24 +152,24 @@ def test_validatePropertyParking(fixture_data):
 
 
 def test_validatePropertyCurrency(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_currency_data = provieder.getDataFromProperties()["currency"].to_frame()
+    provider = zonapropProvider(fixture_data)
+    properties_currency_data = provider.getDataFromProperties()["currency"].to_frame()
 
     expected_currency = getCurrencyFromFixtureData()
     pd.testing.assert_frame_equal(properties_currency_data, expected_currency)
 
 
 def test_validatePropertyUrl(fixture_description_data):
-    provieder = Provieder(fixture_description_data, zonapropProvieder())
-    properties_url_data = provieder.getDataFromProperties()["url"].to_frame()
+    provider = zonapropProvider(fixture_description_data)
+    properties_url_data = provider.getDataFromProperties()["url"].to_frame()
 
     expected_url = getUrlFromFixtureData()
     pd.testing.assert_frame_equal(properties_url_data, expected_url)
 
 
 def test_validatePropertyLocation(fixture_data):
-    provieder = Provieder(fixture_data, zonapropProvieder())
-    properties_location_data = provieder.getDataFromProperties()["location"].to_frame()
+    provider = zonapropProvider(fixture_data)
+    properties_location_data = provider.getDataFromProperties()["location"].to_frame()
 
     expected_location = getLocationFromFixtureData()
 
@@ -177,10 +177,8 @@ def test_validatePropertyLocation(fixture_data):
 
 
 def test_validateRealStateAgency(fixture_real_state_agency_and_reserved_data):
-    provieder = Provieder(
-        fixture_real_state_agency_and_reserved_data, zonapropProvieder()
-    )
-    properties_real_state_agency_data = provieder.getDataFromProperties()[
+    provider = zonapropProvider(fixture_real_state_agency_and_reserved_data)
+    properties_real_state_agency_data = provider.getDataFromProperties()[
         "real_state_agency"
     ].to_frame()
 
@@ -192,10 +190,8 @@ def test_validateRealStateAgency(fixture_real_state_agency_and_reserved_data):
 
 
 def test_validatePropertyReserved(fixture_real_state_agency_and_reserved_data):
-    provieder = Provieder(
-        fixture_real_state_agency_and_reserved_data, zonapropProvieder()
-    )
-    properties_reserved_properties_data = provieder.getDataFromProperties()[
+    provider = zonapropProvider(fixture_real_state_agency_and_reserved_data)
+    properties_reserved_properties_data = provider.getDataFromProperties()[
         "reserved"
     ].to_frame()
 

@@ -1,16 +1,11 @@
-from src.browser import Browser
 from bs4 import BeautifulSoup
-from src.provieder import Provieder
-from src.propertyParser import PropertyParser
-
-from config import LOG_DIR
-from config import OUTPUT_DATA_DIR
+from src.propertyParser import ProviderFactory
+from datetime import datetime
+from urllib.parse import urlparse
+from config import *
 
 import logging
-import pandas as pd
 import os
-import numpy as np
-from urllib.parse import urlparse
 
 log_directory = os.path.dirname(LOG_DIR)
 if not os.path.exists(log_directory):
@@ -28,7 +23,7 @@ class Scraper:
     def __init__(self, browser):
         self.browser = browser
 
-    def scrape_data_properties_to_df(self, url):
+    def exportPropertiesDataToCSV(self, url):
         """Scrapes the data property from the given URL and stores it in a dataframe.
 
         Args:
@@ -42,20 +37,56 @@ class Scraper:
             logging.info(
                 f"Starting to scrape the data property and storage to a dataframe"
             )
-            data = self.browser.fetch_page(url)
-            parsed_data = BeautifulSoup(data, "html.parser")
+            provider = self.getProvider(url)
 
-            domain = urlparse(url).netloc
-            provieder_type = PropertyParser.get_propertyType(domain)
-            
-            provieder = Provieder(parsed_data, provieder_type)
+            propertyDataDataFrame = provider.getDataFromProperties()
 
-            df = provieder.getDataFromProperties()
-
-            df.to_csv(OUTPUT_DATA_DIR)
+            self.exportPropertyDataToCSV(propertyDataDataFrame)
             logging.info(
                 f"Successfully scrape the data property and storage to a dataframe"
             )
         except Exception as e:
             logging.error(f"Error scraping the property data: {e}")
             return
+
+    def getProvider(self, url):
+            """
+            Retrieves the provider for the given URL.
+
+            Args:
+                url (str): The URL to fetch the provider from.
+
+            Returns:
+                Provider: The provider object for the given URL.
+            """
+            data = self.browser.fetch_page(url)
+            parsedData = BeautifulSoup(data, "html.parser")
+
+            parsed_url = urlparse(url).netloc
+            provider = ProviderFactory.create_provider(parsed_url, parsedData)
+            return provider
+        
+    def exportPropertyDataToCSV(self, propertyData):
+        """Exports the property data to a CSV file.
+
+        Args:
+            propertyData (DataFrame): The property data to export.
+
+        Returns:
+            None
+        """
+        try:
+            logging.info(f"Starting to export the property data to a CSV file")
+            filename = self._getDataCSVName()
+            outputDataDir = os.path.dirname(DATA_DIR, filename)
+            propertyData.to_csv(outputDataDir)
+            logging.info(f"Successfully exported the property data to a CSV file")
+        except Exception as e:
+            logging.error(f"Error exporting the property data: {e}")
+            return
+
+    def _getDataCSVName(self):
+        current_datetime = datetime.now()
+        formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H:%M:%S")
+        filename = "property_data"+ formatted_datetime + ".csv"
+        return filename
