@@ -207,3 +207,15 @@ def test_validatePropertyReserved(fixture_real_state_agency_and_reserved_data):
     pd.testing.assert_frame_equal(
         properties_reserved_properties_data, expected_reserved_properties
     )
+
+def test_getNextPageURLWhenPageIsNotPresent(fixture_data):
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/departamentos-alquiler-palermo.html")
+
+    # Test when "pagina-" is not present in the URL
+    assert provider.getNextPageURL() == "https://www.zonaprop.com.ar/departamentos-alquiler-palermo-pagina-2.html"
+    
+def test_getNextPageURLWhenPageIsPresent(fixture_data):
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/departamentos-alquiler-palermo-pagina-2.html")
+
+    # Test when "pagina-" is present in the URL
+    assert provider.getNextPageURL() == "https://www.zonaprop.com.ar/departamentos-alquiler-palermo-pagina-3.html"
