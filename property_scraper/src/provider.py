@@ -7,7 +7,7 @@ from src.propertyData import PropertyData
 class Provider:
     def __init__(self, provider_data):
         self.data = provider_data
-        self.properties = None
+        self.properties = []
 
     def getDataFromProperties(self):
         propertiesDataframe = pd.DataFrame(
@@ -50,23 +50,24 @@ class zonapropProvider(Provider):
         properties = []
 
         for data_container in data_qa_divs:
-            property = PropertyData(
-                self._get_price(data_container),
-                self._get_expenses(data_container),
-                self._get_expenses_type(data_container),
-                self._get_bathrooms(data_container),
-                self._get_bedrooms(data_container),
-                self._get_total_rooms(data_container),
-                self._get_covered_area(data_container),
-                self._get_total_area(data_container),
-                self._get_currency(data_container),
-                self._get_description(data_container),
-                self._get_parking(data_container),
-                self._get_url(data_container),
-                self._get_location(data_container),
-                self._get_real_state_agency(data_container),
-                self._get_reserved(data_container),
-            )
+            attributes = {
+                "price": self._get_price(data_container),
+                "expenses": self._get_expenses(data_container),
+                "expenses_type": self._get_expenses_type(data_container),
+                "bathrooms": self._get_bathrooms(data_container),
+                "bedrooms": self._get_bedrooms(data_container),
+                "total_rooms": self._get_total_rooms(data_container),
+                "covered_area": self._get_covered_area(data_container),
+                "total_area": self._get_total_area(data_container),
+                "currency": self._get_currency(data_container),
+                "description": self._get_description(data_container),
+                "parking": self._get_parking(data_container),
+                "url": self._get_url(data_container),
+                "location": self._get_location(data_container),
+                "real_state_agency": self._get_real_state_agency(data_container),
+                "reserved": self._get_reserved(data_container),
+            }
+            property = PropertyData(**attributes)
             properties.append(property)
 
         return properties
@@ -83,7 +84,7 @@ class zonapropProvider(Provider):
                 expenses_element.text.strip()
             )  # Extract text and remove leading/trailing spaces
         else:
-            expenses = pd.NA  # Assign NaN if expenses_element is not found
+            return pd.NA  # Assign NaN if expenses_element is not found
 
         return expenses
 

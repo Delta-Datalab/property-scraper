@@ -50,22 +50,22 @@ class Scraper:
             return
 
     def getProvider(self, url):
-            """
-            Retrieves the provider for the given URL.
+        """
+        Retrieves the provider for the given URL.
 
-            Args:
-                url (str): The URL to fetch the provider from.
+        Args:
+            url (str): The URL to fetch the provider from.
 
-            Returns:
-                Provider: The provider object for the given URL.
-            """
-            data = self.browser.fetch_page(url)
-            parsedData = BeautifulSoup(data, "html.parser")
+        Returns:
+            Provider: The provider object for the given URL.
+        """
+        data = self.browser.fetch_page(url)
+        parsedData = BeautifulSoup(data, "html.parser")
 
-            parsed_url = urlparse(url).netloc
-            provider = ProviderFactory.create_provider(parsed_url, parsedData)
-            return provider
-        
+        parsed_url = urlparse(url).netloc
+        provider = ProviderFactory.create_provider(parsed_url, parsedData)
+        return provider
+
     def exportPropertyDataToCSV(self, propertyData):
         """Exports the property data to a CSV file.
 
@@ -88,5 +88,5 @@ class Scraper:
     def _getDataCSVName(self):
         current_datetime = datetime.now()
         formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H:%M:%S")
-        filename = "property_data"+ formatted_datetime + ".csv"
+        filename = "property_data" + formatted_datetime + ".csv"
         return filename

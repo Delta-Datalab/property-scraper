@@ -3,55 +3,26 @@ import pandas as pd
 
 
 class PropertyData:
-    def __init__(
-        self,
-        price,
-        expenses,
-        expenses_type,
-        bathrooms,
-        bedrooms,
-        total_rooms,
-        covered_area,
-        total_area,
-        currency,
-        description,
-        parking,
-        url,
-        location,
-        real_state_agency,
-        reserved,
-    ):
-        self.price = price
-        self.expenses = expenses
-        self.expenses_type = expenses_type
-        self.bathrooms = bathrooms
-        self.bedrooms = bedrooms
-        self.total_rooms = total_rooms
-        self.covered_area = covered_area
-        self.total_area = total_area
-        self.currency = currency
-        self.description = description
-        self.parking = parking
-        self.url = url
-        self.location = location
-        self.real_state_agency = real_state_agency
-        self.reserved = reserved
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
 
-    def addTo(self, dataframe):
-        dataframe.loc[len(dataframe.index)] = [
-            self.url,
-            self.price,
-            self.currency,
-            self.expenses,
-            self.expenses_type,
-            self.location,
-            self.total_area,
-            self.covered_area,
-            self.total_rooms,
-            self.bathrooms,
-            self.bedrooms,
-            self.parking,
-            self.real_state_agency,
-            self.reserved,
-            self.description,
-        ]
+    def addTo(self, propertiesDataframe):
+        rowPropertyData = {
+            "url": self.url,
+            "price": self.price,
+            "currency": self.currency,
+            "expenses": self.expenses,
+            "expenses_type": self.expenses_type,
+            "location": self.location,
+            "total_area": self.total_area,
+            "covered_area": self.covered_area,
+            "total_rooms": self.total_rooms,
+            "bathrooms": self.bathrooms,
+            "bedrooms": self.bedrooms,
+            "parking": self.parking,
+            "real_state_agency": self.real_state_agency,
+            "reserved": self.reserved,
+            "description": self.description,
+        }
+
+        propertiesDataframe.loc[len(propertiesDataframe)] = rowPropertyData

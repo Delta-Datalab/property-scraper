@@ -114,9 +114,6 @@ def test_validatePropertyCoveredArea(fixture_data):
 
     expected_covered_area = getCoveredAreaFromFixtureData()
 
-    print(properties_covered_area_data)
-    print(expected_covered_area)
-
     pd.testing.assert_frame_equal(properties_covered_area_data, expected_covered_area)
 
 
