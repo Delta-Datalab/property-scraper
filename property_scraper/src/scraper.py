@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from src.propertyParser import ProviderFactory
 from datetime import datetime
-from urllib.parse import urlparse
 from config import *
 
 import logging
@@ -22,6 +21,7 @@ logging.basicConfig(
 class Scraper:
     def __init__(self, browser):
         self.browser = browser
+        self.procesedProviderURLs = []
 
     def exportPropertiesDataToCSV(self, url):
         """Scrapes the data property from the given URL and stores it in a dataframe.
@@ -37,11 +37,16 @@ class Scraper:
             logging.info(
                 f"Starting to scrape the data property and storage to a dataframe"
             )
-            provider = self.getProvider(url)
+            response = self.browser.fetch_page(url)
+            if response.url in self.procesedProviderURLs:
+                return
+            self.procesedProviderURLs.append(response.url)
+            provider = self.getProvider(response)
 
             propertyDataDataFrame = provider.getDataFromProperties()
 
             self.exportPropertyDataToCSV(propertyDataDataFrame)
+            self.exportPropertiesDataToCSV(provider.getNextPageURL())
             logging.info(
                 f"Successfully scrape the data property and storage to a dataframe"
             )
@@ -49,7 +54,7 @@ class Scraper:
             logging.error(f"Error scraping the property data: {e}")
             return
 
-    def getProvider(self, url):
+    def getProvider(self, response):
         """
         Retrieves the provider for the given URL.
 
@@ -59,11 +64,10 @@ class Scraper:
         Returns:
             Provider: The provider object for the given URL.
         """
-        data = self.browser.fetch_page(url)
+        data = response.text
         parsedData = BeautifulSoup(data, "html.parser")
 
-        parsed_url = urlparse(url).netloc
-        provider = ProviderFactory.create_provider(parsed_url, parsedData)
+        provider = ProviderFactory.create_provider(response.url, parsedData)
         return provider
 
     def exportPropertyDataToCSV(self, propertyData):

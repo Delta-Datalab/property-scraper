@@ -1,5 +1,6 @@
 import numpy as np
 
+from urllib.parse import urlparse 
 from src.provieders.zonaprop import zonapropProvider
 
 
@@ -20,8 +21,9 @@ class ProviderFactory:
             ValueError: If the URL is not supported.
 
         """
-        if url == "www.zonaprop.com.ar":
-            provider = zonapropProvider(provider_data)
+        parsedURL = urlparse(url).netloc
+        if parsedURL == "www.zonaprop.com.ar":
+            provider = zonapropProvider(provider_data, url)
         else:
             raise ValueError("Invalid type of Provider")
 

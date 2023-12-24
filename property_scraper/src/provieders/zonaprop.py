@@ -5,12 +5,20 @@ import pandas as pd
 
 
 class zonapropProvider(Provider):
-    def __init__(self, data):
-        super().__init__(data)
-        self.properties = self._collectPropertiesData(self.data)
+    def __init__(self, providerHTMLData, aProviderURL):
+        super().__init__(providerHTMLData)
+        self.properties = self._collectPropertiesData(providerHTMLData)
+        self.url = aProviderURL
 
     def getDataFromProperties(self):
         return super().getDataFromProperties()
+    
+    def getNextPageURL(self):
+        if "pagina-" in self.url:
+            page = int(self.url.split("-")[-1].split(".")[0]) + 1
+            return (self.url.replace(f"-pagina-{page-1}.html", f"-pagina-{page}.html"))
+        else:
+            return (self.url.replace(".html", f"-pagina-{2}.html"))
 
     def _collectPropertiesData(self, data):
         data_qa_divs = data.find_all("div", {"data-posting-type": "PROPERTY"})
