@@ -131,7 +131,9 @@ def test_validatePropertyTotalArea(fixture_data):
 
 
 def test_validatePropertyDescription(fixture_description_data):
-    provider = zonapropProvider(fixture_description_data,"https://www.zonaprop.com.ar/")
+    provider = zonapropProvider(
+        fixture_description_data, "https://www.zonaprop.com.ar/"
+    )
     properties_description_data = provider.getDataFromProperties()[
         "description"
     ].to_frame()
@@ -159,7 +161,9 @@ def test_validatePropertyCurrency(fixture_data):
 
 
 def test_validatePropertyUrl(fixture_description_data):
-    provider = zonapropProvider(fixture_description_data,"https://www.zonaprop.com.ar/")
+    provider = zonapropProvider(
+        fixture_description_data, "https://www.zonaprop.com.ar/"
+    )
     properties_url_data = provider.getDataFromProperties()["url"].to_frame()
 
     expected_url = getUrlFromFixtureData()
@@ -176,7 +180,9 @@ def test_validatePropertyLocation(fixture_data):
 
 
 def test_validateRealStateAgency(fixture_real_state_agency_and_reserved_data):
-    provider = zonapropProvider(fixture_real_state_agency_and_reserved_data, "https://www.zonaprop.com.ar/")
+    provider = zonapropProvider(
+        fixture_real_state_agency_and_reserved_data, "https://www.zonaprop.com.ar/"
+    )
     properties_real_state_agency_data = provider.getDataFromProperties()[
         "real_state_agency"
     ].to_frame()
@@ -189,7 +195,9 @@ def test_validateRealStateAgency(fixture_real_state_agency_and_reserved_data):
 
 
 def test_validatePropertyReserved(fixture_real_state_agency_and_reserved_data):
-    provider = zonapropProvider(fixture_real_state_agency_and_reserved_data, "https://www.zonaprop.com.ar/")
+    provider = zonapropProvider(
+        fixture_real_state_agency_and_reserved_data, "https://www.zonaprop.com.ar/"
+    )
     properties_reserved_properties_data = provider.getDataFromProperties()[
         "reserved"
     ].to_frame()

@@ -12,13 +12,13 @@ class zonapropProvider(Provider):
 
     def getDataFromProperties(self):
         return super().getDataFromProperties()
-    
+
     def getNextPageURL(self):
         if "pagina-" in self.url:
             page = int(self.url.split("-")[-1].split(".")[0]) + 1
-            return (self.url.replace(f"-pagina-{page-1}.html", f"-pagina-{page}.html"))
+            return self.url.replace(f"-pagina-{page-1}.html", f"-pagina-{page}.html")
         else:
-            return (self.url.replace(".html", f"-pagina-{2}.html"))
+            return self.url.replace(".html", f"-pagina-{2}.html")
 
     def _collectPropertiesData(self, data):
         data_qa_divs = data.find_all("div", {"data-posting-type": "PROPERTY"})

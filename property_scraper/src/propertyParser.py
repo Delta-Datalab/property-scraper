@@ -1,6 +1,6 @@
 import numpy as np
 
-from urllib.parse import urlparse 
+from urllib.parse import urlparse
 from src.provieders.zonaprop import zonapropProvider
 
 
