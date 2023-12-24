@@ -58,7 +58,7 @@ def getExpensesFromFixtureData():
     return expenses_df
 
 
-def getExpensesTypeFromFixtureData():
+def getExpensesCurrencyFromFixtureData():
     data = [
         ["$"],
         ["$"],
@@ -82,8 +82,8 @@ def getExpensesTypeFromFixtureData():
         ["$"],
     ]
 
-    expenses_type_df = pd.DataFrame(data, columns=["expenses_type"])
-    return expenses_type_df
+    expenses_currency_df = pd.DataFrame(data, columns=["expenses_currency"])
+    return expenses_currency_df
 
 
 def getBathroomsFromFixtureData():

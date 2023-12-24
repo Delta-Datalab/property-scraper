@@ -7,12 +7,21 @@ class PropertyData:
         self.__dict__.update(kwargs)
 
     def addTo(self, propertiesDataframe):
+        """
+        Add property data to the given properties dataframe.
+
+        Args:
+            propertiesDataframe (pandas.DataFrame): The dataframe to which the property data will be added.
+
+        Returns:
+            None
+        """
         rowPropertyData = {
             "url": self.url,
             "price": self.price,
             "currency": self.currency,
             "expenses": self.expenses,
-            "expenses_type": self.expenses_type,
+            "expenses_currency": self.expenses_currency,
             "location": self.location,
             "total_area": self.total_area,
             "covered_area": self.covered_area,

@@ -13,4 +13,4 @@ class Extract:
         browser = Browser()
         scraper = Scraper(browser)
 
-        scraper.scrape_data_properties_to_df(url)
+        scraper.exportPropertiesDataToCSV(url)

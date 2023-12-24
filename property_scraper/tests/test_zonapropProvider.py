@@ -66,15 +66,17 @@ def test_validatePropertyExpenses(fixture_data):
     pd.testing.assert_frame_equal(properties_expenses_data, expected_expenses)
 
 
-def test_validatePropertyExpensesType(fixture_data):
+def test_validatePropertyExpensesCurrency(fixture_data):
     provider = zonapropProvider(fixture_data)
-    properties_expenses_type_data = provider.getDataFromProperties()[
-        "expenses_type"
+    properties_expenses_currency_data = provider.getDataFromProperties()[
+        "expenses_currency"
     ].to_frame()
 
-    expected_expenses_type = getExpensesTypeFromFixtureData()
+    expected_expenses_currency = getExpensesCurrencyFromFixtureData()
 
-    pd.testing.assert_frame_equal(properties_expenses_type_data, expected_expenses_type)
+    pd.testing.assert_frame_equal(
+        properties_expenses_currency_data, expected_expenses_currency
+    )
 
 
 def test_validatePropertyBathrooms(fixture_data):

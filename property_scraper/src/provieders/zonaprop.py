@@ -21,7 +21,7 @@ class zonapropProvider(Provider):
             attributes = {
                 "price": self._get_price(data_container),
                 "expenses": self._get_expenses(data_container),
-                "expenses_type": self._get_expenses_type(data_container),
+                "expenses_currency": self._get_expenses_currency(data_container),
                 "bathrooms": self._get_bathrooms(data_container),
                 "bedrooms": self._get_bedrooms(data_container),
                 "total_rooms": self._get_total_rooms(data_container),
@@ -56,18 +56,18 @@ class zonapropProvider(Provider):
 
         return expenses
 
-    def _get_expenses_type(self, data):
-        expensesType = pd.NA
+    def _get_expenses_currency(self, data):
+        expensesCurrency = pd.NA
         expenses = self._get_expenses(data)
 
         if pd.isna(expenses):
-            return expensesType
+            return expensesCurrency
         if expenses[0] == "U":
-            expensesType = "USD"
+            expensesCurrency = "USD"
         if expenses[0] == "$":
-            expensesType = "$"
+            expensesCurrency = "$"
 
-        return expensesType
+        return expensesCurrency
 
     def _get_bathrooms(self, data):
         property_attributes = self._get_property_attributes(data)

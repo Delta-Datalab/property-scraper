@@ -78,7 +78,7 @@ class Scraper:
         try:
             logging.info(f"Starting to export the property data to a CSV file")
             filename = self._getDataCSVName()
-            outputDataDir = os.path.dirname(DATA_DIR, filename)
+            outputDataDir = os.path.join(DATA_DIR, filename)
             propertyData.to_csv(outputDataDir)
             logging.info(f"Successfully exported the property data to a CSV file")
         except Exception as e:
@@ -87,6 +87,6 @@ class Scraper:
 
     def _getDataCSVName(self):
         current_datetime = datetime.now()
-        formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H:%M:%S")
-        filename = "property_data" + formatted_datetime + ".csv"
+        formatted_datetime = current_datetime.strftime("%Y-%m-%d-%H:%M:%S")
+        filename = "property_data-" + formatted_datetime + ".csv"
         return filename
