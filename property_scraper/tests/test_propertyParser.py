@@ -2,7 +2,7 @@ import pytest
 import os
 from bs4 import BeautifulSoup
 
-from src.provider import zonapropProvider
+from src.provieders.zonaprop import zonapropProvider
 from src.propertyParser import ProviderFactory
 
 

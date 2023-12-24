@@ -5,7 +5,7 @@ import pandas as pd
 
 from src.browser import Browser
 from src.scraper import Scraper
-from src.provider import *
+from src.provieders.zonaprop import zonapropProvider
 from tests.fixtures.zonapropExpectedData import *
 from bs4 import BeautifulSoup
 

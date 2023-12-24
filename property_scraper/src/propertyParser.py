@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.provider import zonapropProvider
+from src.provieders.zonaprop import zonapropProvider
 
 
 class ProviderFactory:
