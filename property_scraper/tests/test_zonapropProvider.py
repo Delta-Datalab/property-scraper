@@ -49,7 +49,7 @@ def scraper():
 
 
 def test_validatePropertyPrices(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_prices_data = provider.getDataFromProperties()["price"].to_frame()
 
     expected_prices = getPricesFromFixtureData()
@@ -58,7 +58,7 @@ def test_validatePropertyPrices(fixture_data):
 
 
 def test_validatePropertyExpenses(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_expenses_data = provider.getDataFromProperties()["expenses"].to_frame()
 
     expected_expenses = getExpensesFromFixtureData()
@@ -67,7 +67,7 @@ def test_validatePropertyExpenses(fixture_data):
 
 
 def test_validatePropertyExpensesCurrency(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_expenses_currency_data = provider.getDataFromProperties()[
         "expenses_currency"
     ].to_frame()
@@ -80,7 +80,7 @@ def test_validatePropertyExpensesCurrency(fixture_data):
 
 
 def test_validatePropertyBathrooms(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_bathroom_data = provider.getDataFromProperties()["bathrooms"].to_frame()
 
     expected_bathrooms = getBathroomsFromFixtureData()
@@ -89,7 +89,7 @@ def test_validatePropertyBathrooms(fixture_data):
 
 
 def test_validatePropertyBedrooms(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_bedrooms_data = provider.getDataFromProperties()["bedrooms"].to_frame()
 
     expected_bedrooms = getBedroomsFromFixtureData()
@@ -98,7 +98,7 @@ def test_validatePropertyBedrooms(fixture_data):
 
 
 def test_validatePropertyTotalRooms(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_total_rooms_data = provider.getDataFromProperties()[
         "total_rooms"
     ].to_frame()
@@ -109,7 +109,7 @@ def test_validatePropertyTotalRooms(fixture_data):
 
 
 def test_validatePropertyCoveredArea(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_covered_area_data = provider.getDataFromProperties()[
         "covered_area"
     ].to_frame()
@@ -120,7 +120,7 @@ def test_validatePropertyCoveredArea(fixture_data):
 
 
 def test_validatePropertyTotalArea(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_total_area_data = provider.getDataFromProperties()[
         "total_area"
     ].to_frame()
@@ -131,7 +131,9 @@ def test_validatePropertyTotalArea(fixture_data):
 
 
 def test_validatePropertyDescription(fixture_description_data):
-    provider = zonapropProvider(fixture_description_data)
+    provider = zonapropProvider(
+        fixture_description_data, "https://www.zonaprop.com.ar/"
+    )
     properties_description_data = provider.getDataFromProperties()[
         "description"
     ].to_frame()
@@ -142,7 +144,7 @@ def test_validatePropertyDescription(fixture_description_data):
 
 
 def test_validatePropertyParking(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_parking_data = provider.getDataFromProperties()["parking"].to_frame()
 
     expected_parking = getParkingFromFixtureData()
@@ -151,7 +153,7 @@ def test_validatePropertyParking(fixture_data):
 
 
 def test_validatePropertyCurrency(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_currency_data = provider.getDataFromProperties()["currency"].to_frame()
 
     expected_currency = getCurrencyFromFixtureData()
@@ -159,7 +161,9 @@ def test_validatePropertyCurrency(fixture_data):
 
 
 def test_validatePropertyUrl(fixture_description_data):
-    provider = zonapropProvider(fixture_description_data)
+    provider = zonapropProvider(
+        fixture_description_data, "https://www.zonaprop.com.ar/"
+    )
     properties_url_data = provider.getDataFromProperties()["url"].to_frame()
 
     expected_url = getUrlFromFixtureData()
@@ -167,7 +171,7 @@ def test_validatePropertyUrl(fixture_description_data):
 
 
 def test_validatePropertyLocation(fixture_data):
-    provider = zonapropProvider(fixture_data)
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
     properties_location_data = provider.getDataFromProperties()["location"].to_frame()
 
     expected_location = getLocationFromFixtureData()
@@ -176,7 +180,9 @@ def test_validatePropertyLocation(fixture_data):
 
 
 def test_validateRealStateAgency(fixture_real_state_agency_and_reserved_data):
-    provider = zonapropProvider(fixture_real_state_agency_and_reserved_data)
+    provider = zonapropProvider(
+        fixture_real_state_agency_and_reserved_data, "https://www.zonaprop.com.ar/"
+    )
     properties_real_state_agency_data = provider.getDataFromProperties()[
         "real_state_agency"
     ].to_frame()
@@ -189,7 +195,9 @@ def test_validateRealStateAgency(fixture_real_state_agency_and_reserved_data):
 
 
 def test_validatePropertyReserved(fixture_real_state_agency_and_reserved_data):
-    provider = zonapropProvider(fixture_real_state_agency_and_reserved_data)
+    provider = zonapropProvider(
+        fixture_real_state_agency_and_reserved_data, "https://www.zonaprop.com.ar/"
+    )
     properties_reserved_properties_data = provider.getDataFromProperties()[
         "reserved"
     ].to_frame()
@@ -198,4 +206,29 @@ def test_validatePropertyReserved(fixture_real_state_agency_and_reserved_data):
 
     pd.testing.assert_frame_equal(
         properties_reserved_properties_data, expected_reserved_properties
+    )
+
+
+def test_getNextPageURLWhenPageIsNotPresent(fixture_data):
+    provider = zonapropProvider(
+        fixture_data, "https://www.zonaprop.com.ar/departamentos-alquiler-palermo.html"
+    )
+
+    # Test when "pagina-" is not present in the URL
+    assert (
+        provider.getNextPageURL()
+        == "https://www.zonaprop.com.ar/departamentos-alquiler-palermo-pagina-2.html"
+    )
+
+
+def test_getNextPageURLWhenPageIsPresent(fixture_data):
+    provider = zonapropProvider(
+        fixture_data,
+        "https://www.zonaprop.com.ar/departamentos-alquiler-palermo-pagina-2.html",
+    )
+
+    # Test when "pagina-" is present in the URL
+    assert (
+        provider.getNextPageURL()
+        == "https://www.zonaprop.com.ar/departamentos-alquiler-palermo-pagina-3.html"
     )

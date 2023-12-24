@@ -53,3 +53,12 @@ class Provider:
             propertyData.addTo(propertiesDataframe)
 
         return propertiesDataframe
+
+    def getNextPageURL(self):
+        """
+        Retrieves the URL of the next page.
+
+        Returns:
+            str: The URL of the next page.
+        """
+        pass
