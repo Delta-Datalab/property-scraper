@@ -4,6 +4,7 @@ from config import *
 from src.scraper import Scraper
 from src.providerFactory import ProviderFactory
 from bs4 import BeautifulSoup
+from freezegun import freeze_time
 
 
 @pytest.fixture
@@ -16,7 +17,17 @@ def mock_browser_non_200(mocker):
     return mocked_browser
 
 
-def test_handlesNon200Response(mock_browser_non_200):
+@pytest.fixture
+def mock_browser_200(mocker):
+    mocked_browser = mock.Mock()
+    mockedResponse = mock.Mock()
+    mockedResponse.url = "https://example.com"
+    mockedResponse.status_code = 200
+    mocked_browser.fetch_page.return_value = mockedResponse
+    return mocked_browser
+
+
+def test_scraperHandlesNon200Response(mock_browser_non_200):
     scraper = Scraper(mock_browser_non_200)
     url = "https://example.com"
 
@@ -29,7 +40,7 @@ def test_handlesNon200Response(mock_browser_non_200):
     assert mockedExportPropertyDataToCSV.call_count == 0
 
 
-def test_getProvider(mocker):
+def test_scraperGetProviderCorrectly(mocker):
     mockedResponse = mock.Mock()
     mockedResponse.url = "https://www.zonaprop.com.ar/"
     mockedResponse.text = "Mocked HTML content"
@@ -42,3 +53,35 @@ def test_getProvider(mocker):
 
     assert provider is not None
     mockedCreateProvider.assert_called_once_with(mockedResponse.url, parsedData)
+
+
+@freeze_time("2000-01-01 12:00:00")
+def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
+    filename = "property_data-2000-01-01-12:00:00.csv"
+    expectedOutputDataDir = os.path.join(DATA_DIR, filename)
+
+    mockedPropertyData = mocker.Mock()
+    mockedPropertyData.to_csv = mocker.Mock()
+    scraper = Scraper(mock.Mock())
+
+    scraper.exportPropertyDataToCSV(mockedPropertyData)
+
+    mockedPropertyData.to_csv.assert_called_once_with(expectedOutputDataDir)
+
+
+def test_exportPropertiesDataToCSVStopsOnRepeatURL(mocker, mock_browser_200):
+    mocked_provider = mocker.Mock()
+    mocked_provider.getNextPageURL.return_value = "https://example.com"
+
+    mocked_scraper = Scraper(mock_browser_200)
+
+    mocker.patch.object(Scraper, "getProvider", return_value=mocked_provider)
+
+    mocked_exportPropertyDataToCSV = mocker.patch.object(
+        Scraper, "exportPropertyDataToCSV"
+    )
+
+    mocked_scraper.exportPropertiesDataToCSV("https://example.com")
+
+    assert mocked_exportPropertyDataToCSV.call_count == 1
+    mocked_provider.getNextPageURL.assert_called_once()

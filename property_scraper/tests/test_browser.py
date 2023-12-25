@@ -1,8 +1,6 @@
 import pytest
 import mock
-from src.browser import (
-    Browser,
-)  # Replace 'your_module_name' with the module where the Browser class resides
+from src.browser import Browser
 
 
 @pytest.fixture
@@ -28,6 +26,7 @@ def test_fetchPageSuccess(mock_scraper):
     browser = Browser()
     url = "https://www.example.com"
     response = browser.fetch_page(url)
+
     assert response is not None
     assert response.status_code == 200
     assert "Mocked response content" in response.text
@@ -37,4 +36,5 @@ def test_fetchPageNot200(mock_scraper_not_200):
     browser = Browser()
     url = "https://www.example.com"
     response = browser.fetch_page(url)
+
     assert response is None
