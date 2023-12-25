@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from src.providerFactory import ProviderFactory
+from src.propertyParser import ProviderFactory
 from datetime import datetime
 from config import *
 
@@ -38,8 +38,6 @@ class Scraper:
                 f"Starting to scrape the data property and storage to a dataframe"
             )
             response = self.browser.fetch_page(url)
-            if response == None:
-                return
             if response.url in self.procesedProviderURLs:
                 return
             self.procesedProviderURLs.append(response.url)

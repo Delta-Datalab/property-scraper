@@ -5,7 +5,7 @@ import pandas as pd
 
 from src.browser import Browser
 from src.scraper import Scraper
-from src.providers.zonaprop import zonapropProvider
+from src.provieders.zonaprop import zonapropProvider
 from tests.fixtures.zonapropExpectedData import *
 from bs4 import BeautifulSoup
 
@@ -41,6 +41,11 @@ def fixture_real_state_agency_and_reserved_data():
     with open(fixture_directory, "r") as file:
         html_content = file.read()
     return BeautifulSoup(html_content, "html.parser")
+
+
+@pytest.fixture
+def scraper():
+    return Scraper(Browser())
 
 
 def test_validatePropertyPrices(fixture_data):
