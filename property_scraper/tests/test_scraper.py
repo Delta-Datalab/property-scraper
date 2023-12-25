@@ -8,7 +8,7 @@ from freezegun import freeze_time
 
 
 @pytest.fixture
-def mock_browser_non_200(mocker):
+def mock_browserWithResponseNot200(mocker):
     mocked_browser = mock.Mock()
     mockedResponse = mock.Mock()
     mockedResponse.url = "https://example.com"
@@ -18,7 +18,7 @@ def mock_browser_non_200(mocker):
 
 
 @pytest.fixture
-def mock_browser_200(mocker):
+def mock_browserWithResponse200(mocker):
     mocked_browser = mock.Mock()
     mockedResponse = mock.Mock()
     mockedResponse.url = "https://example.com"
@@ -27,11 +27,11 @@ def mock_browser_200(mocker):
     return mocked_browser
 
 
-def test_scraperHandlesNon200Response(mock_browser_non_200):
-    scraper = Scraper(mock_browser_non_200)
+def test_scraperHandlesNon200Response(mock_browserWithResponseNot200):
+    scraper = Scraper(mock_browserWithResponseNot200)
     url = "https://example.com"
 
-    mockedExportPropertyDataToCSV = mock_browser_non_200.patch.object(
+    mockedExportPropertyDataToCSV = mock_browserWithResponseNot200.patch.object(
         Scraper, "exportPropertyDataToCSV"
     )
 
@@ -69,11 +69,11 @@ def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
     mockedPropertyData.to_csv.assert_called_once_with(expectedOutputDataDir)
 
 
-def test_exportPropertiesDataToCSVStopsOnRepeatURL(mocker, mock_browser_200):
+def test_exportPropertiesDataToCSVStopsOnRepeatURL(mocker, mock_browserWithResponse200):
     mocked_provider = mocker.Mock()
     mocked_provider.getNextPageURL.return_value = "https://example.com"
 
-    mocked_scraper = Scraper(mock_browser_200)
+    mocked_scraper = Scraper(mock_browserWithResponse200)
 
     mocker.patch.object(Scraper, "getProvider", return_value=mocked_provider)
 

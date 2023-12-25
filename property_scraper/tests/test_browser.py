@@ -14,7 +14,7 @@ def mock_scraper(mocker):
 
 
 @pytest.fixture
-def mock_scraper_not_200(mocker):
+def mock_scraperWithResponseNot200(mocker):
     mocked_scraper = mocker.patch("src.browser.cloudscraper.create_scraper")
     mocked_response = mock.Mock()
     mocked_response.status_code = 404
@@ -32,7 +32,7 @@ def test_fetchPageSuccess(mock_scraper):
     assert "Mocked response content" in response.text
 
 
-def test_fetchPageNot200(mock_scraper_not_200):
+def test_fetchPageNot200(mock_scraperWithResponseNot200):
     browser = Browser()
     url = "https://www.example.com"
     response = browser.fetch_page(url)
