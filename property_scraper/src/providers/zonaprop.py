@@ -1,4 +1,4 @@
-from src.provieders.provider import Provider
+from src.providers.provider import Provider
 from src.propertyData import PropertyData
 
 import pandas as pd

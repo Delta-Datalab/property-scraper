@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from src.propertyParser import ProviderFactory
+from src.providerFactory import ProviderFactory
 from datetime import datetime
 from config import *
 
@@ -38,6 +38,8 @@ class Scraper:
                 f"Starting to scrape the data property and storage to a dataframe"
             )
             response = self.browser.fetch_page(url)
+            if response == None:
+                return
             if response.url in self.procesedProviderURLs:
                 return
             self.procesedProviderURLs.append(response.url)
@@ -46,10 +48,10 @@ class Scraper:
             propertyDataDataFrame = provider.getDataFromProperties()
 
             self.exportPropertyDataToCSV(propertyDataDataFrame)
-            self.exportPropertiesDataToCSV(provider.getNextPageURL())
             logging.info(
                 f"Successfully scrape the data property and storage to a dataframe"
             )
+            self.exportPropertiesDataToCSV(provider.getNextPageURL())
         except Exception as e:
             logging.error(f"Error scraping the property data: {e}")
             return
@@ -79,15 +81,12 @@ class Scraper:
         Returns:
             None
         """
-        try:
-            logging.info(f"Starting to export the property data to a CSV file")
-            filename = self._getDataCSVName()
-            outputDataDir = os.path.join(DATA_DIR, filename)
-            propertyData.to_csv(outputDataDir)
-            logging.info(f"Successfully exported the property data to a CSV file")
-        except Exception as e:
-            logging.error(f"Error exporting the property data: {e}")
-            return
+
+        logging.info(f"Starting to export the property data to a CSV file")
+        filename = self._getDataCSVName()
+        outputDataDir = os.path.join(DATA_DIR, filename)
+        propertyData.to_csv(outputDataDir)
+        logging.info(f"Successfully exported the property data to a CSV file")
 
     def _getDataCSVName(self):
         current_datetime = datetime.now()
