@@ -4,3 +4,4 @@
 /data
 /.vscode
 /tests/__pycache__
+coverage.xml

@@ -1,7 +1,7 @@
 import numpy as np
 
 from urllib.parse import urlparse
-from src.provieders.zonaprop import zonapropProvider
+from src.providers.zonaprop import zonapropProvider
 
 
 class ProviderFactory:
