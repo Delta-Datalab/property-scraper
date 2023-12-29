@@ -36,7 +36,7 @@ class zonapropProvider(Provider):
             return self.url.replace(f"-pagina-{page-1}.html", f"-pagina-{page}.html")
         else:
             return self.url.replace(".html", f"-pagina-{2}.html")
-        
+
     def _propertyDataLogger(self, func, propertyDataDiv):
         logging.info(
             f"Scraping property attribute data from {self.url} using {func.__name__}."
@@ -84,13 +84,11 @@ class zonapropProvider(Provider):
     @_getPropertyData
     def getPropertiesExpenses(self, propertyDataDiv):
         expenses_element = propertyDataDiv.find("div", {"data-qa": "expensas"})
-        
+
         if expenses_element is None:
             return pd.NA
         else:
-            expenses = str(
-                expenses_element.text.strip()
-            )  
+            expenses = str(expenses_element.text.strip())
 
         return expenses
 
