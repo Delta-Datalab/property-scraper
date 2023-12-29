@@ -38,9 +38,7 @@ class Scraper:
                 f"Starting to scrape the data property and storage to a dataframe"
             )
             response = self.browser.fetch_page(url)
-            if response == None:
-                return
-            if response.url in self.procesedProviderURLs:
+            if self._assertResponseIsInvalid(response):
                 return
             self.procesedProviderURLs.append(response.url)
             provider = self.getProvider(response)
@@ -55,6 +53,15 @@ class Scraper:
         except Exception as e:
             logging.error(f"Error scraping the property data: {e}")
             return
+
+    def _assertResponseIsInvalid(self, response):
+        if self._assertURLisProcessed(response):
+            return True
+        return response == None
+
+    def _assertURLisProcessed(self, response):
+        response.url = response.url.replace(":443", "")
+        return response.url in self.procesedProviderURLs
 
     def getProvider(self, response):
         """
