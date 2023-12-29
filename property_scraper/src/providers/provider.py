@@ -2,9 +2,8 @@ import pandas as pd
 
 
 class Provider:
-    def __init__(self, provider_data):
-        self.data = provider_data
-        self.properties = []
+    def __init__(self, providerHTMLData):
+        self.data = providerHTMLData
 
     def getDataFromProperties(self):
         """
@@ -29,30 +28,7 @@ class Provider:
             - description: The description of the property.
         """
 
-        propertiesDataframe = pd.DataFrame(
-            columns=[
-                "url",
-                "price",
-                "currency",
-                "expenses",
-                "expenses_currency",
-                "location",
-                "total_area",
-                "covered_area",
-                "total_rooms",
-                "bathrooms",
-                "bedrooms",
-                "parking",
-                "real_state_agency",
-                "reserved",
-                "description",
-            ]
-        )
-
-        for propertyData in self.properties:
-            propertyData.addTo(propertiesDataframe)
-
-        return propertiesDataframe
+        pass
 
     def getNextPageURL(self):
         """
@@ -60,5 +36,185 @@ class Provider:
 
         Returns:
             str: The URL of the next page.
+        """
+        pass
+
+    def getPropertiesPrices(self, propertyDataDiv):
+        """
+        Retrieves the prices of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The price of the property.
+        """
+        pass
+
+    def getPropertiesExpenses(self, propertyDataDiv):
+        """
+        Retrieves the expenses of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The expenses of the property.
+        """
+        pass
+
+    def getPropertiesExpensesCurrencies(self, propertyDataDiv):
+        """
+        Retrieves the expenses currencies of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The expenses currency of the property.
+        """
+        pass
+
+    def getPropertiesBathrooms(self, propertyDataDiv):
+        """
+        Retrieves the bathrooms of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The bathrooms of the property.
+        """
+        pass
+
+    def getPropertiesBedrooms(self, propertyDataDiv):
+        """
+        Retrieves the bedrooms of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The bedrooms of the property.
+        """
+        pass
+
+    def getPropertiesTotalRooms(self, propertyDataDiv):
+        """
+        Retrieves the total rooms of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The total rooms of the property.
+        """
+        pass
+
+    def getPropertiesCoveredAreas(self, propertyDataDiv):
+        """
+        Retrieves the covered areas of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The covered areas of the property.
+        """
+        pass
+
+    def getPropertiesTotalAreas(self, propertyDataDiv):
+        """
+        Retrieves the total areas of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The total areas of the property.
+        """
+        pass
+
+    def getPropertiesCurrencies(self, propertyDataDiv):
+        """
+        Retrieves the currencies of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The currencies of the property.
+        """
+        pass
+
+    def getPropertiesDescriptions(self, propertyDataDiv):
+        """
+        Retrieves the descriptions of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The descriptions of the property.
+        """
+        pass
+
+    def getPropertiesParking(self, propertyDataDiv):
+        """
+        Retrieves the parking of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The parking of the property.
+        """
+        pass
+
+    def getPropertiesURLs(self, propertyDataDiv):
+        """
+        Retrieves the URLs of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The URLs of the property.
+        """
+        pass
+
+    def getPropertiesLocations(self, propertyDataDiv):
+        """
+        Retrieves the locations of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The locations of the property.
+        """
+        pass
+
+    def getPropertiesRealStateAgencies(self, propertyDataDiv):
+        """
+        Retrieves the real state agencies of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            bool: The real state agencies of the property.
+        """
+        pass
+
+    def getPropertiesReserved(self, propertyDataDiv):
+        """
+        Retrieves the reserved status of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            bool: The reserved status of the property.
         """
         pass

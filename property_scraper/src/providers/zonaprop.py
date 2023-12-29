@@ -1,5 +1,4 @@
 from src.providers.provider import Provider
-from src.propertyData import PropertyData
 
 import pandas as pd
 
@@ -7,11 +6,28 @@ import pandas as pd
 class zonapropProvider(Provider):
     def __init__(self, providerHTMLData, aProviderURL):
         super().__init__(providerHTMLData)
-        self.properties = self._collectPropertiesData(providerHTMLData)
         self.url = aProviderURL
 
     def getDataFromProperties(self):
-        return super().getDataFromProperties()
+        propertiesData = {
+            "price": self.getPropertiesPrices(),
+            "expenses": self.getPropertiesExpenses(),
+            "expenses_currency": self.getPropertiesExpensesCurrencies(),
+            "bathrooms": self.getPropertiesBathrooms(),
+            "bedrooms": self.getPropertiesBedrooms(),
+            "total_rooms": self.getPropertiesTotalRooms(),
+            "covered_area": self.getPropertiesCoveredAreas(),
+            "total_area": self.getPropertiesTotalAreas(),
+            "currency": self.getPropertiesCurrencies(),
+            "description": self.getPropertiesDescriptions(),
+            "parking": self.getPropertiesParkings(),
+            "url": self.getPropertiesURLs(),
+            "location": self.getPropertiesLocations(),
+            "real_state_agency": self.getPropertiesRealStateAgencies(),
+            "reserved": self.getPropertiesReserved(),
+        }
+
+        return pd.DataFrame(propertiesData)
 
     def getNextPageURL(self):
         if "pagina-" in self.url:
@@ -20,40 +36,28 @@ class zonapropProvider(Provider):
         else:
             return self.url.replace(".html", f"-pagina-{2}.html")
 
-    def _collectPropertiesData(self, data):
-        data_qa_divs = data.find_all("div", {"data-posting-type": "PROPERTY"})
+    def _getPropertyData(func):
+        def getPropertyAttributes(self):
+            propertiesDataDivs = self.data.find_all(
+                "div", {"data-posting-type": "PROPERTY"}
+            )
+            attributeData = []
 
-        properties = []
+            for propertyDataDiv in propertiesDataDivs:
+                attributeData.append(func(self, propertyDataDiv))
 
-        for data_container in data_qa_divs:
-            attributes = {
-                "price": self._get_price(data_container),
-                "expenses": self._get_expenses(data_container),
-                "expenses_currency": self._get_expenses_currency(data_container),
-                "bathrooms": self._get_bathrooms(data_container),
-                "bedrooms": self._get_bedrooms(data_container),
-                "total_rooms": self._get_total_rooms(data_container),
-                "covered_area": self._get_covered_area(data_container),
-                "total_area": self._get_total_area(data_container),
-                "currency": self._get_currency(data_container),
-                "description": self._get_description(data_container),
-                "parking": self._get_parking(data_container),
-                "url": self._get_url(data_container),
-                "location": self._get_location(data_container),
-                "real_state_agency": self._get_real_state_agency(data_container),
-                "reserved": self._get_reserved(data_container),
-            }
-            property = PropertyData(**attributes)
-            properties.append(property)
+            return pd.Series(attributeData)
 
-        return properties
+        return getPropertyAttributes
 
-    def _get_price(self, data):
-        price = str(data.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
+    @_getPropertyData
+    def getPropertiesPrices(self, propertyDataDiv):
+        price = str(propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
         return price
 
-    def _get_expenses(self, data):
-        expenses_element = data.find("div", {"data-qa": "expensas"})
+    @_getPropertyData
+    def getPropertiesExpenses(self, propertyDataDiv):
+        expenses_element = propertyDataDiv.find("div", {"data-qa": "expensas"})
 
         if expenses_element:
             expenses = str(
@@ -64,39 +68,47 @@ class zonapropProvider(Provider):
 
         return expenses
 
-    def _get_expenses_currency(self, data):
-        expensesCurrency = pd.NA
-        expenses = self._get_expenses(data)
+    def getPropertiesExpensesCurrencies(self):
+        expenses = self.getPropertiesExpenses()
 
-        if pd.isna(expenses):
-            return expensesCurrency
-        if expenses[0] == "U":
-            expensesCurrency = "USD"
-        if expenses[0] == "$":
-            expensesCurrency = "$"
+        expensesCurrency = []
 
-        return expensesCurrency
+        for expense in expenses:
+            if pd.isna(expense):
+                expensesCurrency.append(pd.NA)
+            elif expense[0] == "U":
+                expensesCurrency.append("USD")
+            elif expense[0] == "$":
+                expensesCurrency.append("$")
+            else:
+                expensesCurrency.append(pd.NA)
 
-    def _get_bathrooms(self, data):
-        property_attributes = self._get_property_attributes(data)
+        return pd.Series(expensesCurrency)
+
+    @_getPropertyData
+    def getPropertiesBathrooms(self, propertyDataDiv):
+        property_attributes = self._get_property_attributes(propertyDataDiv)
         bathrooms = self._find_property_attributes(property_attributes, "baño")
 
         return bathrooms
 
-    def _get_bedrooms(self, data):
-        property_attributes = self._get_property_attributes(data)
+    @_getPropertyData
+    def getPropertiesBedrooms(self, propertyDataDiv):
+        property_attributes = self._get_property_attributes(propertyDataDiv)
         bedrooms = self._find_property_attributes(property_attributes, "dorm.")
 
         return bedrooms
 
-    def _get_total_rooms(self, data):
-        property_attributes = self._get_property_attributes(data)
+    @_getPropertyData
+    def getPropertiesTotalRooms(self, propertyDataDiv):
+        property_attributes = self._get_property_attributes(propertyDataDiv)
         total_rooms = self._find_property_attributes(property_attributes, "amb.")
 
         return total_rooms
 
-    def _get_covered_area(self, data):
-        property_attributes = self._get_property_attributes(data)
+    @_getPropertyData
+    def getPropertiesCoveredAreas(self, propertyDataDiv):
+        property_attributes = self._get_property_attributes(propertyDataDiv)
         property_area_attributes = self._findAreasFromPropertyAttributes(
             property_attributes
         )
@@ -104,8 +116,9 @@ class zonapropProvider(Provider):
 
         return covered_area
 
-    def _get_total_area(self, data):
-        property_attributes = self._get_property_attributes(data)
+    @_getPropertyData
+    def getPropertiesTotalAreas(self, propertyDataDiv):
+        property_attributes = self._get_property_attributes(propertyDataDiv)
         property_area_attributes = self._findAreasFromPropertyAttributes(
             property_attributes
         )
@@ -113,9 +126,10 @@ class zonapropProvider(Provider):
 
         return total_area
 
-    def _get_currency(self, data):
+    @_getPropertyData
+    def getPropertiesCurrencies(self, propertyDataDiv):
         currency = pd.NA
-        price = str(data.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
+        price = str(propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
 
         if price:
             if price[0] == "U":
@@ -125,41 +139,50 @@ class zonapropProvider(Provider):
 
         return currency
 
-    def _get_description(self, data):
+    @_getPropertyData
+    def getPropertiesDescriptions(self, propertyDataDiv):
         description = pd.NA
-        description_element = data.find("div", {"data-qa": "POSTING_CARD_DESCRIPTION"})
+        description_element = propertyDataDiv.find(
+            "div", {"data-qa": "POSTING_CARD_DESCRIPTION"}
+        )
 
         if description_element:
             description = str(description_element.get_text().strip())
 
         return description
 
-    def _get_parking(self, data):
-        property_attributes = self._get_property_attributes(data)
+    @_getPropertyData
+    def getPropertiesParkings(self, propertyDataDiv):
+        property_attributes = self._get_property_attributes(propertyDataDiv)
         parking = self._find_property_attributes(property_attributes, "coch.")
 
         return parking
 
-    def _get_url(self, data):
+    @_getPropertyData
+    def getPropertiesURLs(self, propertyDataDiv):
         url = pd.NA
-        property_div_url = data.get("data-to-posting")
+        property_div_url = propertyDataDiv.get("data-to-posting")
         if property_div_url:
             url = property_div_url
 
         return url
 
-    def _get_location(self, data):
+    @_getPropertyData
+    def getPropertiesLocations(self, propertyDataDiv):
         location = pd.NA
-        location_element = data.find("div", {"data-qa": "POSTING_CARD_LOCATION"})
+        location_element = propertyDataDiv.find(
+            "div", {"data-qa": "POSTING_CARD_LOCATION"}
+        )
 
         if location_element:
             location = str(location_element.get_text().strip())
 
         return location
 
-    def _get_real_state_agency(self, data):
+    @_getPropertyData
+    def getPropertiesRealStateAgencies(self, propertyDataDiv):
         real_state_agency = False
-        real_state_agency_element = data.find(
+        real_state_agency_element = propertyDataDiv.find(
             "img", {"data-qa": "POSTING_CARD_PUBLISHER"}
         )
 
@@ -168,9 +191,10 @@ class zonapropProvider(Provider):
 
         return real_state_agency
 
-    def _get_reserved(self, data):
+    @_getPropertyData
+    def getPropertiesReserved(self, propertyDataDiv):
         reserved = False
-        reserved_element = data.find("span", {"color": "white"})
+        reserved_element = propertyDataDiv.find("span", {"color": "white"})
 
         if reserved_element and reserved_element.get_text() == "Reservado":
             reserved = True
