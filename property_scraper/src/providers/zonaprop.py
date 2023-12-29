@@ -1,6 +1,7 @@
 from src.providers.provider import Provider
 
 import pandas as pd
+import logging
 
 
 class zonapropProvider(Provider):
@@ -44,7 +45,19 @@ class zonapropProvider(Provider):
             attributeData = []
 
             for propertyDataDiv in propertiesDataDivs:
-                attributeData.append(func(self, propertyDataDiv))
+                logging.info(
+                    f"Scraping property attribute data from {self.url} using {func.__name__}."
+                )
+                res = func(self, propertyDataDiv)
+                if pd.isna(res):
+                    logging.warning(
+                        f"Property attribute data from {self.url} is NaN using {func.__name__}."
+                    )
+                else:
+                    logging.info(
+                        f"Property attribute data from {self.url} is found using {func.__name__}."
+                    )
+                attributeData.append(res)
 
             return pd.Series(attributeData)
 
@@ -52,8 +65,10 @@ class zonapropProvider(Provider):
 
     @_getPropertyData
     def getPropertiesPrices(self, propertyDataDiv):
-        price = str(propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
-        return price
+        priceDiv = propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"})
+        if priceDiv is None:
+            return pd.NA
+        return str(priceDiv.text)
 
     @_getPropertyData
     def getPropertiesExpenses(self, propertyDataDiv):
@@ -129,7 +144,10 @@ class zonapropProvider(Provider):
     @_getPropertyData
     def getPropertiesCurrencies(self, propertyDataDiv):
         currency = pd.NA
-        price = str(propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
+        priceDiv = propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"})
+        if priceDiv is None:
+            return pd.NA
+        price = str(priceDiv.text)
 
         if price:
             if price[0] == "U":

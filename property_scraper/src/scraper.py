@@ -14,7 +14,7 @@ os.path.exists(LOG_DIR) or open(LOG_DIR, "w").close()
 logging.basicConfig(
     filename=LOG_DIR,
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(message)s",
 )
 
 
