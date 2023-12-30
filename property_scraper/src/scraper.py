@@ -3,20 +3,8 @@ from src.providerFactory import ProviderFactory
 from datetime import datetime
 from config import *
 
-import logging
 import os
-
-log_directory = os.path.dirname(LOG_DIR)
-if not os.path.exists(log_directory):
-    os.makedirs(log_directory)
-
-os.path.exists(LOG_DIR) or open(LOG_DIR, "w").close()
-
-logging.basicConfig(
-    filename=LOG_DIR,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(message)s",
-)
+import logging
 
 
 class Scraper:
