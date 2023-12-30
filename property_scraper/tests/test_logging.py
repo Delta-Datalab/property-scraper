@@ -36,12 +36,11 @@ def test_validateLoggingPropertyPrices(fixture_data, caplog):
     provider.getPropertiesPrices()
 
     logCounts = Counter(caplog.messages)
-    expectedLogsCount = 20
 
     expectFoundLogMessage = getExpectFoundLogMessage("getPropertiesPrices")
     expectNaNLogMessage = getExpectNanLogMessage("getPropertiesPrices")
 
-    assert logCounts[expectFoundLogMessage] == expectedLogsCount
+    assert logCounts[expectFoundLogMessage] == 20
     assert logCounts[expectNaNLogMessage] == 0
 
 
@@ -72,6 +71,24 @@ def test_validateLoggingPropertyExpenses(fixture_data, caplog):
 
     assert logCounts[expectFoundLogMessage] == 18
     assert logCounts[expectNaNLogMessage] == 2
+
+
+def test_validateLoggingPropertyExpensesCurrencies(fixture_data, caplog):
+    caplog.clear()
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
+
+    caplog.set_level(logging.INFO)
+    res = provider.getPropertiesExpensesCurrencies()
+    print(res)
+
+    logCounts = Counter(caplog.messages)
+
+    expectFoundLogMessage = getExpectFoundLogMessage("getPropertiesExpensesCurrencies")
+    expectNaNLogMessage = getExpectNanLogMessage("getPropertiesExpensesCurrencies")
+
+    assert logCounts[expectFoundLogMessage] == 18
+    assert logCounts[expectNaNLogMessage] == 2
+
 
 def test_validateLoggingPropertyBathrooms(fixture_data, caplog):
     caplog.clear()

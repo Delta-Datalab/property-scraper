@@ -88,22 +88,23 @@ class zonapropProvider(Provider):
 
         return expenses
 
-    def getPropertiesExpensesCurrencies(self):
-        expenses = self.getPropertiesExpenses()
+    @_getPropertyData
+    def getPropertiesExpensesCurrencies(self, propertyDataDiv):
+        currency = pd.NA
+        expenses_element = propertyDataDiv.find("div", {"data-qa": "expensas"})
+        if expenses_element is None:
+            expense = pd.NA
+        else:
+            expense = str(expenses_element.text.strip())
 
-        expensesCurrency = []
+        if pd.isna(expense):
+            return currency
+        elif expense[0] == "U":
+            currency = "USD"
+        elif expense[0] == "$":
+            currency = "$"
 
-        for expense in expenses:
-            if pd.isna(expense):
-                expensesCurrency.append(pd.NA)
-            elif expense[0] == "U":
-                expensesCurrency.append("USD")
-            elif expense[0] == "$":
-                expensesCurrency.append("$")
-            else:
-                expensesCurrency.append(pd.NA)
-
-        return pd.Series(expensesCurrency)
+        return currency
 
     @_getPropertyData
     def getPropertiesBathrooms(self, propertyDataDiv):
