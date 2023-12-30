@@ -1,4 +1,5 @@
 import cloudscraper
+import logging
 
 
 class Browser:
@@ -18,5 +19,7 @@ class Browser:
         """
         response = self.scraper.get(url)
         if response.status_code == 200:
+            logging.info(f"Fetched content successfully")
             return response
+        logging.error(f"Failed to fetch content. Status code: {response.status_code}")
         return None

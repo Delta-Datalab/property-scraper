@@ -4,18 +4,6 @@ from datetime import datetime
 from config import *
 
 import logging
-import os
-
-log_directory = os.path.dirname(LOG_DIR)
-if not os.path.exists(log_directory):
-    os.makedirs(log_directory)
-
-os.path.exists(LOG_DIR) or open(LOG_DIR, "w").close()
-logging.basicConfig(
-    filename=LOG_DIR,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(message)s",
-)
 
 
 class Scraper:
@@ -35,7 +23,7 @@ class Scraper:
 
         try:
             logging.info(
-                f"Starting to scrape the data property and storage to a dataframe"
+                f"Starting to scrape the data property from {url} and storage to a dataframe"
             )
             response = self.browser.fetch_page(url)
             if self._assertResponseIsInvalid(response):
@@ -47,15 +35,16 @@ class Scraper:
 
             self.exportPropertyDataToCSV(propertyDataDataFrame)
             logging.info(
-                f"Successfully scrape the data property and storage to a dataframe"
+                f"Successfully scrape the data property from {url} and storage to a dataframe"
             )
             self.exportPropertiesDataToCSV(provider.getNextPageURL())
         except Exception as e:
-            logging.error(f"Error scraping the property data: {e}")
+            logging.error(f"Error scraping the property data from {url}: {e}")
             return
 
     def _assertResponseIsInvalid(self, response):
         if self._assertURLisProcessed(response):
+            logging.info(f"Succesfully scrape the data property from all pages")
             return True
         return response == None
 

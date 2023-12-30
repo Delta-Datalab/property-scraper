@@ -37,11 +37,7 @@ class zonapropProvider(Provider):
         else:
             return self.url.replace(".html", f"-pagina-{2}.html")
 
-    def _propertyDataLogger(self, func, propertyDataDiv):
-        logging.info(
-            f"Scraping property attribute data from {self.url} using {func.__name__}."
-        )
-        res = func(self, propertyDataDiv)
+    def _propertyAttributesLogger(self, func, res):
         if pd.isna(res):
             logging.warning(
                 f"Property attribute data from {self.url} is NaN using {func.__name__}."
@@ -50,7 +46,6 @@ class zonapropProvider(Provider):
             logging.info(
                 f"Property attribute data from {self.url} is found using {func.__name__}."
             )
-        return res
 
     def _getPropertyData(func):
         def getPropertyAttributes(self):
@@ -61,7 +56,8 @@ class zonapropProvider(Provider):
 
             for propertyDataDiv in propertiesDataDivs:
                 try:
-                    res = self._propertyDataLogger(func, propertyDataDiv)
+                    res = func(self, propertyDataDiv)
+                    self._propertyAttributesLogger(func, res)
                 except Exception as e:
                     logging.error(
                         f"Error while scraping property attribute data from {self.url} using {func.__name__}."
