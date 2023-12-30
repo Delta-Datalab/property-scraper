@@ -57,6 +57,7 @@ def test_validateLoggingPropertyOneWithNoPrice(fixture_data_no_price, caplog):
 
     assert logCounts[expectNaNLogMessage] == 1
 
+
 def test_validateLoggingPropertyExpenses(fixture_data, caplog):
     caplog.clear()
     provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
@@ -79,7 +80,6 @@ def test_validateLoggingPropertyExpensesCurrencies(fixture_data, caplog):
 
     caplog.set_level(logging.INFO)
     res = provider.getPropertiesExpensesCurrencies()
-    print(res)
 
     logCounts = Counter(caplog.messages)
 
@@ -105,6 +105,7 @@ def test_validateLoggingPropertyBathrooms(fixture_data, caplog):
     assert logCounts[expectFoundLogMessage] == 19
     assert logCounts[expectNaNLogMessage] == 1
 
+
 def test_validateLoggingPropertyBedrooms(fixture_data, caplog):
     caplog.clear()
     provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
@@ -119,6 +120,7 @@ def test_validateLoggingPropertyBedrooms(fixture_data, caplog):
 
     assert logCounts[expectFoundLogMessage] == 18
     assert logCounts[expectNaNLogMessage] == 2
+
 
 def test_validateLoggingPropertyTotalRooms(fixture_data, caplog):
     caplog.clear()
@@ -135,6 +137,7 @@ def test_validateLoggingPropertyTotalRooms(fixture_data, caplog):
     assert logCounts[expectFoundLogMessage] == 19
     assert logCounts[expectNaNLogMessage] == 1
 
+
 def test_validateLoggingPropertyCoveredAreas(fixture_data, caplog):
     caplog.clear()
     provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
@@ -149,6 +152,7 @@ def test_validateLoggingPropertyCoveredAreas(fixture_data, caplog):
 
     assert logCounts[expectFoundLogMessage] == 19
     assert logCounts[expectNaNLogMessage] == 1
+
 
 def test_validateLoggingPropertyTotalAreas(fixture_data, caplog):
     caplog.clear()
@@ -165,6 +169,7 @@ def test_validateLoggingPropertyTotalAreas(fixture_data, caplog):
     assert logCounts[expectFoundLogMessage] == 20
     assert logCounts[expectNaNLogMessage] == 0
 
+
 def test_validateLoggingPropertyCurrencies(fixture_data, caplog):
     caplog.clear()
     provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
@@ -179,6 +184,7 @@ def test_validateLoggingPropertyCurrencies(fixture_data, caplog):
 
     assert logCounts[expectFoundLogMessage] == 9
     assert logCounts[expectNaNLogMessage] == 11
+
 
 def test_validateLoggingPropertyDescriptions(fixture_data, caplog):
     caplog.clear()
@@ -195,6 +201,7 @@ def test_validateLoggingPropertyDescriptions(fixture_data, caplog):
     assert logCounts[expectFoundLogMessage] == 20
     assert logCounts[expectNaNLogMessage] == 0
 
+
 def test_validateLoggingPropertyParkings(fixture_data, caplog):
     caplog.clear()
     provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
@@ -209,6 +216,7 @@ def test_validateLoggingPropertyParkings(fixture_data, caplog):
 
     assert logCounts[expectFoundLogMessage] == 9
     assert logCounts[expectNaNLogMessage] == 11
+
 
 def test_validateLoggingPropertyURLs(fixture_data, caplog):
     caplog.clear()
@@ -225,6 +233,7 @@ def test_validateLoggingPropertyURLs(fixture_data, caplog):
     assert logCounts[expectFoundLogMessage] == 20
     assert logCounts[expectNaNLogMessage] == 0
 
+
 def test_validateLoggingPropertyLocations(fixture_data, caplog):
     caplog.clear()
     provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
@@ -240,6 +249,7 @@ def test_validateLoggingPropertyLocations(fixture_data, caplog):
     assert logCounts[expectFoundLogMessage] == 20
     assert logCounts[expectNaNLogMessage] == 0
 
+
 def test_validateLoggingPropertyRealStateAgencies(fixture_data, caplog):
     caplog.clear()
     provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
@@ -254,6 +264,7 @@ def test_validateLoggingPropertyRealStateAgencies(fixture_data, caplog):
 
     assert logCounts[expectFoundLogMessage] == 20
     assert logCounts[expectNaNLogMessage] == 0
+
 
 def test_validateLoggingPropertyReserved(fixture_data, caplog):
     caplog.clear()
