@@ -1,4 +1,5 @@
 import numpy as np
+import logging
 
 from urllib.parse import urlparse
 from src.providers.zonaprop import zonapropProvider
@@ -25,6 +26,7 @@ class ProviderFactory:
         if parsedURL == "www.zonaprop.com.ar":
             provider = zonapropProvider(provider_data, url)
         else:
+            logging.error(f"Invalid type of Provider")
             raise ValueError("Invalid type of Provider")
 
         return provider

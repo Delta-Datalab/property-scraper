@@ -1,6 +1,7 @@
 from src.providers.provider import Provider
 
 import pandas as pd
+import logging
 
 
 class zonapropProvider(Provider):
@@ -10,21 +11,21 @@ class zonapropProvider(Provider):
 
     def getDataFromProperties(self):
         propertiesData = {
+            "url": self.getPropertiesURLs(),
             "price": self.getPropertiesPrices(),
+            "currency": self.getPropertiesCurrencies(),
             "expenses": self.getPropertiesExpenses(),
             "expenses_currency": self.getPropertiesExpensesCurrencies(),
-            "bathrooms": self.getPropertiesBathrooms(),
-            "bedrooms": self.getPropertiesBedrooms(),
-            "total_rooms": self.getPropertiesTotalRooms(),
-            "covered_area": self.getPropertiesCoveredAreas(),
-            "total_area": self.getPropertiesTotalAreas(),
-            "currency": self.getPropertiesCurrencies(),
-            "description": self.getPropertiesDescriptions(),
-            "parking": self.getPropertiesParkings(),
-            "url": self.getPropertiesURLs(),
             "location": self.getPropertiesLocations(),
-            "real_state_agency": self.getPropertiesRealStateAgencies(),
+            "total_area": self.getPropertiesTotalAreas(),
+            "covered_area": self.getPropertiesCoveredAreas(),
+            "total_rooms": self.getPropertiesTotalRooms(),
+            "bedrooms": self.getPropertiesBedrooms(),
+            "bathrooms": self.getPropertiesBathrooms(),
             "reserved": self.getPropertiesReserved(),
+            "parking": self.getPropertiesParkings(),
+            "real_state_agency": self.getPropertiesRealStateAgencies(),
+            "description": self.getPropertiesDescriptions(),
         }
 
         return pd.DataFrame(propertiesData)
@@ -36,6 +37,16 @@ class zonapropProvider(Provider):
         else:
             return self.url.replace(".html", f"-pagina-{2}.html")
 
+    def _propertyAttributesLogger(self, func, res):
+        if pd.isna(res):
+            logging.warning(
+                f"Property attribute data from {self.url} is NaN using {func.__name__}."
+            )
+        else:
+            logging.info(
+                f"Property attribute data from {self.url} is found using {func.__name__}."
+            )
+
     def _getPropertyData(func):
         def getPropertyAttributes(self):
             propertiesDataDivs = self.data.find_all(
@@ -44,7 +55,16 @@ class zonapropProvider(Provider):
             attributeData = []
 
             for propertyDataDiv in propertiesDataDivs:
-                attributeData.append(func(self, propertyDataDiv))
+                try:
+                    res = func(self, propertyDataDiv)
+                    self._propertyAttributesLogger(func, res)
+                except Exception as e:
+                    logging.error(
+                        f"Error while scraping property attribute data from {self.url} using {func.__name__}."
+                    )
+                    logging.error(e)
+                    res = pd.NA
+                attributeData.append(res)
 
             return pd.Series(attributeData)
 
@@ -52,38 +72,39 @@ class zonapropProvider(Provider):
 
     @_getPropertyData
     def getPropertiesPrices(self, propertyDataDiv):
-        price = str(propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
-        return price
+        priceDiv = propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"})
+        if priceDiv is None:
+            return pd.NA
+        return str(priceDiv.text)
 
     @_getPropertyData
     def getPropertiesExpenses(self, propertyDataDiv):
         expenses_element = propertyDataDiv.find("div", {"data-qa": "expensas"})
 
-        if expenses_element:
-            expenses = str(
-                expenses_element.text.strip()
-            )  # Extract text and remove leading/trailing spaces
+        if expenses_element is None:
+            return pd.NA
         else:
-            return pd.NA  # Assign NaN if expenses_element is not found
+            expenses = str(expenses_element.text.strip())
 
         return expenses
 
-    def getPropertiesExpensesCurrencies(self):
-        expenses = self.getPropertiesExpenses()
+    @_getPropertyData
+    def getPropertiesExpensesCurrencies(self, propertyDataDiv):
+        currency = pd.NA
+        expenses_element = propertyDataDiv.find("div", {"data-qa": "expensas"})
+        if expenses_element is None:
+            expense = pd.NA
+        else:
+            expense = str(expenses_element.text.strip())
 
-        expensesCurrency = []
+        if pd.isna(expense):
+            return currency
+        elif expense[0] == "U":
+            currency = "USD"
+        elif expense[0] == "$":
+            currency = "$"
 
-        for expense in expenses:
-            if pd.isna(expense):
-                expensesCurrency.append(pd.NA)
-            elif expense[0] == "U":
-                expensesCurrency.append("USD")
-            elif expense[0] == "$":
-                expensesCurrency.append("$")
-            else:
-                expensesCurrency.append(pd.NA)
-
-        return pd.Series(expensesCurrency)
+        return currency
 
     @_getPropertyData
     def getPropertiesBathrooms(self, propertyDataDiv):
@@ -129,7 +150,10 @@ class zonapropProvider(Provider):
     @_getPropertyData
     def getPropertiesCurrencies(self, propertyDataDiv):
         currency = pd.NA
-        price = str(propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"}).text)
+        priceDiv = propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_PRICE"})
+        if priceDiv is None:
+            return pd.NA
+        price = str(priceDiv.text)
 
         if price:
             if price[0] == "U":
