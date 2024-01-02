@@ -12,7 +12,7 @@ class Scraper:
         self.browser = browser
         self.procesedProviderURLs = []
 
-    def exportPropertiesDataToCSV(self, url):
+    def exportPropertiesDataToCSV(self, url, merge_output_data):
         """Scrapes the data property from the given URL and stores it in a dataframe.
 
         Args:
@@ -34,11 +34,11 @@ class Scraper:
 
             propertyDataDataFrame = provider.getDataFromProperties()
 
-            self.exportPropertyDataToCSV(propertyDataDataFrame)
+            self.exportPropertyDataToCSV(propertyDataDataFrame, merge_output_data)
             logging.info(
                 f"Successfully scrape the data property from {url} and storage to a dataframe"
             )
-            self.exportPropertiesDataToCSV(provider.getNextPageURL())
+            self.exportPropertiesDataToCSV(provider.getNextPageURL(), merge_output_data)
         except Exception as e:
             logging.error(f"Error scraping the property data from {url}: {e}")
             return
@@ -69,7 +69,7 @@ class Scraper:
         provider = ProviderFactory.create_provider(response.url, parsedData)
         return provider
 
-    def exportPropertyDataToCSV(self, propertyData):
+    def exportPropertyDataToCSV(self, propertyData, merge_output_data):
         """Exports the property data to a CSV file.
 
         Args:

@@ -35,7 +35,7 @@ def test_scraperHandlesNon200Response(mock_browserWithResponseNot200):
         Scraper, "exportPropertyDataToCSV"
     )
 
-    scraper.exportPropertiesDataToCSV(url)
+    scraper.exportPropertiesDataToCSV(url, False)
 
     assert mockedExportPropertyDataToCSV.call_count == 0
 
@@ -64,7 +64,7 @@ def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
     mockedPropertyData.to_csv = mocker.Mock()
     scraper = Scraper(mock.Mock())
 
-    scraper.exportPropertyDataToCSV(mockedPropertyData)
+    scraper.exportPropertyDataToCSV(mockedPropertyData, False)
 
     mockedPropertyData.to_csv.assert_called_once_with(expectedOutputDataDir)
 
@@ -81,7 +81,7 @@ def test_exportPropertiesDataToCSVStopsOnRepeatURL(mocker, mock_browserWithRespo
         Scraper, "exportPropertyDataToCSV"
     )
 
-    mocked_scraper.exportPropertiesDataToCSV("https://example.com")
+    mocked_scraper.exportPropertiesDataToCSV("https://example.com", False)
 
     assert mocked_exportPropertyDataToCSV.call_count == 1
     mocked_provider.getNextPageURL.assert_called_once()
