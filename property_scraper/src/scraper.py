@@ -39,7 +39,7 @@ class Scraper:
             if self._assertNoNewFileNedded():
                 self.exportPropertyDataToUniqueCSV(propertyDataDataFrame)
             else:
-                self.exportPropertyDataToCSV(propertyDataDataFrame)
+                self.exportPropertyDataToNewCSV(propertyDataDataFrame)
             logging.info(
                 f"Successfully scrape the data property from {url} and storage to a dataframe"
             )
@@ -88,10 +88,10 @@ class Scraper:
         """
         
         logging.info(f"Starting to export the property data to {self.outputDataPath} file")
-        propertyData.to_csv(self.outputDataPath, mode='a', header=False)
+        propertyData.to_csv(self.outputDataPath, mode='a', header=False, index = False)
         logging.info(f"Successfully exported the property data to {self.outputDataPath} file")
 
-    def exportPropertyDataToCSV(self, propertyData):
+    def exportPropertyDataToNewCSV(self, propertyData):
         """Exports the property data to a CSV file.
 
         Args:
@@ -106,7 +106,7 @@ class Scraper:
         outputDataDir = os.path.join(DATA_DIR, filename)
         if self.mergeOutputData:
             self.outputDataPath = outputDataDir
-        propertyData.to_csv(outputDataDir)
+        propertyData.to_csv(outputDataDir, index = False)
         logging.info(f"Successfully exported the property data to a CSV file")
 
     def _getDataCSVName(self):

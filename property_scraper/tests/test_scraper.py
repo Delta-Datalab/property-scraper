@@ -64,9 +64,9 @@ def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
     mockedPropertyData.to_csv = mocker.Mock()
     scraper = Scraper(mock.Mock(), False)
 
-    scraper.exportPropertyDataToCSV(mockedPropertyData)
+    scraper.exportPropertyDataToNewCSV(mockedPropertyData)
 
-    mockedPropertyData.to_csv.assert_called_once_with(expectedOutputDataDir)
+    mockedPropertyData.to_csv.assert_called_once_with(expectedOutputDataDir, index = False)
 
 
 def test_exportPropertiesDataToCSVStopsOnRepeatURL(mocker, mock_browserWithResponse200):
@@ -78,7 +78,7 @@ def test_exportPropertiesDataToCSVStopsOnRepeatURL(mocker, mock_browserWithRespo
     mocker.patch.object(Scraper, "getProvider", return_value=mocked_provider)
 
     mocked_exportPropertyDataToCSV = mocker.patch.object(
-        Scraper, "exportPropertyDataToCSV"
+        Scraper, "exportPropertyDataToNewCSV"
     )
 
     mocked_scraper.exportPropertiesDataToCSV("https://example.com")
