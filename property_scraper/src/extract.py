@@ -11,6 +11,6 @@ class Extract:
         """
 
         browser = Browser()
-        scraper = Scraper(browser)
+        scraper = Scraper(browser, merge_output_data)
 
-        scraper.exportPropertiesDataToCSV(url, merge_output_data)
+        scraper.exportPropertiesDataToCSV(url)

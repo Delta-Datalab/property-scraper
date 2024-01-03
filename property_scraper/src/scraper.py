@@ -8,11 +8,13 @@ import logging
 
 
 class Scraper:
-    def __init__(self, browser):
+    def __init__(self, browser, merge_output_data):
         self.browser = browser
         self.procesedProviderURLs = []
+        self.mergeOutputData = merge_output_data
+        self.outputDataPath = None  
 
-    def exportPropertiesDataToCSV(self, url, merge_output_data):
+    def exportPropertiesDataToCSV(self, url):
         """Scrapes the data property from the given URL and stores it in a dataframe.
 
         Args:
@@ -34,11 +36,14 @@ class Scraper:
 
             propertyDataDataFrame = provider.getDataFromProperties()
 
-            self.exportPropertyDataToCSV(propertyDataDataFrame, merge_output_data)
+            if self._assertNoNewFileNedded():
+                self.exportPropertyDataToUniqueCSV(propertyDataDataFrame)
+            else:
+                self.exportPropertyDataToCSV(propertyDataDataFrame)
             logging.info(
                 f"Successfully scrape the data property from {url} and storage to a dataframe"
             )
-            self.exportPropertiesDataToCSV(provider.getNextPageURL(), merge_output_data)
+            self.exportPropertiesDataToCSV(provider.getNextPageURL())
         except Exception as e:
             logging.error(f"Error scraping the property data from {url}: {e}")
             return
@@ -52,6 +57,9 @@ class Scraper:
     def _assertURLisProcessed(self, response):
         response.url = response.url.replace(":443", "")
         return response.url in self.procesedProviderURLs
+    
+    def _assertNoNewFileNedded(self):
+        return self.mergeOutputData and self.outputDataPath is not None
 
     def getProvider(self, response):
         """
@@ -69,7 +77,21 @@ class Scraper:
         provider = ProviderFactory.create_provider(response.url, parsedData)
         return provider
 
-    def exportPropertyDataToCSV(self, propertyData, merge_output_data):
+    def exportPropertyDataToUniqueCSV(self, propertyData):
+        """Exports the property data to an existing CSV file.
+
+        Args:
+            propertyData (DataFrame): The property data to export.
+
+        Returns:
+            None
+        """
+        
+        logging.info(f"Starting to export the property data to {self.outputDataPath} file")
+        propertyData.to_csv(self.outputDataPath, mode='a', header=False)
+        logging.info(f"Successfully exported the property data to {self.outputDataPath} file")
+
+    def exportPropertyDataToCSV(self, propertyData):
         """Exports the property data to a CSV file.
 
         Args:
@@ -82,6 +104,8 @@ class Scraper:
         logging.info(f"Starting to export the property data to a CSV file")
         filename = self._getDataCSVName()
         outputDataDir = os.path.join(DATA_DIR, filename)
+        if self.mergeOutputData:
+            self.outputDataPath = outputDataDir
         propertyData.to_csv(outputDataDir)
         logging.info(f"Successfully exported the property data to a CSV file")
 
