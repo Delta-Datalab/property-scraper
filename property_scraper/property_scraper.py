@@ -21,12 +21,11 @@ logging.basicConfig(
 @click.command()
 @click.argument("url")
 @click.option(
-    '--merge_output_data',
-    '-m',
-    is_flag = True,
-    help = 'Merge the output data into a single file'
+    "--merge_output_data",
+    "-m",
+    is_flag=True,
+    help="Merge the output data into a single file",
 )
-
 def main(url, merge_output_data):
     extract = Extract()
     extract.download_data(url, merge_output_data)
