@@ -28,7 +28,7 @@ def mock_browserWithResponse200(mocker):
 
 
 def test_scraperHandlesNon200Response(mock_browserWithResponseNot200):
-    scraper = Scraper(mock_browserWithResponseNot200)
+    scraper = Scraper(mock_browserWithResponseNot200, False)
     url = "https://example.com"
 
     mockedExportPropertyDataToCSV = mock_browserWithResponseNot200.patch.object(
@@ -44,7 +44,7 @@ def test_scraperGetProviderCorrectly(mocker):
     mockedResponse = mock.Mock()
     mockedResponse.url = "https://www.zonaprop.com.ar/"
     mockedResponse.text = "Mocked HTML content"
-    scraper = Scraper(mock.Mock())
+    scraper = Scraper(mock.Mock(), False)
     parsedData = BeautifulSoup(mockedResponse.text, "html.parser")
 
     mockedCreateProvider = mocker.patch.object(ProviderFactory, "create_provider")
@@ -62,23 +62,25 @@ def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
 
     mockedPropertyData = mocker.Mock()
     mockedPropertyData.to_csv = mocker.Mock()
-    scraper = Scraper(mock.Mock())
+    scraper = Scraper(mock.Mock(), False)
 
-    scraper.exportPropertyDataToCSV(mockedPropertyData)
+    scraper.exportPropertyDataToNewCSV(mockedPropertyData)
 
-    mockedPropertyData.to_csv.assert_called_once_with(expectedOutputDataDir)
+    mockedPropertyData.to_csv.assert_called_once_with(
+        expectedOutputDataDir, index=False
+    )
 
 
 def test_exportPropertiesDataToCSVStopsOnRepeatURL(mocker, mock_browserWithResponse200):
     mocked_provider = mocker.Mock()
     mocked_provider.getNextPageURL.return_value = "https://example.com"
 
-    mocked_scraper = Scraper(mock_browserWithResponse200)
+    mocked_scraper = Scraper(mock_browserWithResponse200, False)
 
     mocker.patch.object(Scraper, "getProvider", return_value=mocked_provider)
 
     mocked_exportPropertyDataToCSV = mocker.patch.object(
-        Scraper, "exportPropertyDataToCSV"
+        Scraper, "exportPropertyDataToNewCSV"
     )
 
     mocked_scraper.exportPropertiesDataToCSV("https://example.com")
