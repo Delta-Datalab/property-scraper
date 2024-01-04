@@ -8,6 +8,7 @@ from src.scraper import Scraper
 from src.providers.zonaprop import zonapropProvider
 from tests.fixtures.zonapropExpectedData import *
 from bs4 import BeautifulSoup
+from freezegun import freeze_time
 
 
 @pytest.fixture
@@ -227,3 +228,22 @@ def test_getNextPageURLWhenPageIsPresent(fixture_data):
         provider.getNextPageURL()
         == "https://www.zonaprop.com.ar/departamentos-alquiler-palermo-pagina-3.html"
     )
+
+
+def test_validatePropertyProviderType(fixture_data):
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
+    propertiesTypeData = provider.getDataFromProperties()["provider"].to_frame()
+
+    expectedProvider = getProviderFromFixtureData()
+
+    pd.testing.assert_frame_equal(propertiesTypeData, expectedProvider)
+
+
+@freeze_time("2000-01-01 12:00:00")
+def test_validateDownloadDate(fixture_data):
+    provider = zonapropProvider(fixture_data, "https://www.zonaprop.com.ar/")
+    propertiesTypeData = provider.getDataFromProperties()["download_date"].to_frame()
+
+    expectedProvider = getDownloadDateFromFixtureData()
+
+    pd.testing.assert_frame_equal(propertiesTypeData, expectedProvider)

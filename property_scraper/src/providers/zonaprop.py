@@ -2,6 +2,7 @@ from src.providers.provider import Provider
 
 import pandas as pd
 import logging
+import time
 
 
 class zonapropProvider(Provider):
@@ -25,6 +26,8 @@ class zonapropProvider(Provider):
             "reserved": self.getPropertiesReserved(),
             "parking": self.getPropertiesParkings(),
             "real_state_agency": self.getPropertiesRealStateAgencies(),
+            "provider": self.getPropertiesProvider(),
+            "download_date": self.getDownloadDate(),
             "description": self.getPropertiesDescriptions(),
         }
 
@@ -224,6 +227,19 @@ class zonapropProvider(Provider):
             reserved = True
 
         return reserved
+
+    @_getPropertyData
+    def getPropertiesProvider(self, propertyDataDiv):
+        provider = "ZonaProp"
+
+        return provider
+
+    @_getPropertyData
+    def getDownloadDate(self, propertyDataDiv):
+        format_string = "%Y-%m-%d %H:%M:%S"
+        downloadedTime = time.strftime(format_string, time.localtime())
+
+        return downloadedTime
 
     def _findAreasFromPropertyAttributes(self, property_attributes):
         property_area_attributes = self._find_property_attributes(
