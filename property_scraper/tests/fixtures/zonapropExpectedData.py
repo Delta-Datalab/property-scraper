@@ -391,56 +391,14 @@ def getReservedPropertiesFromFixtureData():
 
 
 def getProviderFromFixtureData():
-    data = [
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-        ["ZonaProp"],
-    ]
+    data = [["Zonaprop"] for _ in range(20)]
 
     providerDf = pd.DataFrame(data, columns=["provider"])
     return providerDf
 
 
 def getDownloadDateFromFixtureData():
-    data = [
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-        ["2000-01-01 12:00:00"],
-    ]
+    data = [["2000-01-01 12:00:00"] for _ in range(20)]
 
     downloadDateDf = pd.DataFrame(data, columns=["download_date"])
     return downloadDateDf

@@ -13,6 +13,7 @@ class zonapropProvider(Provider):
     def getDataFromProperties(self):
         propertiesData = {
             "url": self.getPropertiesURLs(),
+            "provider": self.getPropertiesProvider(),
             "price": self.getPropertiesPrices(),
             "currency": self.getPropertiesCurrencies(),
             "expenses": self.getPropertiesExpenses(),
@@ -26,7 +27,6 @@ class zonapropProvider(Provider):
             "reserved": self.getPropertiesReserved(),
             "parking": self.getPropertiesParkings(),
             "real_state_agency": self.getPropertiesRealStateAgencies(),
-            "provider": self.getPropertiesProvider(),
             "download_date": self.getDownloadDate(),
             "description": self.getPropertiesDescriptions(),
         }
@@ -230,7 +230,7 @@ class zonapropProvider(Provider):
 
     @_getPropertyData
     def getPropertiesProvider(self, propertyDataDiv):
-        provider = "ZonaProp"
+        provider = "Zonaprop"
 
         return provider
 
