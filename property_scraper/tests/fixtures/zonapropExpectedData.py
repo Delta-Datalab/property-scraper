@@ -388,3 +388,17 @@ def getReservedPropertiesFromFixtureData():
 
     real_state_agency_df = pd.DataFrame(data, columns=["reserved"])
     return real_state_agency_df
+
+
+def getProviderFromFixtureData():
+    data = [["Zonaprop"] for _ in range(20)]
+
+    providerDf = pd.DataFrame(data, columns=["provider"])
+    return providerDf
+
+
+def getDownloadDateFromFixtureData():
+    data = [["2000-01-01 12:00:00"] for _ in range(20)]
+
+    downloadDateDf = pd.DataFrame(data, columns=["download_date"])
+    return downloadDateDf

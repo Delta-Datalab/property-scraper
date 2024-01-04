@@ -219,3 +219,27 @@ class Provider:
             bool: The reserved status of the property.
         """
         pass
+
+    def getProviderFromFixtureData(self, propertyDataDiv):
+        """
+        Retrieves the providers of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The property provider.
+        """
+        pass
+
+    def getDownloadDateFromFixtureData(self, propertyDataDiv):
+        """
+        Retrieves the download date of the properties.
+
+        Args:
+            propertyDataDiv (bs4.element.Tag): The div containing the property data.
+
+        Returns:
+            str: The downloaded date for the property.
+        """
+        pass
