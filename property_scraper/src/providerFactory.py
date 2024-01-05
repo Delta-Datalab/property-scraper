@@ -6,8 +6,8 @@ from src.providers.zonaprop import zonapropProvider
 
 
 class ProviderFactory:
-    @staticmethod
-    def create_provider(url, provider_data):
+    @classmethod
+    def create_provider(cls, url, provider_data):
         """
         Creates a provider object based on the given URL and provider data.
 
