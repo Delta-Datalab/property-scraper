@@ -11,27 +11,7 @@ class zonapropProvider(Provider):
         self.url = aProviderURL
 
     def getDataFromProperties(self):
-        propertiesData = {
-            "url": self.getPropertiesURLs(),
-            "provider": self.getPropertiesProvider(),
-            "price": self.getPropertiesPrices(),
-            "currency": self.getPropertiesCurrencies(),
-            "expenses": self.getPropertiesExpenses(),
-            "expenses_currency": self.getPropertiesExpensesCurrencies(),
-            "location": self.getPropertiesLocations(),
-            "total_area": self.getPropertiesTotalAreas(),
-            "covered_area": self.getPropertiesCoveredAreas(),
-            "total_rooms": self.getPropertiesTotalRooms(),
-            "bedrooms": self.getPropertiesBedrooms(),
-            "bathrooms": self.getPropertiesBathrooms(),
-            "reserved": self.getPropertiesReserved(),
-            "parking": self.getPropertiesParkings(),
-            "real_state_agency": self.getPropertiesRealStateAgencies(),
-            "download_date": self.getDownloadDate(),
-            "description": self.getPropertiesDescriptions(),
-        }
-
-        return pd.DataFrame(propertiesData)
+        return super().getDataFromProperties(self)
 
     def getNextPageURL(self):
         if "pagina-" in self.url:
@@ -39,16 +19,6 @@ class zonapropProvider(Provider):
             return self.url.replace(f"-pagina-{page-1}.html", f"-pagina-{page}.html")
         else:
             return self.url.replace(".html", f"-pagina-{2}.html")
-
-    def _propertyAttributesLogger(self, func, res):
-        if pd.isna(res):
-            logging.warning(
-                f"Property attribute data from {self.url} is NaN using {func.__name__}."
-            )
-        else:
-            logging.info(
-                f"Property attribute data from {self.url} is found using {func.__name__}."
-            )
 
     def _getPropertyData(func):
         def getPropertyAttributes(self):
@@ -235,7 +205,7 @@ class zonapropProvider(Provider):
         return provider
 
     @_getPropertyData
-    def getDownloadDate(self, propertyDataDiv):
+    def getPropertiesDownloadDate(self, propertyDataDiv):
         format_string = "%Y-%m-%d %H:%M:%S"
         downloadedTime = time.strftime(format_string, time.localtime())
 
@@ -246,7 +216,6 @@ class zonapropProvider(Provider):
             property_attributes, "m²", multipleAttributes=True
         )
         self._forEachAreaStripMeasureAndConvertToInteger(property_area_attributes)
-
         return property_area_attributes
 
     def _select_area_for_total_area(self, property_area_attributes):
@@ -269,11 +238,18 @@ class zonapropProvider(Provider):
 
     def _get_property_attributes(self, data):
         property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
+
+        if property_attributes is None:
+            return property_attributes
+
         property_attributes = property_attributes.find_all("span")
         return property_attributes
 
     def _find_property_attributes(self, data, attribute_name, multipleAttributes=False):
         property_attributes = []
+
+        if data is None:
+            return property_attributes
 
         self._forSpanInDataFindAllTheAttributesWith(
             data, attribute_name, property_attributes
@@ -284,6 +260,8 @@ class zonapropProvider(Provider):
                 return property_attributes
             else:
                 return property_attributes[0]
+        if multipleAttributes:
+            return []
 
         return pd.NA
 
@@ -295,3 +273,13 @@ class zonapropProvider(Provider):
             for inner_span in span_inner_elements:
                 if attribute_name in inner_span.get_text():
                     property_attributes.append(str(inner_span.get_text().strip()))
+
+    def _propertyAttributesLogger(self, func, res):
+        if pd.isna(res):
+            logging.warning(
+                f"Property attribute data from {self.url} is NaN using {func.__name__}."
+            )
+        else:
+            logging.info(
+                f"Property attribute data from {self.url} is found using {func.__name__}."
+            )
