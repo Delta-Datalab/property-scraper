@@ -11,7 +11,7 @@ class Scraper:
     def __init__(self, browser, merge_output_data):
         self.browser = browser
         self.procesedProviderURLs = []
-        self.mergeOutputData = merge_output_data
+        self.mergeOutputDataFlag = merge_output_data
         self.outputDataPath = None
 
     def exportPropertiesDataToCSV(self, url):
@@ -46,23 +46,10 @@ class Scraper:
             return
 
     def exportDataToCSV(self, propertyDataDataFrame):
-        if self._assertNoNewFileNedded():
-            self.exportPropertyDataToUniqueCSV(propertyDataDataFrame)
+        if self._assertNoNewFileNeeded():
+            self.exportPropertyDataToCSV(propertyDataDataFrame)
         else:
             self.exportPropertyDataToNewCSV(propertyDataDataFrame)
-
-    def _assertResponseIsInvalid(self, response):
-        if self._assertURLisProcessed(response):
-            logging.info(f"Succesfully scrape the data property from all pages")
-            return True
-        return response == None
-
-    def _assertURLisProcessed(self, response):
-        response.url = response.url.replace(":443", "")
-        return response.url in self.procesedProviderURLs
-
-    def _assertNoNewFileNedded(self):
-        return self.mergeOutputData and self.outputDataPath is not None
 
     def getProvider(self, response):
         """
@@ -80,7 +67,7 @@ class Scraper:
         provider = ProviderFactory.create_provider(response.url, parsedData)
         return provider
 
-    def exportPropertyDataToUniqueCSV(self, propertyData):
+    def exportPropertyDataToCSV(self, propertyData):
         """Exports the property data to an existing CSV file.
 
         Args:
@@ -111,13 +98,29 @@ class Scraper:
         logging.info(f"Starting to export the property data to a CSV file")
         filename = self._getDataCSVName()
         outputDataDir = os.path.join(DATA_DIR, filename)
-        if self.mergeOutputData:
-            self.outputDataPath = outputDataDir
+        self._updateOutputDataDir(outputDataDir)
         propertyData.to_csv(outputDataDir, index=False)
         logging.info(f"Successfully exported the property data to a CSV file")
+
+    def _updateOutputDataDir(self, outputDataDir):
+        if self.mergeOutputDataFlag:
+            self.outputDataPath = outputDataDir
 
     def _getDataCSVName(self):
         current_datetime = datetime.now()
         formatted_datetime = current_datetime.strftime("%Y-%m-%d-%H:%M:%S")
         filename = "property_data-" + formatted_datetime + ".csv"
         return filename
+
+    def _assertResponseIsInvalid(self, response):
+        if self._assertURLisProcessed(response):
+            logging.info(f"Succesfully scrape the data property from all pages")
+            return True
+        return response == None
+
+    def _assertURLisProcessed(self, response):
+        response.url = response.url.replace(":443", "")
+        return response.url in self.procesedProviderURLs
+
+    def _assertNoNewFileNeeded(self):
+        return self.mergeOutputDataFlag and self.outputDataPath is not None

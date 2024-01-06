@@ -6,7 +6,7 @@ class Provider:
     def __init__(self, providerHTMLData):
         self.data = providerHTMLData
 
-    def getDataFromProperties(self):
+    def getDataFromProperties(self, aSubclassProvider):
         """
         Retrieves data from properties and returns it as a pandas DataFrame.
 
@@ -29,7 +29,27 @@ class Provider:
             - description: The description of the property.
         """
 
-        pass
+        propertiesData = {
+            "url": aSubclassProvider.getPropertiesURLs(),
+            "provider": aSubclassProvider.getPropertiesProvider(),
+            "price": aSubclassProvider.getPropertiesPrices(),
+            "currency": aSubclassProvider.getPropertiesCurrencies(),
+            "expenses": aSubclassProvider.getPropertiesExpenses(),
+            "expenses_currency": aSubclassProvider.getPropertiesExpensesCurrencies(),
+            "location": aSubclassProvider.getPropertiesLocations(),
+            "total_area": aSubclassProvider.getPropertiesTotalAreas(),
+            "covered_area": aSubclassProvider.getPropertiesCoveredAreas(),
+            "total_rooms": aSubclassProvider.getPropertiesTotalRooms(),
+            "bedrooms": aSubclassProvider.getPropertiesBedrooms(),
+            "bathrooms": aSubclassProvider.getPropertiesBathrooms(),
+            "reserved": aSubclassProvider.getPropertiesReserved(),
+            "parking": aSubclassProvider.getPropertiesParkings(),
+            "real_state_agency": aSubclassProvider.getPropertiesRealStateAgencies(),
+            "download_date": aSubclassProvider.getPropertiesDownloadDate(),
+            "description": aSubclassProvider.getPropertiesDescriptions(),
+        }
+
+        return pd.DataFrame(propertiesData)
 
     def getNextPageURL(self):
         """
@@ -160,7 +180,7 @@ class Provider:
         """
         pass
 
-    def getPropertiesParking(self, propertyDataDiv):
+    def getPropertiesParkings(self, propertyDataDiv):
         """
         Retrieves the parking of the properties.
 
