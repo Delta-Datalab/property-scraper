@@ -3,7 +3,7 @@ from src.scraper import Scraper
 
 
 class Extract:
-    def download_data(self, url, merge_output_data):
+    def downloadData(self, url, mergeOutputData):
         """Downloads data from the specified URL.
 
         Args:
@@ -11,6 +11,6 @@ class Extract:
         """
 
         browser = Browser()
-        scraper = Scraper(browser, merge_output_data)
+        scraper = Scraper(browser, mergeOutputData)
 
         scraper.exportPropertiesDataToCSV(url)

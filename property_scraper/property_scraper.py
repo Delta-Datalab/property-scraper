@@ -5,9 +5,9 @@ from config import *
 import logging
 import os
 
-log_directory = os.path.dirname(LOG_DIR)
-if not os.path.exists(log_directory):
-    os.makedirs(log_directory)
+logDirectory = os.path.dirname(LOG_DIR)
+if not os.path.exists(logDirectory):
+    os.makedirs(logDirectory)
 
 os.path.exists(LOG_DIR) or open(LOG_DIR, "w").close()
 
@@ -26,9 +26,9 @@ logging.basicConfig(
     is_flag=True,
     help="Merge the output data into a single file",
 )
-def main(url, merge_output_data):
+def main(url, mergeOutputData):
     extract = Extract()
-    extract.download_data(url, merge_output_data)
+    extract.downloadData(url, mergeOutputData)
 
 
 if __name__ == "__main__":

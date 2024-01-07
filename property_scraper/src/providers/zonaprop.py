@@ -52,23 +52,23 @@ class zonapropProvider(Provider):
 
     @_getPropertyData
     def getPropertiesExpenses(self, propertyDataDiv):
-        expenses_element = propertyDataDiv.find("div", {"data-qa": "expensas"})
+        expensesElement = propertyDataDiv.find("div", {"data-qa": "expensas"})
 
-        if expenses_element is None:
+        if expensesElement is None:
             return pd.NA
         else:
-            expenses = str(expenses_element.text.strip())
+            expenses = str(expensesElement.text.strip())
 
         return expenses
 
     @_getPropertyData
     def getPropertiesExpensesCurrencies(self, propertyDataDiv):
         currency = pd.NA
-        expenses_element = propertyDataDiv.find("div", {"data-qa": "expensas"})
-        if expenses_element is None:
+        expensesElement = propertyDataDiv.find("div", {"data-qa": "expensas"})
+        if expensesElement is None:
             expense = pd.NA
         else:
-            expense = str(expenses_element.text.strip())
+            expense = str(expensesElement.text.strip())
 
         if pd.isna(expense):
             return currency
@@ -81,44 +81,44 @@ class zonapropProvider(Provider):
 
     @_getPropertyData
     def getPropertiesBathrooms(self, propertyDataDiv):
-        property_attributes = self._get_property_attributes(propertyDataDiv)
-        bathrooms = self._find_property_attributes(property_attributes, "baño")
+        propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
+        bathrooms = self._findPropertyAttributes(propertyAttributes, "baño")
 
         return bathrooms
 
     @_getPropertyData
     def getPropertiesBedrooms(self, propertyDataDiv):
-        property_attributes = self._get_property_attributes(propertyDataDiv)
-        bedrooms = self._find_property_attributes(property_attributes, "dorm.")
+        propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
+        bedrooms = self._findPropertyAttributes(propertyAttributes, "dorm.")
 
         return bedrooms
 
     @_getPropertyData
     def getPropertiesTotalRooms(self, propertyDataDiv):
-        property_attributes = self._get_property_attributes(propertyDataDiv)
-        total_rooms = self._find_property_attributes(property_attributes, "amb.")
+        propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
+        totalRooms = self._findPropertyAttributes(propertyAttributes, "amb.")
 
-        return total_rooms
+        return totalRooms
 
     @_getPropertyData
     def getPropertiesCoveredAreas(self, propertyDataDiv):
-        property_attributes = self._get_property_attributes(propertyDataDiv)
-        property_area_attributes = self._findAreasFromPropertyAttributes(
-            property_attributes
+        propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
+        propertyAreaAttributes = self._findAreasFromPropertyAttributes(
+            propertyAttributes
         )
-        covered_area = self._select_area_for_covered_area(property_area_attributes)
+        coveredArea = self._selectAreaForCoveredArea(propertyAreaAttributes)
 
-        return covered_area
+        return coveredArea
 
     @_getPropertyData
     def getPropertiesTotalAreas(self, propertyDataDiv):
-        property_attributes = self._get_property_attributes(propertyDataDiv)
-        property_area_attributes = self._findAreasFromPropertyAttributes(
-            property_attributes
+        propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
+        propertyAreaAttributes = self._findAreasFromPropertyAttributes(
+            propertyAttributes
         )
-        total_area = self._select_area_for_total_area(property_area_attributes)
+        totalArea = self._selectAreaForTotalArea(propertyAreaAttributes)
 
-        return total_area
+        return totalArea
 
     @_getPropertyData
     def getPropertiesCurrencies(self, propertyDataDiv):
@@ -139,61 +139,61 @@ class zonapropProvider(Provider):
     @_getPropertyData
     def getPropertiesDescriptions(self, propertyDataDiv):
         description = pd.NA
-        description_element = propertyDataDiv.find(
+        descriptionElement = propertyDataDiv.find(
             "div", {"data-qa": "POSTING_CARD_DESCRIPTION"}
         )
 
-        if description_element:
-            description = str(description_element.get_text().strip())
+        if descriptionElement:
+            description = str(descriptionElement.get_text().strip())
 
         return description
 
     @_getPropertyData
     def getPropertiesParkings(self, propertyDataDiv):
-        property_attributes = self._get_property_attributes(propertyDataDiv)
-        parking = self._find_property_attributes(property_attributes, "coch.")
+        propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
+        parking = self._findPropertyAttributes(propertyAttributes, "coch.")
 
         return parking
 
     @_getPropertyData
     def getPropertiesURLs(self, propertyDataDiv):
         url = pd.NA
-        property_div_url = propertyDataDiv.get("data-to-posting")
-        if property_div_url:
-            url = property_div_url
+        propertyDivUrl = propertyDataDiv.get("data-to-posting")
+        if propertyDivUrl:
+            url = propertyDivUrl
 
         return url
 
     @_getPropertyData
     def getPropertiesLocations(self, propertyDataDiv):
         location = pd.NA
-        location_element = propertyDataDiv.find(
+        locationElement = propertyDataDiv.find(
             "div", {"data-qa": "POSTING_CARD_LOCATION"}
         )
 
-        if location_element:
-            location = str(location_element.get_text().strip())
+        if locationElement:
+            location = str(locationElement.get_text().strip())
 
         return location
 
     @_getPropertyData
     def getPropertiesRealStateAgencies(self, propertyDataDiv):
-        real_state_agency = False
-        real_state_agency_element = propertyDataDiv.find(
+        realStateAgency = False
+        realStateAgencyElement = propertyDataDiv.find(
             "img", {"data-qa": "POSTING_CARD_PUBLISHER"}
         )
 
-        if real_state_agency_element:
-            real_state_agency = True
+        if realStateAgencyElement:
+            realStateAgency = True
 
-        return real_state_agency
+        return realStateAgency
 
     @_getPropertyData
     def getPropertiesReserved(self, propertyDataDiv):
         reserved = False
-        reserved_element = propertyDataDiv.find("span", {"color": "white"})
+        reservedElement = propertyDataDiv.find("span", {"color": "white"})
 
-        if reserved_element and reserved_element.get_text() == "Reservado":
+        if reservedElement and reservedElement.get_text() == "Reservado":
             reserved = True
 
         return reserved
@@ -206,73 +206,73 @@ class zonapropProvider(Provider):
 
     @_getPropertyData
     def getPropertiesDownloadDate(self, propertyDataDiv):
-        format_string = "%Y-%m-%d %H:%M:%S"
-        downloadedTime = time.strftime(format_string, time.localtime())
+        formatString = "%Y-%m-%d %H:%M:%S"
+        downloadedTime = time.strftime(formatString, time.localtime())
 
         return downloadedTime
 
-    def _findAreasFromPropertyAttributes(self, property_attributes):
-        property_area_attributes = self._find_property_attributes(
-            property_attributes, "m²", multipleAttributes=True
+    def _findAreasFromPropertyAttributes(self, propertyAttributes):
+        propertyAreaAttributes = self._findPropertyAttributes(
+            propertyAttributes, "m²", multipleAttributes=True
         )
-        self._forEachAreaStripMeasureAndConvertToInteger(property_area_attributes)
-        return property_area_attributes
+        self._forEachAreaStripMeasureAndConvertToInteger(propertyAreaAttributes)
+        return propertyAreaAttributes
 
-    def _select_area_for_total_area(self, property_area_attributes):
-        if len(property_area_attributes) == 0:
-            total_area = pd.NA
+    def _selectAreaForTotalArea(self, propertyAreaAttributes):
+        if len(propertyAreaAttributes) == 0:
+            totalArea = pd.NA
         else:
-            total_area = max(property_area_attributes)
-        return total_area
+            totalArea = max(propertyAreaAttributes)
+        return totalArea
 
-    def _forEachAreaStripMeasureAndConvertToInteger(self, property_area_attribute):
-        for i in range(len(property_area_attribute)):
-            property_area_attribute[i] = int(property_area_attribute[i].strip(" m²"))
+    def _forEachAreaStripMeasureAndConvertToInteger(self, propertyAreaAttributes):
+        for i in range(len(propertyAreaAttributes)):
+            propertyAreaAttributes[i] = int(propertyAreaAttributes[i].strip(" m²"))
 
-    def _select_area_for_covered_area(self, property_area_attributes):
-        if len(property_area_attributes) <= 1:
-            covered_area = pd.NA
+    def _selectAreaForCoveredArea(self, propertyAreaAttributes):
+        if len(propertyAreaAttributes) <= 1:
+            coveredArea = pd.NA
         else:
-            covered_area = min(property_area_attributes)
-        return covered_area
+            coveredArea = min(propertyAreaAttributes)
+        return coveredArea
 
-    def _get_property_attributes(self, data):
-        property_attributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
+    def _getPropertyAttributes(self, data):
+        propertyAttributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
 
-        if property_attributes is None:
-            return property_attributes
+        if propertyAttributes is None:
+            return propertyAttributes
 
-        property_attributes = property_attributes.find_all("span")
-        return property_attributes
+        propertyAttributes = propertyAttributes.find_all("span")
+        return propertyAttributes
 
-    def _find_property_attributes(self, data, attribute_name, multipleAttributes=False):
-        property_attributes = []
+    def _findPropertyAttributes(self, data, attributeName, multipleAttributes=False):
+        propertyAttributes = []
 
         if data is None:
-            return property_attributes
+            return propertyAttributes
 
         self._forSpanInDataFindAllTheAttributesWith(
-            data, attribute_name, property_attributes
+            data, attributeName, propertyAttributes
         )
 
-        if property_attributes:
+        if propertyAttributes:
             if multipleAttributes:
-                return property_attributes
+                return propertyAttributes
             else:
-                return property_attributes[0]
+                return propertyAttributes[0]
         if multipleAttributes:
             return []
 
         return pd.NA
 
     def _forSpanInDataFindAllTheAttributesWith(
-        self, data, attribute_name, property_attributes
+        self, data, attributeName, propertyAttributes
     ):
         for span in data:
-            span_inner_elements = span.find_all("span")
-            for inner_span in span_inner_elements:
-                if attribute_name in inner_span.get_text():
-                    property_attributes.append(str(inner_span.get_text().strip()))
+            spanInnerElements = span.find_all("span")
+            for innerSpan in spanInnerElements:
+                if attributeName in innerSpan.get_text():
+                    propertyAttributes.append(str(innerSpan.get_text().strip()))
 
     def _propertyAttributesLogger(self, func, res):
         if pd.isna(res):

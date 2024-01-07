@@ -6,7 +6,7 @@ class Browser:
     def __init__(self):
         self.scraper = cloudscraper.create_scraper()
 
-    def fetch_page(self, url):
+    def fetchPage(self, url):
         """
         Fetches the content of a web page given its URL.
 
