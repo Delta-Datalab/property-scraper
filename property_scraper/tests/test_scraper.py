@@ -23,7 +23,7 @@ def mock_browserWithResponse200(mocker):
     mockedResponse = mock.Mock()
     mockedResponse.url = "https://example.com"
     mockedResponse.status_code = 200
-    mockedBrowser.fetch_page.return_value = mockedResponse
+    mockedBrowser.fetchPage.return_value = mockedResponse
     return mockedBrowser
 
 

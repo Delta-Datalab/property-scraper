@@ -28,7 +28,7 @@ class Scraper:
             logging.info(
                 f"Starting to scrape the data property from {url} and storage to a dataframe"
             )
-            response = self.browser.fetch_page(url)
+            response = self.browser.fetchPage(url)
             if self._assertResponseIsInvalid(response):
                 return
             self.procesedProviderURLs.append(response.url)

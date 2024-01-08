@@ -26,9 +26,9 @@ logging.basicConfig(
     is_flag=True,
     help="Merge the output data into a single file",
 )
-def main(url, mergeOutputData):
+def main(url, merge_output_data):
     extract = Extract()
-    extract.downloadData(url, mergeOutputData)
+    extract.downloadData(url, merge_output_data)
 
 
 if __name__ == "__main__":
