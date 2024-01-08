@@ -26,8 +26,8 @@ def getPricesFromFixtureData():
         "$ 380.000",
     ]
 
-    prices_df = pd.Series(data)
-    return prices_df
+    pricesDf = pd.Series(data)
+    return pricesDf
 
 
 def getExpensesFromFixtureData():
@@ -54,8 +54,8 @@ def getExpensesFromFixtureData():
         "$ 28.500 Expensas",
     ]
 
-    expenses_df = pd.Series(data)
-    return expenses_df
+    expensesDf = pd.Series(data)
+    return expensesDf
 
 
 def getExpensesCurrencyFromFixtureData():
@@ -82,8 +82,8 @@ def getExpensesCurrencyFromFixtureData():
         "$",
     ]
 
-    expenses_currency_df = pd.Series(data)
-    return expenses_currency_df
+    expensesCurrencyDf = pd.Series(data)
+    return expensesCurrencyDf
 
 
 def getBathroomsFromFixtureData():
@@ -110,8 +110,8 @@ def getBathroomsFromFixtureData():
         "2 baños",
     ]
 
-    bathrooms_df = pd.Series(data)
-    return bathrooms_df
+    bathroomsDf = pd.Series(data)
+    return bathroomsDf
 
 
 def getBedroomsFromFixtureData():
@@ -138,8 +138,8 @@ def getBedroomsFromFixtureData():
         "2 dorm.",
     ]
 
-    bedrooms_df = pd.Series(data)
-    return bedrooms_df
+    bedroomsDf = pd.Series(data)
+    return bedroomsDf
 
 
 def getTotalRoomsFromFixtureData():
@@ -166,8 +166,8 @@ def getTotalRoomsFromFixtureData():
         pd.NA,
     ]
 
-    total_roms_df = pd.Series(data)
-    return total_roms_df
+    totalRoomsDf = pd.Series(data)
+    return totalRoomsDf
 
 
 def getCoveredAreaFromFixtureData():
@@ -194,8 +194,8 @@ def getCoveredAreaFromFixtureData():
         75,
     ]
 
-    covered_area_df = pd.Series(data)
-    return covered_area_df
+    coveredAreaDf = pd.Series(data)
+    return coveredAreaDf
 
 
 def getTotalAreaFromFixtureData():
@@ -222,8 +222,8 @@ def getTotalAreaFromFixtureData():
         85,
     ]
 
-    total_area_df = pd.Series(data)
-    return total_area_df
+    totalAreaDf = pd.Series(data)
+    return totalAreaDf
 
 
 def getCurrencyFromFixtureData():
@@ -250,8 +250,8 @@ def getCurrencyFromFixtureData():
         "$",
     ]
 
-    currency_df = pd.Series(data)
-    return currency_df
+    currencyDf = pd.Series(data)
+    return currencyDf
 
 
 def getDescriptionFromFixtureData():
@@ -260,8 +260,8 @@ def getDescriptionFromFixtureData():
         "Xintel(lor-lor-1693) Alquiler de Departamento monoambiente en Boedo, Capital Federal. 1 ambiente - oficina con vivienda en alquiler - apto vivienda también - se alquila para uso profesional con vivienda - monoambiente con patio - cocina integrada - baño completo - A estrenar - pocos departamentos - excelente ubicación - interno / lateral. - loria inmobiliaria. cpi 1. 300 / 8. 528 caba",
     ]
 
-    description_df = pd.Series(data)
-    return description_df
+    descriptionDf = pd.Series(data)
+    return descriptionDf
 
 
 def getParkingFromFixtureData():
@@ -288,8 +288,8 @@ def getParkingFromFixtureData():
         pd.NA,
     ]
 
-    parking_df = pd.Series(data)
-    return parking_df
+    parkingDf = pd.Series(data)
+    return parkingDf
 
 
 def getUrlFromFixtureData():
@@ -298,8 +298,8 @@ def getUrlFromFixtureData():
         "/propiedades/1-ambiente-uso-profesional-y-vivienda-estrenar.-52721443.html",
     ]
 
-    url_df = pd.Series(data)
-    return url_df
+    urlDf = pd.Series(data)
+    return urlDf
 
 
 def getLocationFromFixtureData():
@@ -326,8 +326,8 @@ def getLocationFromFixtureData():
         "Martin, Rosario",
     ]
 
-    location_df = pd.Series(data)
-    return location_df
+    locationDf = pd.Series(data)
+    return locationDf
 
 
 def getRealStateAgencyFromFixtureData():
@@ -354,8 +354,8 @@ def getRealStateAgencyFromFixtureData():
         True,
     ]
 
-    real_state_agency_df = pd.Series(data)
-    return real_state_agency_df
+    realStateAgencyDf = pd.Series(data)
+    return realStateAgencyDf
 
 
 def getReservedPropertiesFromFixtureData():
@@ -382,8 +382,8 @@ def getReservedPropertiesFromFixtureData():
         False,
     ]
 
-    real_state_agency_df = pd.Series(data)
-    return real_state_agency_df
+    reservedPropertiesDf = pd.Series(data)
+    return reservedPropertiesDf
 
 
 def getProviderFromFixtureData():

@@ -7,7 +7,7 @@ from src.providers.zonaprop import zonapropProvider
 
 class ProviderFactory:
     @classmethod
-    def create_provider(cls, url, provider_data):
+    def createProvider(cls, url, providerData):
         """
         Creates a provider object based on the given URL and provider data.
 
@@ -24,7 +24,7 @@ class ProviderFactory:
         """
         parsedURL = urlparse(url).netloc
         if parsedURL == "www.zonaprop.com.ar":
-            provider = zonapropProvider(provider_data, url)
+            provider = zonapropProvider(providerData, url)
         else:
             logging.error(f"Invalid type of Provider")
             raise ValueError("Invalid type of Provider")

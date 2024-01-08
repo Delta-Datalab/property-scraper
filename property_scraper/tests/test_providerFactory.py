@@ -7,23 +7,23 @@ from src.providerFactory import ProviderFactory
 
 
 @pytest.fixture
-def fixture_data():
-    fixture_directory = os.path.join(
+def fixtureData():
+    fixtureDirectory = os.path.join(
         os.getcwd(), "tests", "fixtures", "zonapropFixture.html"
     )
-    with open(fixture_directory, "r") as file:
-        html_content = file.read()
-    return BeautifulSoup(html_content, "html.parser")
+    with open(fixtureDirectory, "r") as file:
+        htmlContent = file.read()
+    return BeautifulSoup(htmlContent, "html.parser")
 
 
-def test_validateProviderFactoryGivesCorrectProviderSubclass(fixture_data):
+def test_validateProviderFactoryGivesCorrectProviderSubclass(fixtureData):
     url = "https://www.zonaprop.com.ar/"
-    provider = ProviderFactory().create_provider(url, fixture_data)
+    provider = ProviderFactory().createProvider(url, fixtureData)
 
     assert isinstance(provider, zonapropProvider)
 
 
-def test_validateProviderFactoryRaiseAnErrorWhenProvideInvalidProviderURL(fixture_data):
+def test_validateProviderFactoryRaiseAnErrorWhenProvideInvalidProviderURL(fixtureData):
     url = "https://www.invalidprovider.com/"
     with pytest.raises(ValueError):
-        ProviderFactory().create_provider(url, fixture_data)
+        ProviderFactory().createProvider(url, fixtureData)

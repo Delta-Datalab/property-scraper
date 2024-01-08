@@ -8,10 +8,10 @@ import logging
 
 
 class Scraper:
-    def __init__(self, browser, merge_output_data):
+    def __init__(self, browser, mergeOutputData):
         self.browser = browser
         self.procesedProviderURLs = []
-        self.mergeOutputDataFlag = merge_output_data
+        self.mergeOutputDataFlag = mergeOutputData
         self.outputDataPath = None
 
     def exportPropertiesDataToCSV(self, url):
@@ -64,7 +64,7 @@ class Scraper:
         data = response.text
         parsedData = BeautifulSoup(data, "html.parser")
 
-        provider = ProviderFactory.create_provider(response.url, parsedData)
+        provider = ProviderFactory.createProvider(response.url, parsedData)
         return provider
 
     def exportPropertyDataToCSV(self, propertyData):
@@ -97,19 +97,19 @@ class Scraper:
 
         logging.info(f"Starting to export the property data to a CSV file")
         filename = self._getDataCSVName()
-        outputDataDir = os.path.join(DATA_DIR, filename)
-        self._updateOutputDataDir(outputDataDir)
-        propertyData.to_csv(outputDataDir, index=False)
+        outputDataDirectory = os.path.join(DATA_DIR, filename)
+        self._updateoutputDataDirectory(outputDataDirectory)
+        propertyData.to_csv(outputDataDirectory, index=False)
         logging.info(f"Successfully exported the property data to a CSV file")
 
-    def _updateOutputDataDir(self, outputDataDir):
+    def _updateoutputDataDirectory(self, outputDataDirectory):
         if self.mergeOutputDataFlag:
-            self.outputDataPath = outputDataDir
+            self.outputDataPath = outputDataDirectory
 
     def _getDataCSVName(self):
-        current_datetime = datetime.now()
-        formatted_datetime = current_datetime.strftime("%Y-%m-%d-%H:%M:%S")
-        filename = "property_data-" + formatted_datetime + ".csv"
+        currentDatetime = datetime.now()
+        formattedDatetime = currentDatetime.strftime("%Y-%m-%d-%H:%M:%S")
+        filename = "property_data-" + formattedDatetime + ".csv"
         return filename
 
     def _assertResponseIsInvalid(self, response):

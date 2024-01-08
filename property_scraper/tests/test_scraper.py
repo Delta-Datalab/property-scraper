@@ -9,22 +9,22 @@ from freezegun import freeze_time
 
 @pytest.fixture
 def mock_browserWithResponseNot200(mocker):
-    mocked_browser = mock.Mock()
+    mockedBrowser = mock.Mock()
     mockedResponse = mock.Mock()
     mockedResponse.url = "https://example.com"
     mockedResponse.status_code = 404
-    mocked_browser.fetch_page.return_value = None
-    return mocked_browser
+    mockedBrowser.fetch_page.return_value = None
+    return mockedBrowser
 
 
 @pytest.fixture
 def mock_browserWithResponse200(mocker):
-    mocked_browser = mock.Mock()
+    mockedBrowser = mock.Mock()
     mockedResponse = mock.Mock()
     mockedResponse.url = "https://example.com"
     mockedResponse.status_code = 200
-    mocked_browser.fetch_page.return_value = mockedResponse
-    return mocked_browser
+    mockedBrowser.fetch_page.return_value = mockedResponse
+    return mockedBrowser
 
 
 def test_scraperHandlesNon200Response(mock_browserWithResponseNot200):
@@ -47,7 +47,7 @@ def test_scraperGetProviderCorrectly(mocker):
     scraper = Scraper(mock.Mock(), False)
     parsedData = BeautifulSoup(mockedResponse.text, "html.parser")
 
-    mockedCreateProvider = mocker.patch.object(ProviderFactory, "create_provider")
+    mockedCreateProvider = mocker.patch.object(ProviderFactory, "createProvider")
 
     provider = scraper.getProvider(mockedResponse)
 
@@ -58,7 +58,7 @@ def test_scraperGetProviderCorrectly(mocker):
 @freeze_time("2000-01-01 12:00:00")
 def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
     filename = "property_data-2000-01-01-12:00:00.csv"
-    expectedOutputDataDir = os.path.join(DATA_DIR, filename)
+    expectedOutputDataDirectory = os.path.join(DATA_DIR, filename)
 
     mockedPropertyData = mocker.Mock()
     mockedPropertyData.to_csv = mocker.Mock()
@@ -67,23 +67,23 @@ def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
     scraper.exportPropertyDataToNewCSV(mockedPropertyData)
 
     mockedPropertyData.to_csv.assert_called_once_with(
-        expectedOutputDataDir, index=False
+        expectedOutputDataDirectory, index=False
     )
 
 
 def test_exportPropertiesDataToCSVStopsOnRepeatURL(mocker, mock_browserWithResponse200):
-    mocked_provider = mocker.Mock()
-    mocked_provider.getNextPageURL.return_value = "https://example.com"
+    mockedProvider = mocker.Mock()
+    mockedProvider.getNextPageURL.return_value = "https://example.com"
 
-    mocked_scraper = Scraper(mock_browserWithResponse200, False)
+    mockedScraper = Scraper(mock_browserWithResponse200, False)
 
-    mocker.patch.object(Scraper, "getProvider", return_value=mocked_provider)
+    mocker.patch.object(Scraper, "getProvider", return_value=mockedProvider)
 
     mocked_exportPropertyDataToCSV = mocker.patch.object(
         Scraper, "exportPropertyDataToNewCSV"
     )
 
-    mocked_scraper.exportPropertiesDataToCSV("https://example.com")
+    mockedScraper.exportPropertiesDataToCSV("https://example.com")
 
     assert mocked_exportPropertyDataToCSV.call_count == 1
-    mocked_provider.getNextPageURL.assert_called_once()
+    mockedProvider.getNextPageURL.assert_called_once()
