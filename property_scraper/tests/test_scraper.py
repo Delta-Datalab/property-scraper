@@ -58,7 +58,7 @@ def test_scraperGetProviderCorrectly(mocker):
 @freeze_time("2000-01-01 12:00:00")
 def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
     filename = "property_data-2000-01-01-12:00:00.csv"
-    expectedOutputDataDir = os.path.join(DATA_DIR, filename)
+    expectedOutputDataDirectory = os.path.join(DATA_DIR, filename)
 
     mockedPropertyData = mocker.Mock()
     mockedPropertyData.to_csv = mocker.Mock()
@@ -67,7 +67,7 @@ def test_scraperExportPropertyDataToCSVWithCorrectFilename(mocker):
     scraper.exportPropertyDataToNewCSV(mockedPropertyData)
 
     mockedPropertyData.to_csv.assert_called_once_with(
-        expectedOutputDataDir, index=False
+        expectedOutputDataDirectory, index=False
     )
 
 

@@ -97,14 +97,14 @@ class Scraper:
 
         logging.info(f"Starting to export the property data to a CSV file")
         filename = self._getDataCSVName()
-        outputDataDir = os.path.join(DATA_DIR, filename)
-        self._updateOutputDataDir(outputDataDir)
-        propertyData.to_csv(outputDataDir, index=False)
+        outputDataDirectory = os.path.join(DATA_DIR, filename)
+        self._updateoutputDataDirectory(outputDataDirectory)
+        propertyData.to_csv(outputDataDirectory, index=False)
         logging.info(f"Successfully exported the property data to a CSV file")
 
-    def _updateOutputDataDir(self, outputDataDir):
+    def _updateoutputDataDirectory(self, outputDataDirectory):
         if self.mergeOutputDataFlag:
-            self.outputDataPath = outputDataDir
+            self.outputDataPath = outputDataDirectory
 
     def _getDataCSVName(self):
         currentDatetime = datetime.now()
