@@ -3,6 +3,7 @@
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/)
 ![maintenance-status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
+![Static Badge](https://img.shields.io/badge/release-v0.1.1-blue)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 
@@ -14,6 +15,7 @@ This Python project is a property scraper designed to extract information from v
 
 - [Git Project Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/git-standards.md)
 - [Code Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/code-standards.md)
+- [Release Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/release-standards.md)
 
 ## Environment Setup
 
