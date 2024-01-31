@@ -48,3 +48,12 @@ services:
       - db
     volumes:
       - ./data/superset:/home/superset/.superset
+  
+  flask_api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile # Dockerfile for your API in the /api folder
+    ports:
+      - "5000:5000" # Expose the chosen port for accessing the API
+    depends_on:
+      - db # Specify the service name for your existing database container
