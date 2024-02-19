@@ -14,7 +14,7 @@ from freezegun import freeze_time
 @pytest.fixture
 def fixtureData():
     fixtureDirectory = os.path.join(
-        os.getcwd(), "tests", "fixtures", "zonapropFixture.html"
+        os.getcwd(), "tests", "fixtures", "zonapropFixture_4.html"
     )
     with open(fixtureDirectory, "r") as file:
         htmlContent = file.read()
@@ -24,7 +24,7 @@ def fixtureData():
 @pytest.fixture
 def fixtureDescriptionData():
     fixtureDirectory = os.path.join(
-        os.getcwd(), "tests", "fixtures", "zonapropFixture_2.html"
+        os.getcwd(), "tests", "fixtures", "zonapropFixture_Description.html"
     )
     with open(fixtureDirectory, "r") as file:
         htmlContent = file.read()
@@ -229,3 +229,4 @@ def test_validateDownloadDate(fixtureData):
     expectedDownloadDate = getDownloadDateFromFixtureData()
 
     pd.testing.assert_series_equal(propertiesTypeData, expectedDownloadDate)
+

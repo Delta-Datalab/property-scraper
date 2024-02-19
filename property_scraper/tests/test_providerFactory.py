@@ -9,7 +9,7 @@ from src.providerFactory import ProviderFactory
 @pytest.fixture
 def fixtureData():
     fixtureDirectory = os.path.join(
-        os.getcwd(), "tests", "fixtures", "zonapropFixture.html"
+        os.getcwd(), "tests", "fixtures", "zonapropFixture_4.html"
     )
     with open(fixtureDirectory, "r") as file:
         htmlContent = file.read()
