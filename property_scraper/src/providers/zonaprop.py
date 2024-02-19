@@ -140,7 +140,7 @@ class zonapropProvider(Provider):
     def getPropertiesDescriptions(self, propertyDataDiv):
         description = pd.NA
         descriptionElement = propertyDataDiv.find(
-            "div", {"data-qa": "POSTING_CARD_DESCRIPTION"}
+            "h3", {"data-qa": "POSTING_CARD_DESCRIPTION"}
         )
 
         if descriptionElement:
