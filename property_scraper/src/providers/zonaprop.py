@@ -168,7 +168,7 @@ class zonapropProvider(Provider):
     def getPropertiesLocations(self, propertyDataDiv):
         location = pd.NA
         locationElement = propertyDataDiv.find(
-            "div", {"data-qa": "POSTING_CARD_LOCATION"}
+            "h2", {"data-qa": "POSTING_CARD_LOCATION"}
         )
 
         if locationElement:

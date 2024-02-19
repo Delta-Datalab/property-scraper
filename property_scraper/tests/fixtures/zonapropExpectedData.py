@@ -320,7 +320,7 @@ def getLocationFromFixtureData():
         "Nueva Córdoba, Córdoba",
         "Pichincha, Rosario",
         "Distrito Centro, Rosario",
-        "Barrancas, Capital Federal",
+        "Barracas, Capital Federal",
         "Bahía Grande, Nordelta",
         "General Paz, Córdoba",
         "General José de San Martín, Distrito Sur",
