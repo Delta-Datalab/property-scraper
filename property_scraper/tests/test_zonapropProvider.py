@@ -32,12 +32,25 @@ def fixtureDescriptionData():
 
 
 @pytest.fixture
-def fixtureRealStateAgencyAndReservedData():
+def fixtureRealStateAgencyData():
     fixtureDirectory = os.path.join(
         os.getcwd(),
         "tests",
         "fixtures",
-        "zonapropFixture_realStateAgencyAndReserved.html",
+        "zonapropFixture_realStateAgency.html",
+    )
+    with open(fixtureDirectory, "r") as file:
+        htmlContent = file.read()
+    return BeautifulSoup(htmlContent, "html.parser")
+
+
+@pytest.fixture
+def fixtureReservedData():
+    fixtureDirectory = os.path.join(
+        os.getcwd(),
+        "tests",
+        "fixtures",
+        "zonapropFixture_reserved.html",
     )
     with open(fixtureDirectory, "r") as file:
         htmlContent = file.read()
@@ -121,7 +134,7 @@ def test_validatePropertyTotalArea(fixtureData):
 def test_validatePropertyDescription(fixtureDescriptionData):
     provider = zonapropProvider(fixtureDescriptionData, "https://www.zonaprop.com.ar/")
     propertiesDescriptionData = provider.getPropertiesDescriptions()
-
+    
     expectedDescription = getDescriptionFromFixtureData()
 
     pd.testing.assert_series_equal(propertiesDescriptionData, expectedDescription)
@@ -161,9 +174,9 @@ def test_validatePropertyLocation(fixtureData):
     pd.testing.assert_series_equal(propertiesLocationData, expectedLocation)
 
 
-def test_validateRealStateAgency(fixtureRealStateAgencyAndReservedData):
+def test_validateRealStateAgency(fixtureRealStateAgencyData):
     provider = zonapropProvider(
-        fixtureRealStateAgencyAndReservedData, "https://www.zonaprop.com.ar/"
+        fixtureRealStateAgencyData, "https://www.zonaprop.com.ar/"
     )
     propertiesRealStateAgencyData = provider.getPropertiesRealStateAgencies()
 
@@ -174,9 +187,9 @@ def test_validateRealStateAgency(fixtureRealStateAgencyAndReservedData):
     )
 
 
-def test_validatePropertyReserved(fixtureRealStateAgencyAndReservedData):
+def test_validatePropertyReserved(fixtureReservedData):
     provider = zonapropProvider(
-        fixtureRealStateAgencyAndReservedData, "https://www.zonaprop.com.ar/"
+        fixtureReservedData, "https://www.zonaprop.com.ar/"
     )
     propertiesReservedPropertiesData = provider.getPropertiesReserved()
 
