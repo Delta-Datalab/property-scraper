@@ -187,10 +187,14 @@ class zonapropProvider(Provider):
     @_getPropertyData
     def getPropertiesReserved(self, propertyDataDiv):
         reserved = False
-        reservedElement = propertyDataDiv.find("span", {"color": "white"})
+        reservedElement = propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_GALLERY"})
+        reservedElement = reservedElement.find_all("div")
 
-        if reservedElement and reservedElement.get_text() == "Reservado":
-            reserved = True
+        for div in reservedElement:
+            spanElement = div.find_all("span")
+            for span in spanElement:
+                if "Reservado" in span.get_text():
+                        reserved = True
 
         return reserved
 
