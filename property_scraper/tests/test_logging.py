@@ -47,7 +47,7 @@ def test_validateLoggingPropertyExpenses(fixtureData, caplog):
     expectFoundLogMessage = getExpectFoundLogMessage("getPropertiesExpenses")
     expectNaNLogMessage = getExpectNanLogMessage("getPropertiesExpenses")
 
-    assert logCounts[expectFoundLogMessage] == 12
+    assert logCounts[expectFoundLogMessage] == 14
     assert logCounts[expectNaNLogMessage] == 6
 
 
@@ -63,7 +63,7 @@ def test_validateLoggingPropertyExpensesCurrencies(fixtureData, caplog):
     expectFoundLogMessage = getExpectFoundLogMessage("getPropertiesExpensesCurrencies")
     expectNaNLogMessage = getExpectNanLogMessage("getPropertiesExpensesCurrencies")
 
-    assert logCounts[expectFoundLogMessage] == 12
+    assert logCounts[expectFoundLogMessage] == 14
     assert logCounts[expectNaNLogMessage] == 6
 
 
@@ -79,8 +79,8 @@ def test_validateLoggingPropertyBathrooms(fixtureData, caplog):
     expectFoundLogMessage = getExpectFoundLogMessage("getPropertiesBathrooms")
     expectNaNLogMessage = getExpectNanLogMessage("getPropertiesBathrooms")
 
-    assert logCounts[expectFoundLogMessage] == 19
-    assert logCounts[expectNaNLogMessage] == 1
+    assert logCounts[expectFoundLogMessage] == 18
+    assert logCounts[expectNaNLogMessage] == 2
 
 
 def test_validateLoggingPropertyBedrooms(fixtureData, caplog):
@@ -95,8 +95,8 @@ def test_validateLoggingPropertyBedrooms(fixtureData, caplog):
     expectFoundLogMessage = getExpectFoundLogMessage("getPropertiesBedrooms")
     expectNaNLogMessage = getExpectNanLogMessage("getPropertiesBedrooms")
 
-    assert logCounts[expectFoundLogMessage] == 19
-    assert logCounts[expectNaNLogMessage] == 1
+    assert logCounts[expectFoundLogMessage] == 18
+    assert logCounts[expectNaNLogMessage] == 2
 
 
 def test_validateLoggingPropertyTotalRooms(fixtureData, caplog):
