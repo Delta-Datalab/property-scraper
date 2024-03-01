@@ -230,7 +230,7 @@ class zonapropProvider(Provider):
         propertyAttributes = []
 
         if data is None:
-            return propertyAttributes
+            return pd.NA
 
         self._forSpanInDataFindAllTheAttributesWith(
             data, attributeName, propertyAttributes
