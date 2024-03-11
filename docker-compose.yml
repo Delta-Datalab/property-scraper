@@ -12,24 +12,3 @@ services:
       - PYTHONUNBUFFERED=1
     working_dir: /app/property_scraper
     command: tail -f /dev/null
-
-  db:
-    image: postgres:12.2-alpine
-    environment:
-      - POSTGRES_DB=property_db
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
-    ports:
-      - "5050:80"
-    depends_on:
-      - db
