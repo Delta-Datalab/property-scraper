@@ -11,4 +11,4 @@ services:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
     working_dir: /app/property_scraper
-    command: tail -f /dev/null
+    command: tail -f /dev/null 
