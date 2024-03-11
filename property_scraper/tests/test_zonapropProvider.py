@@ -134,7 +134,7 @@ def test_validatePropertyTotalArea(fixtureData):
 def test_validatePropertyDescription(fixtureDescriptionData):
     provider = zonapropProvider(fixtureDescriptionData, "https://www.zonaprop.com.ar/")
     propertiesDescriptionData = provider.getPropertiesDescriptions()
-    
+
     expectedDescription = getDescriptionFromFixtureData()
 
     pd.testing.assert_series_equal(propertiesDescriptionData, expectedDescription)
@@ -188,9 +188,7 @@ def test_validateRealStateAgency(fixtureRealStateAgencyData):
 
 
 def test_validatePropertyReserved(fixtureReservedData):
-    provider = zonapropProvider(
-        fixtureReservedData, "https://www.zonaprop.com.ar/"
-    )
+    provider = zonapropProvider(fixtureReservedData, "https://www.zonaprop.com.ar/")
     propertiesReservedPropertiesData = provider.getPropertiesReserved()
 
     expectedReservedProperties = getReservedPropertiesFromFixtureData()
@@ -242,4 +240,3 @@ def test_validateDownloadDate(fixtureData):
     expectedDownloadDate = getDownloadDateFromFixtureData()
 
     pd.testing.assert_series_equal(propertiesTypeData, expectedDownloadDate)
-

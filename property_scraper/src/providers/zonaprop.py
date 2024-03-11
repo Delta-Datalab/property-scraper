@@ -104,7 +104,9 @@ class zonapropProvider(Provider):
     def getPropertiesCoveredAreas(self, propertyDataDiv):
         propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
         coveredArea = self._findPropertyAttributes(propertyAttributes, "m² cub.")
-        coveredArea = self._forAreaStripMeasureAndConvertToInteger(coveredArea, " m² cub.")
+        coveredArea = self._forAreaStripMeasureAndConvertToInteger(
+            coveredArea, " m² cub."
+        )
 
         return coveredArea
 
@@ -187,14 +189,16 @@ class zonapropProvider(Provider):
     @_getPropertyData
     def getPropertiesReserved(self, propertyDataDiv):
         reserved = False
-        reservedElement = propertyDataDiv.find("div", {"data-qa": "POSTING_CARD_GALLERY"})
+        reservedElement = propertyDataDiv.find(
+            "div", {"data-qa": "POSTING_CARD_GALLERY"}
+        )
         reservedElement = reservedElement.find_all("div")
 
         for div in reservedElement:
             spanElement = div.find_all("span")
             for span in spanElement:
                 if "Reservado" in span.get_text():
-                        reserved = True
+                    reserved = True
 
         return reserved
 
@@ -246,8 +250,7 @@ class zonapropProvider(Provider):
     ):
         for span in data:
             if attributeName in span.get_text():
-                    propertyAttributes.append(str(span.get_text().strip()))
-                
+                propertyAttributes.append(str(span.get_text().strip()))
 
     def _propertyAttributesLogger(self, func, res):
         if pd.isna(res):

@@ -18,7 +18,6 @@ def fixtureData():
     return BeautifulSoup(htmlContent, "html.parser")
 
 
-
 def test_validateLoggingPropertyPrices(fixtureData, caplog):
     caplog.clear()
     provider = zonapropProvider(fixtureData, "https://www.zonaprop.com.ar/")
