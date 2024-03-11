@@ -103,20 +103,18 @@ class zonapropProvider(Provider):
     @_getPropertyData
     def getPropertiesCoveredAreas(self, propertyDataDiv):
         propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
-        propertyAreaAttributes = self._findAreasFromPropertyAttributes(
-            propertyAttributes
+        coveredArea = self._findPropertyAttributes(propertyAttributes, "m² cub.")
+        coveredArea = self._forAreaStripMeasureAndConvertToInteger(
+            coveredArea, " m² cub."
         )
-        coveredArea = self._selectAreaForCoveredArea(propertyAreaAttributes)
 
         return coveredArea
 
     @_getPropertyData
     def getPropertiesTotalAreas(self, propertyDataDiv):
         propertyAttributes = self._getPropertyAttributes(propertyDataDiv)
-        propertyAreaAttributes = self._findAreasFromPropertyAttributes(
-            propertyAttributes
-        )
-        totalArea = self._selectAreaForTotalArea(propertyAreaAttributes)
+        totalArea = self._findPropertyAttributes(propertyAttributes, "m² tot.")
+        totalArea = self._forAreaStripMeasureAndConvertToInteger(totalArea, " m² tot.")
 
         return totalArea
 
@@ -140,7 +138,7 @@ class zonapropProvider(Provider):
     def getPropertiesDescriptions(self, propertyDataDiv):
         description = pd.NA
         descriptionElement = propertyDataDiv.find(
-            "div", {"data-qa": "POSTING_CARD_DESCRIPTION"}
+            "h3", {"data-qa": "POSTING_CARD_DESCRIPTION"}
         )
 
         if descriptionElement:
@@ -168,7 +166,7 @@ class zonapropProvider(Provider):
     def getPropertiesLocations(self, propertyDataDiv):
         location = pd.NA
         locationElement = propertyDataDiv.find(
-            "div", {"data-qa": "POSTING_CARD_LOCATION"}
+            "h2", {"data-qa": "POSTING_CARD_LOCATION"}
         )
 
         if locationElement:
@@ -191,10 +189,16 @@ class zonapropProvider(Provider):
     @_getPropertyData
     def getPropertiesReserved(self, propertyDataDiv):
         reserved = False
-        reservedElement = propertyDataDiv.find("span", {"color": "white"})
+        reservedElement = propertyDataDiv.find(
+            "div", {"data-qa": "POSTING_CARD_GALLERY"}
+        )
+        reservedElement = reservedElement.find_all("div")
 
-        if reservedElement and reservedElement.get_text() == "Reservado":
-            reserved = True
+        for div in reservedElement:
+            spanElement = div.find_all("span")
+            for span in spanElement:
+                if "Reservado" in span.get_text():
+                    reserved = True
 
         return reserved
 
@@ -211,33 +215,14 @@ class zonapropProvider(Provider):
 
         return downloadedTime
 
-    def _findAreasFromPropertyAttributes(self, propertyAttributes):
-        propertyAreaAttributes = self._findPropertyAttributes(
-            propertyAttributes, "m²", multipleAttributes=True
-        )
-        self._forEachAreaStripMeasureAndConvertToInteger(propertyAreaAttributes)
-        return propertyAreaAttributes
-
-    def _selectAreaForTotalArea(self, propertyAreaAttributes):
-        if len(propertyAreaAttributes) == 0:
-            totalArea = pd.NA
+    def _forAreaStripMeasureAndConvertToInteger(self, propertyAreaAttribute, mesure):
+        if pd.isna(propertyAreaAttribute):
+            return propertyAreaAttribute
         else:
-            totalArea = max(propertyAreaAttributes)
-        return totalArea
-
-    def _forEachAreaStripMeasureAndConvertToInteger(self, propertyAreaAttributes):
-        for i in range(len(propertyAreaAttributes)):
-            propertyAreaAttributes[i] = int(propertyAreaAttributes[i].strip(" m²"))
-
-    def _selectAreaForCoveredArea(self, propertyAreaAttributes):
-        if len(propertyAreaAttributes) <= 1:
-            coveredArea = pd.NA
-        else:
-            coveredArea = min(propertyAreaAttributes)
-        return coveredArea
+            return int(propertyAreaAttribute.strip(mesure))
 
     def _getPropertyAttributes(self, data):
-        propertyAttributes = data.find("div", {"data-qa": "POSTING_CARD_FEATURES"})
+        propertyAttributes = data.find("h3", {"data-qa": "POSTING_CARD_FEATURES"})
 
         if propertyAttributes is None:
             return propertyAttributes
@@ -245,23 +230,18 @@ class zonapropProvider(Provider):
         propertyAttributes = propertyAttributes.find_all("span")
         return propertyAttributes
 
-    def _findPropertyAttributes(self, data, attributeName, multipleAttributes=False):
+    def _findPropertyAttributes(self, data, attributeName):
         propertyAttributes = []
 
         if data is None:
-            return propertyAttributes
+            return pd.NA
 
         self._forSpanInDataFindAllTheAttributesWith(
             data, attributeName, propertyAttributes
         )
 
         if propertyAttributes:
-            if multipleAttributes:
-                return propertyAttributes
-            else:
-                return propertyAttributes[0]
-        if multipleAttributes:
-            return []
+            return propertyAttributes[0]
 
         return pd.NA
 
@@ -269,10 +249,8 @@ class zonapropProvider(Provider):
         self, data, attributeName, propertyAttributes
     ):
         for span in data:
-            spanInnerElements = span.find_all("span")
-            for innerSpan in spanInnerElements:
-                if attributeName in innerSpan.get_text():
-                    propertyAttributes.append(str(innerSpan.get_text().strip()))
+            if attributeName in span.get_text():
+                propertyAttributes.append(str(span.get_text().strip()))
 
     def _propertyAttributesLogger(self, func, res):
         if pd.isna(res):
