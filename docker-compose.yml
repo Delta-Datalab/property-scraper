@@ -33,21 +33,6 @@ services:
       - "5050:80"
     depends_on:
       - db
-
-  superset:
-    image: amancevice/superset
-    environment:
-      - SUPERSET_SECRET_KEY= <YOUR SECRET KEY>
-      - SUPERSET_LOAD_EXAMPLES=yes
-      - SUPERSET_DATABASE_URI=postgresql://root:root@db:5432/property_db
-      - SUPERSET_USERNAME=root
-      - SUPERSET_PASSWORD=root
-    ports:
-      - "8088:8088"
-    depends_on:
-      - db
-    volumes:
-      - ./data/superset:/home/superset/.superset
   
   flask_api:
     build:
@@ -57,3 +42,5 @@ services:
       - "5000:5000" # Expose the chosen port for accessing the API
     depends_on:
       - db # Specify the service name for your existing database container
+    volumes:
+      - ./api:/app:delegated
