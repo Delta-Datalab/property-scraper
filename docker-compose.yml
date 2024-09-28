@@ -11,4 +11,36 @@ services:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
     working_dir: /app/property_scraper
-    command: tail -f /dev/null 
+    command: tail -f /dev/null
+
+  db:
+    image: postgres:12.2-alpine
+    environment:
+      - POSTGRES_DB=property_db
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+  
+  flask_api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile # Dockerfile for your API in the /api folder
+    ports:
+      - "5000:5000" # Expose the chosen port for accessing the API
+    depends_on:
+      - db # Specify the service name for your existing database container
+    volumes:
+      - ./api:/app:delegated
