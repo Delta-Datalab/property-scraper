@@ -12,24 +12,22 @@ DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD", "root")
 
 # Connect to the database
 conn = psycopg2.connect(
-    host=DB_HOST,
-    database=DB_NAME,
-    user=DB_USER,
-    password=DB_PASSWORD
+    host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD
 )
 
 # Global handler mapping
 handlers = {
-    'min_price': lambda v: f"price >= {float(v)}",
-    'max_price': lambda v: f"price <= {float(v)}",
-    'currency': lambda v: f"currency LIKE '%{v}%'",
-    'location': lambda v: handleLocation(v),
-    'total_rooms': lambda v: f"total_rooms = {int(v)}",
-    'min_bedrooms': lambda v: f"bedrooms >= {int(v)}",
-    'parking': lambda v: handleParking(v),
-    'date': lambda v: f"date = '{parseDate(v)}'",
-    'real_state_agency': lambda v: f"real_state_agency = {stringToBool(v)}"
+    "min_price": lambda v: f"price >= {float(v)}",
+    "max_price": lambda v: f"price <= {float(v)}",
+    "currency": lambda v: f"currency LIKE '%{v}%'",
+    "location": lambda v: handleLocation(v),
+    "total_rooms": lambda v: f"total_rooms = {int(v)}",
+    "min_bedrooms": lambda v: f"bedrooms >= {int(v)}",
+    "parking": lambda v: handleParking(v),
+    "date": lambda v: f"date = '{parseDate(v)}'",
+    "real_state_agency": lambda v: f"real_state_agency = {stringToBool(v)}",
 }
+
 
 def executeQuery(query, params=None):
     """
@@ -41,46 +39,51 @@ def executeQuery(query, params=None):
     cur.close()
     return results
 
+
 def stringToBool(value):
     """
     Converts a string value to a boolean.
     """
-    return value.lower() == 'true'
+    return value.lower() == "true"
+
 
 def parseDate(value):
     """
     Parses a date string and formats it for SQL.
     """
     try:
-        dateObject = datetime.strptime(value, '%d %b %Y')
-        return dateObject.strftime('%a, %d %b %Y %H:%M:%S GMT')
+        dateObject = datetime.strptime(value, "%d %b %Y")
+        return dateObject.strftime("%a, %d %b %Y %H:%M:%S GMT")
     except ValueError:
-        raise ValueError('Invalid date format for filter: date')
+        raise ValueError("Invalid date format for filter: date")
+
 
 def handleLocation(value):
     """
     Parses and handles the location filter.
     """
     try:
-        decodedValue = urllib.parse.unquote(value, encoding='utf-8')
-        neighborhood = decodedValue.split(',', 1)[0]
+        decodedValue = urllib.parse.unquote(value, encoding="utf-8")
+        neighborhood = decodedValue.split(",", 1)[0]
         return f"(location LIKE '%{neighborhood}%' OR location = '{value}')"
     except Exception as e:
-        raise ValueError(f'Error decoding location: {str(e)}')
+        raise ValueError(f"Error decoding location: {str(e)}")
+
 
 def handleParking(value):
     """
     Parses and handles the parking filter.
     """
-    if value == '1': 
+    if value == "1":
         return "parking = 1"
     else:
-        raise ValueError('Invalid value for filter: parking')
+        raise ValueError("Invalid value for filter: parking")
+
 
 def filterHandler(key, value):
     """
     Handles filters for the property data.
     """
     if key not in handlers:
-        raise ValueError(f'Invalid filter key: {key}')
+        raise ValueError(f"Invalid filter key: {key}")
     return handlers[key](value)
