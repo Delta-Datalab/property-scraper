@@ -1,0 +1,224 @@
+openapi: 3.0.0
+info:
+  description: |
+    API for the Delta Property Scrapper. With the use of this API you can make queries to the property database.
+  version: "1.0.0"
+  title: Delta Property Scrapper
+  contact:
+    email: devs@delta.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/JUANIALVAREZCOLOMBO/Aaa/1.0.0
+paths:
+  /locations:
+    get:
+      description: List all the different locations
+      responses:
+        '200':
+          description: The following are all the different locations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/location'
+  
+  /properties/new/{providedDate}:
+    get:
+      description: Obtain all properties that are new for a certain date
+      parameters:
+      - $ref: '#/components/parameters/providedDate'  
+      responses:
+        '200':
+          description: The date was found.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/property'
+        '404':
+          description: The date was incorrect.
+  
+  /properties/filter:
+    get:
+      description: List all the properties that fulfill the requirements
+      parameters:
+      - in: query
+        name: minValue
+        required: false
+        schema:
+          description: Minimum price value
+          type: number
+          format: int8
+          example: 100000
+      - in: query
+        name: maxValue
+        required: false
+        schema:
+          description: Maximum price value
+          type: number
+          format: int8
+          example: 200000
+      - in: query
+        name: currency
+        required: false
+        schema:
+          description: Currency type
+          type: string
+          example: $
+      - in: query
+        name: total_rooms
+        required: false
+        schema:
+          description: The total rooms in the property
+          type: number
+          format: int8
+          example: 4
+      - in: query
+        name: min_bedrooms
+        required: false
+        schema:
+          description: The minimum amount of bedrooms in the property
+          type: number
+          format: int8
+          example: 2
+      - in: query
+        name: location
+        required: false
+        schema:
+          $ref: '#/components/schemas/location'
+      - in: query
+        name: parking
+        required: false
+        schema:
+          description: The state of availability of parking at the property
+          type: boolean
+          example: true
+      - in: query
+        name: date
+        required: false
+        schema:
+          description: A date
+          type: string
+          example: a d b Y H M S GMT
+      - in: query
+        name: real_state_agency
+        required: false
+        schema:
+          description: boolean that specifies if the property rent is managed by a state agency
+          type: string
+          example: true
+      responses:
+        '200':
+          description: These are the properties that fulfill your requirements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/property'
+        '400':
+          description: The filter requested is incorrect.
+          
+components:
+  parameters:
+    providedDate:
+      name: providedDate
+      in: path
+      description: a date on the dataset
+      required: true
+      schema:
+        type: string
+  schemas:
+    location:
+      description: a location on the dataset
+      type: string
+      example: Puerto Retiro, Retiro
+    property:
+      description: a property
+      type: object
+      properties:
+        url:
+          type: string
+          description: url of the property
+          example: https://www.zonaprop.com.ar/propiedades/aaaaa
+        price:
+          type: number
+          format: float
+          description: price of rent for the property
+          example: 200000
+        currency:
+          type: string
+          description: currency of the rent
+          example: $
+        expenses:
+          type: number
+          format: float
+          description: price of expences for the property
+          example: 200000
+        expenses_currency:
+          type: string
+          description: expences currency of the rent
+          example: $
+        location:
+          $ref: '#/components/schemas/location'
+        total_area:
+          type: number
+          format: float
+          description: total area of the property in meters squared
+          example: 200
+        covered_area:
+          type: number
+          format: float
+          description: covered area of the property in meters squared
+          example: 180
+        total_rooms:
+          type: number
+          format: float
+          description: total rooms of the property
+          example: 4
+        bedrooms:
+          type: number
+          format: float
+          description: bedrooms of the property
+          example: 2
+        bathrooms:
+          type: number
+          format: float
+          description: bathrooms of the property
+          example: 1
+        reserved:
+          type: boolean
+          description: state of reservation of the property
+          example: true
+        parking:
+          type: number
+          format: float
+          description: area of parking of the property in meters squared
+          example: 30
+        real_state_agency:
+          type: boolean
+          description: boolean that specifies if the property rent is managed by a state agency
+          example: true
+        description:
+          type: string
+          description: description of the property
+          example: Propiedad muy bien ubicada y muy acogedora
+        date:
+          type: string
+          description: day of addition to the dataset 
+          example: 2024-01-01
+        provider:
+          type: string
+          description: provider of the rental property
+          example: ZonaProp
+        download_date:
+          type: string
+          description: date of addition to the dataset
+          example: 2024-01-01 14:30:00 GMT
+      required: [url, price, currency, expenses, expenses_currency, location, total_area, covered_area, total_rooms, bedrooms, bathrooms, reserved, parking, real_state_agency, description, date, provider, download_date]
