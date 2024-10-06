@@ -170,12 +170,12 @@ components:
         total_area:
           type: number
           format: float
-          description: total area of the property
+          description: total area of the property in meters squared
           example: 200
         covered_area:
           type: number
           format: float
-          description: covered area of the property
+          description: covered area of the property in meters squared
           example: 180
         total_rooms:
           type: number
@@ -199,7 +199,7 @@ components:
         parking:
           type: number
           format: float
-          description: area of parking of the property
+          description: area of parking of the property in meters squared
           example: 30
         real_state_agency:
           type: boolean
@@ -211,8 +211,8 @@ components:
           example: Propiedad muy bien ubicada y muy acogedora
         date:
           type: string
-          description: date of addition to the dataset without hours 
-          example: a d b Y H M S GMT
+          description: day of addition to the dataset 
+          example: 2024-01-01
         provider:
           type: string
           description: provider of the rental property
@@ -220,5 +220,5 @@ components:
         download_date:
           type: string
           description: date of addition to the dataset
-          example: a d b Y H M S GMT
+          example: 2024-01-01 14:30:00 GMT
       required: [url, price, currency, expenses, expenses_currency, location, total_area, covered_area, total_rooms, bedrooms, bathrooms, reserved, parking, real_state_agency, description, date, provider, download_date]
