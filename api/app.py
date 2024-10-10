@@ -1,5 +1,14 @@
 from flask import Flask, jsonify, request, g
-from utils import executeQuery, filterHandler, conn, handlers
+from utils import (
+    executeQuery,
+    filterHandler,
+    parseDate,
+    getNewPropertyDescriptions,
+    fetchFullPropertyDetails,
+    getPreviousDate,
+    conn,
+    handlers,
+)
 
 app = Flask(__name__)
 
@@ -33,6 +42,29 @@ def get_properties_by_filter():
     except Exception as e:
         conn.rollback()
         return jsonify({"error": str(e)}), 400
+
+
+@app.route("/properties/new/<provided_date>")
+def get_new_properties(providedDate):
+    """
+    This endpoint retrieves properties uploaded on the provided date that were not available the day before.
+    """
+    try:
+        providedDateString = parseDate(providedDate)
+    except ValueError:
+        return jsonify({"error": "Invalid date filter format: date"}), 400
+
+    try:
+        previousDateString = getPreviousDate(providedDate)
+        newDescriptions = getNewPropertyDescriptions(
+            providedDateString, previousDateString
+        )
+        newProperties = fetchFullPropertyDetails(newDescriptions)
+
+    except Exception as error:
+        return jsonify({"error": f"An error occurred: {error}"}), 500
+
+    return jsonify(newProperties)
 
 
 if __name__ == "__main__":

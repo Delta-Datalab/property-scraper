@@ -87,3 +87,45 @@ def filterHandler(key, value):
     if key not in handlers:
         raise ValueError(f"Invalid filter key: {key}")
     return handlers[key](value)
+
+
+def getPreviousDate(providedDate):
+    """
+    Returns the formatted string of the day before the provided date.
+    """
+    providedDateObject = datetime.strptime(providedDate, "%d %b %Y")
+    previousDateObject = providedDateObject - timedelta(days=1)
+    return parseDate(previousDateObject.strftime("%d %b %Y"))
+
+
+def fetchDescriptions(dateString):
+    """
+    Fetches property descriptions for a given date.
+    """
+    query = "SELECT description FROM property_data WHERE date = %s"
+    return {row[0] for row in executeQuery(query, (dateString,))}
+
+
+def getNewPropertyDescriptions(providedDateString, previousDateString):
+    """
+    Returns descriptions of properties that are new on the provided date compared to the previous date.
+    """
+    providedDateDescriptions = fetchDescriptions(providedDateString)
+    previousDateDescriptions = fetchDescriptions(previousDateString)
+
+    return providedDateDescriptions - previousDateDescriptions
+
+
+def fetchFullPropertyDetails(newDescriptions):
+    """
+    Fetches the full details of new properties based on the description.
+    """
+    newProperties = []
+    newPropertyQuery = "SELECT * FROM property_data WHERE description = %s"
+
+    for description in newDescriptions:
+        newProperty = executeQuery(newPropertyQuery, (description,))
+        if newProperty:
+            newProperties.append(newProperty[0])
+
+    return newProperties
