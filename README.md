@@ -15,7 +15,6 @@ This Python project is a property scraper designed to extract information from v
 
 - [Results](#results)
 - [Features](#features)
-- [Prerequisites](#prerequisites)
 - [API Documentation](#api-documentation)
   - [Endpoints](#endpoints)
     - [Get Locations](#get-locations)
