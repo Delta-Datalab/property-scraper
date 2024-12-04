@@ -13,9 +13,9 @@ This Python project is a property scraper designed to extract information from v
 
 ## Project Standards
 
-- [Git Project Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/git-standards.md)
-- [Code Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/code-standards.md)
-- [Release Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/release-standards.md)
+- [Git Project Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/standards/git-standards.md)
+- [Code Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/standards/code-standards.md)
+- [Release Standards](https://github.com/Delta-Datalab/property-scraper/blob/main/standards/release-standards.md)
 
 ## Environment Setup
 
