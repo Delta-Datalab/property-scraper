@@ -43,7 +43,7 @@ After more than a month of data collection, we've observed significant trends in
 
 These trends provide valuable insights for investors, real estate professionals, and economists interested in understanding market dynamics in Argentina.
 
-To see a deep dive into our analisis follow this link: [https://lookerstudio.google.com/s/ksmw_VJSu_I](https://lookerstudio.google.com/reporting/4c83e752-d604-46f9-92d8-70b983a5fd30)
+To see a deep dive into our analisis follow this [link](https://lookerstudio.google.com/reporting/4c83e752-d604-46f9-92d8-70b983a5fd30)
 
 ## Features
 
